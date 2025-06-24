@@ -1,0 +1,38 @@
+
+
+JDK ( java development kit. JRE + JVM + Utilities )
+                          Test.java
+                          Compiler (javac)
+                          ByteCode
+                         Java Virtual Machine (javap)
+             ** Need to give entry point >> file name >> should include method main
+             checks method signature [ method name + arguments ** Exclude - Arguements]
+                public static void main(String[] args){
+                        Jvm + Lib >> JRE
+                        Operating System
+                        Hardware
+** to develop jdk{ jre{ jvm{} } }
+** to run NO JDK >> only JRE >> jre{ jvm{} }
+
+JDK
+JDK (Java Development Kit) is for developing Java programs
+it has everything t0 - create, modify, compile, test, debug, run java programs and applications
+JRE + JVM + Utilities (javac, javap, jar, javadoc etc)
+
+JRE (Java Runtime Environment)
+Contains helper classes and files and JVM to run Java applications.
+Java standard libraries are included in JRE ( classes in java.lang package , java.util etc )
+
+JVM (Java Virtual Machine)
+is the platform that loads program into memory and executes Java bytecode >> .class file
+Runs bytecode and doesnt matter on which platform it was compiled
+applications code .java can run on any machine ( provided the machine have compatible JVM )
+WORA = write once run anywhere
+
+JVM >> platform dependent differs for different platform like windows, mac, linux etc.
+.class file (bytecode) >> produced by the Java compiler (javac) is platform-independent.
+
+Program File name >> abc.java
+Class name >> Test.java
+javac >> file name >>
+===============================================================================

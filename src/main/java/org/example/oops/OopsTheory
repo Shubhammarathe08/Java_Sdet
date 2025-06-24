@@ -1,0 +1,386 @@
+
+
+===============================     Data Hiding   ================================
+
+outside person cant access our internal data directly
+internal data should not go outside [ without authentication + authorisation + validation + security check performed by the class ]
+
+access permission >> to control the access of data
+
+===============================     Abstraction   ================================
+
+A very top level view of the data
+not complete but abstract idea of something
+hiding internal implementation + expose/highlight set of services which can be used by outside world
+
+ex. bank ATM gui services | hide internal implementation + highlight set of services which can be used by user
+
+security
+maintainability
+easy enhancement >> w/o affecting set of exposed services + we can change internal implementation
+
+===============================     Encapsulation   ================================
+
+process of binding data + methods together in a single unit (class)
+ex. medicine capsule , every java class
+>> bundling of data with the methods that operate on that data.
+wrapper(class,) >> [ data members (variables) + behaviour (functions/methods) ] together in a single unit
+
+Tightly Encapsulated >> all data members are private  | *** not mandatory but advisable - methods are public (getters/setters)
+
+class A {
+private int a;
+}
+class B extends A{
+ int b;
+}
+class C extends A{
+private int a;
+}
+// A and C are tightly encapsulated | not B
+*** if parent class not Tightly encapsulated - child classes wont be Tightly Encapsulated
+
+Loosely Encapsulated >> at least 1 data member not private + methods are public
+
+Any component follows => data hiding + abstraction = encapsulation  [ encapsulated components ]
+data hiding >> all variables are private
+abstraction >> exposing services of check balance , update balance (through GUI) + not exposing internal implementation of how it works
+
+security
+maintainability
+easy enhancement >> w/o affecting set of exposed services + we can change internal implementation
+
+degraded performance , slows down execution ,due to extra layer of abstraction
+
+===============================     Is-A relationship / Inheritance   ================================
+Inheritance
+           >> mechanism in which child class acquires the properties (fields) Variables + behaviors (methods) of parent class.
+executed using >> extends
+applicable on >> classes + interfaces
+advantages >> code reusability + polymorphism + method overriding
+parent >> super class / parent class / base class >> class which is inherited
+child >> sub class / derived class / child class >> class which inherits
+1 parent - multiple children
+1 child - multiple parents X not possible with respect to classes | *** possible with interfaces
+>> parent class variables + methods - available to child class  BUT vice versa not true
+
+class A extends B |  class A extends B,C    [ *** not allowed with respect to classes ]
+interface A extends B | interface A extends B,C | interface A extends B,C,D [ allowed with respect to interfaces ]
+
+In-inheritance >> reference matters
+parent ref - only calls parent class var + methods
+>> for any type of object , the most common methods + var which are applicable to any java objects are defined in Object class,
+   hence Object acts as the parent/root class for all classes in Java.
+   every class in java is child of Object class directly or indirectly
+   ex. Throwable class contains most common methods + variables which are applicable to Exception/Error classes , hence acts as Root class for Exception/Error classes.
+                              Object
+
+String        StringBuffer                            Throwable
+                             Exception                               Error
+                             RuntimeException                      OutOfMemoryError
+                             NUllPointerException
+                             ArithmeticException
+------------------------------------------------------------------------------------------------------------------------------
+                             Single Inheritance
+
+class Child extends Parent {
+}
+>> single child, single parent
+
+------------------------------------------------------------------------------------------------------------------------------
+                             multilevel inheritance
+
+class A extends Object  | class B extends A  | class C extends B >> multilevel inheritance
+
+A
+  < B
+      < C
+          < D
+class A >> child of Object | as per - every class child of Object directly or indirectly
+class A >> child of B
+class B extends A,Object  ??? NOT TRUE
+
+Object > B > A
+     B       Object
+
+         A
+
+>> if a class doesnt extend any other class explicitly, then it extends Object class implicitly.
+BUT if it extends any other class explicitly, then it wont extend Object class implicitly.
+
+------------------------------------------------------------------------------------------------------------------------------
+                             Multiple Inheritance
+
+>> a java class cant extend more than 1 class at a time
+>> multiple Parents of Single Child
+>> extending more than 1 parent class at a time
+
+A,B - parent classes | for  C - child class
+class C extends A{
+m1(){}
+}
+class C extends A,B {
+m1(){}
+}
+class C extends A,B {
+C obj = new C ();
+obj.m1(){} // ambiguity problem // diamond access problem
+}
+
+>> java doesnt support Multiple Inheritance with respect to classes [ diamond problem ]
+              >> to avoid ambiguity
+              >> to avoid complexity
+              >> to avoid confusion
+              >> to avoid ambiguity
+              ex. if 2 parent classes have same method + child class extends both parent classes
+                 >> which method should be called when child class method is called?
+                 >> hence java doesnt support Multiple Inheritance with respect to classes
+
+*** but possible with respect to interfaces
+strictly speaking we wont get multiple inheritance
+interface A extends B,C,D
+class B extends A implements C,D,E,F
+
+interface  A{
+m1();
+}
+
+interface  B{
+m1();
+}
+
+interface  C extends A,B{
+}
+
+
+
+class impl implements C {
+m1(){
+}
+// always implemented class m1() method will be called
+}
+
+
+x x x - class A implements B extends C, D
+correct - class A extends B implements C, D
+          interface A extends B, C, D
+-----------------------------------------------------------------------------------------------------------------------------
+                           hierarchical inheritance
+
+Single - Parent  | Multiple - Child
+           A
+
+      B        C
+class C extends A {
+}
+class B extends A {
+}
+
+-----------------------------------------------------------------------------------------------------------------------------
+                            cyclic inheritance
+
+>> class A extends A {} // not required/not allowed
+>> class A extends B {} class B extends A{} // not required/not allowed
+compile time error >> cyclic inheritance involving A extends B
+--------------------------------------------------------------------------------------------
+
+                           hybrid inheritance
+
+           A
+
+           B
+
+          c
+
+    D         E
+
+        f
+
+class B extends A {
+}
+class C extends B {
+}
+class D extends C {
+}
+class E extends C {
+}
+class f extends D,E {
+} // not supported
+
+multiple and hybrid inheritance // not supported
+
+===============================     Has-A relationship / Composition / Aggregation   ================================
+
+Has - a also known as Composition / Aggregation
+no specific keyword - Has-A relationship | mostly we depend on keyword - new
+Adv :- code reusability + polymorphism + method overriding
+ex. car Has-A engine
+
+                              composition
+university [       dept [ It, Cs ,Entc ]       ]
+container object - university / contained object - Dept
+without existing container object , if there is no chance of contained object to exist
+container + contained object >> strongly associated | association - composition
+>> container object holds contained object
+
+                            aggregation
+university [       dept [ It  Professor[ mr.khanna , miss.rajshree ]  , Cs ,Entc ]       ]
+container object - dept / contained object - teacher
+without existing container object , if there is STILL chance of contained object to exist
+container + contained object >> loosely associated | association - aggregation
+>> container object holds reference to contained object
+========================================>>>>>  When to use - IS-A HAs-A  <<<<<======================================================
+
+Is-A ???
+        >> if total functionality required - use inheritance (Is-A relationship)
+Has-A ???
+        >> if only part of functionality required - use (Has-A relationship)
+                >>  Use **composition** when the part's behavior is integrated tightly with the whole.
+                >> Use **aggregation** when you just reference the object without controlling its lifecycle.
+
+========================================>>>>>  Polymorphism <<<<<======================================================
+
+Polymorphism ( overloading + overriding )
+
+One name BUT multiple forms
+             >> ability of an object to take on many forms
+             >> ability to perform different actions based on the method signature
+             >> ability to perform different actions based on the method implementation
+ex. same method names - different argument types or number of arguments >> overloading
+    print method >> same method name - different argument types >> print(int x) , print(String s) , print(double d)
+ex. same method names - same argument types but different implementation >> overriding
+    Object >> equals()  | String >> equals () - parent-child relationship | different implementation
+          (parent) object - compares address and returns true if both objects are same ( pointing to same memory location )
+          (child) String - compares content and returns true if both objects are same ( pointing to same content )
+
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   Over Loading     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+       Overloading / Compile time polymorphism / Static polymorphism / Early binding
+
+      2 method >> same name + diff argument ( type or number differs)
+      *** access modifier + return type not part of method signature
+
+      >> works in same class or in child class
+      >> var (instance/static) - cant be overloaded | taken care by compiler >> REFERENCE matters
+      >> constructor -can be overloaded
+      >> method - can be overloaded *** including main() method , but JVM looks for main() method with signature
+         public static void main(String[] args) { ... }  >> this is the entry point of Java program
+      >> method resolution - done by compiler at compile time - based on REFERENCE TIME |  *** just like Inheritance
+      >> class A >> m1(int... x)  | class B extends A >> m1(int x) -Valid | Over Loading
+         class A >> m1(int x)  | class B extends A >> m1(int... x) -Valid | Over Loading
+
+      Advantage of Overloading -
+        >> same method name - easy to remember , use ,maintain , multiple version of same method
+
+
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   Over Riding     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+      Over riding / Run time polymorphism / Dynamic polymorphism / Late binding
+
+      whatever methods parent has, by default available to child through inheritance
+      if child class not satisfied with parent class implementation of method,
+      child is allowed to redefine the method, based on its requirement
+
+      2 methods >> same name + same argument ( type and number same) BUT different implementation (** for redefining)
+
+      ** return type must be same or covariant return type (child class type)
+
+      ** access modifier - must be same or more accessible than parent class method | cant reduce scope | *** keep it public child class method
+
+      ** if parent = private m1() child = private m1() >> VALID but not overriding , specific method for respective classes
+         Compiler takes care of resolution -> based on REFERENCE
+
+      ** if parent = final m1() child = final m1() >> Compile time error - cant override final method
+
+      ** if parent = static m1() child =  m1() >> Cant override Static AS Non Static method | Compile time error :- overridden m is static
+      ** if parent = m1() child =  static m1() >> Cant override Non Static AS Static method | Compile time error :- overriding m is static
+      ** if parent = static m1() child = static m1() >> VALID but not overriding , method hiding
+      Method Hiding
+                     >> method resolution done by compiler at compile time - based on REFERENCE
+                     >> bothncopies available | parent + child >> ref will decie which will execute
+
+      ** if parent = abstract m1() | child =  m1() >> VALID - overriding/implementing abstract method
+      ** if parent = m1() | child =  abstract m1() >> VALID - overriding/implementing abstract method
+
+
+      ** if child class method throws - CHECKED exception, | compulsory parent class method must throw - same or its parent exception
+      ** no restrictions for UNCHECKED exceptions
+
+      ** we cant over ride var rag mwthod with normal method | need exactly same var arg method
+         class A >> m1(int... x)  class B extends A >> m1(int... x) -Valid | m1(int x) -Invalid
+
+      non-static >> static -Invalid | static >> non-static -Invalid
+      non-final >> final -Valid | final >> non-final -Invalid
+      abstract >> non-abstract -Valid | non-abstract >> abstract -Valid
+      synchronized >> non-synchronized -Valid | non-synchronized >> synchronized -Valid
+      native >> non-native -Valid | non-native >> native -Valid
+      strictfp >> non-strictfp -Valid | non-strictfp >> strictfp -Valid
+
+      ** applicable for Object type | Not for primitive types
+
+      >> works in child class only | *** in same class compile time error - method already defined
+      >> var (instance/static) - cant be overridden | taken care by compiler >> REFERENCE matters
+      >> constructor - cant be overridden
+      >> method - can be overridden | *** only in child class
+      >> method resolution - done by JVM at run time - based on OBJECT
+
+      Advantage of Overriding -
+        >> child class can provide its own implementation of method, based on its requirement
+
+
+
+
+| Property                     | Overloading                                                      | Overriding
+|-----------------------------|------------------------------------------------------------------ |-----------------------------------------------------------
+| Method names                | Must be the same                                                  | Must be the same
+| Argument types              | Must be different (type, number, or order)                        | Must be identical (type, number, or order)                                                                             |
+| Method signature(name + arg)| Must differ                                                       | Must be identical
+| Return types                | No restriction                                                    | Must be the same or covariant (Parent > child))
+| private / static / final    | Can be overloaded                                                 | Cannot be overridden (static - method hiding)
+                                                                                                                         (Method Resolve - Compiler >> Ref)
+| Variables                   | Can be overloaded (Method Resolve - Compiler >> Ref)              | Cannot be overridden (Method Resolve - Compiler >> Ref)
+| Access modifiers            | No restriction                                                    | Can increase visibility, but cannot reduce it
+| Throws clause               | No restriction                                                    | Child-throw-checked > parent-throw-checked (same or parent exception)
+                                                                                                      child-throw-unchecked > parent - no restriction
+| Method resolution           | Compiler >> Compile-time (based on reference type and arguments)  | JVM >> Runtime (based on actual object )
+| Also known as               | Compile-Time Polymorphism / Static Polymorphism / Early Binding   | Runtime Polymorphism / Dynamic Polymorphism / Late Binding
+
+*** Automatic Internal Promotion - in case of OverLoading
+byte > short
+             > int > long > float > double
+     char
+** first check for exact match >> then >> look for promoted arg type >> throws compile time error if no match found
+** if 2 methods matches - by matching / promoting arg type >> compile time error - ambiguity
+
+ >>>>>>> Tricky Questions
+
+ // Parent class  method
+ public void m(int x) throws IOException { }
+
+ >>>>>>>> which are valid/not valid as child class method + explain reason
+
+ // Overriding (valid)
+ public void m(int i) { }
+
+ // Overloading (valid - different parameter type and static return type)
+ public static int m(long l) { return 0; }
+
+ // Not overriding (static method can't override instance method with static method)
+ public static void m(int i) { }
+
+ // Not valid (throws broader exception than parent unless it's unchecked)
+ public void m(int i) throws Exception { }
+
+ // Invalid: illegal combination of modifiers (static + abstract)
+ public static abstract void m(double d); // ❌ Won't compile
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|
+
+
+
+
+
+

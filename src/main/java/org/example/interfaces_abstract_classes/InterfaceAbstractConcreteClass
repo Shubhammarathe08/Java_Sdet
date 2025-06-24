@@ -1,0 +1,4 @@
+
+>> requirement Specification (SRS) , just Plan - Interface  | ex. Servlet, JPA Repository
+>> partial implementation , template/blueprint - abstract class | ex. GenericServlet , JPA Entity
+>> full implementation , full implementation - concrete class | ex. My_own_servlet

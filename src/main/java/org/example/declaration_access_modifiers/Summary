@@ -1,0 +1,90 @@
+
+
+
+| **Visibility**                          | **private** | **default** (`<default>`) | **protected**                  | **public** |
+| --------------------------------------- | ----------- | ------------------------- | ------------------------------ | ---------- |
+| Within the same class                   | ✅           | ✅                         | ✅                              | ✅          |
+| From child class of same package        | ❌           | ✅                         | ✅                              | ✅          |
+| From non-child class of same package    | ❌           | ✅                         | ✅                              | ✅          |
+| From child class of outside package     | ❌           | ❌                         | ✅ *(use child reference only)* | ✅          |
+| From non-child class of outside package | ❌           | ❌                         | ❌                              | ✅          |
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+class >> top level [ public, default, abstract, final ,strictfp]
+         inner nested class [ public, protected, default, private , static , abstract, final, strictfp ]
+
+blocks >> instance/static [  static, synchronized ] | { } , static{ } , synchronized (this) { }
+
+constructor >> [ public, protected, default, private ]
+
+variables >> instance/static [ public, protected, default, private, static , final, transient, volatile ]
+
+methods >> [ public, protected, default, private, static, abstract, final , synchronized, native, strictfp ]
+
+interfaces >> top level [ public, default, abstract, strictfp ]
+             inner nested interface [ public, protected, default, private , static , abstract, strictfp ]
+
+enums >> top level [ public, default, strictfp ]
+         inner nested enum [ public, protected, default, private , static , strictfp ]
+
+synchronized >> only blocks and methods
+transient and volatile >> only variables
+native >> only methods
+abstract >> class , method , interface
+static >> inner [class,interface,enum] , blocks , variables , methods
+
+
+
+Synchronized >> applicable for methods , blocks
+// multiple threads operating on same object , RACE condition , data inconsistency problem
+   synchronized =  at a time only 1thread can access the method or block
+   disadvantage >> increases waiting time of threads, creates performance issue
+ 1. synchronized m1(){
+                 }
+    abstract + synchronized >> illegal combination for methods
+----------------------------------------------------------------------------------------------------------------------------
+ native/foreign >> used for methods only
+   native = method is implemented in native code (C/C++) instead of Java
+             1. to improve performance of system
+             2. to achieve machine /memory level communication
+             3. to use already existing, legacy non java code
+   example: public native void doSomething(); hashcode() method in Object class is native, JNI (Java Native Interface)
+   disadvantage >> it breaks platform independence of Java, as native code is platform dependent
+     native + abstract >> illegal combination for methods
+----------------------------------------------------------------------------------------------------------------------------
+transient >> applicable for variables only
+serialization -
+              saving state of an object to a file or sending it over a network
+              the process of converting an object into a byte stream,
+              which can be saved to a file or sent over a network.
+              When an object is serialized, all its non-transient variables are included in the byte stream,
+              while transient variables are ignored.
+de serialization -
+              the reverse process of serialization, where the byte stream is converted back into an object.
+              During deserialization, transient variables are set to their default values (0, null, false, etc.).
+   example: public transient int age;
+
+
+   transient + static >> illegal combination for variables
+   transient + final >> illegal combination for variables
+   transient + abstract >> illegal combination for variables
+----------------------------------------------------------------------------------------------------------------------------
+volatile >> applicable for variables only
+>> if val of var keep on changing by multiple thread , data inconsistency problemmay arise
+   sol : volatile modifier
+   >> for every thread, separate local copy | no affect on other copy of other threads
+   BUT
+   >> complex + in sufficient performance
+
+   volatile =
+             variable can be modified by multiple threads,
+             it ensures visibility of changes to variables across threads.
+   example: public volatile int count;
+
+   volatile + static >> illegal combination for variables
+   volatile + final >> illegal combination for variables
+   volatile + abstract >> illegal combination for variables
+----------------------------------------------------------------------------------------------------------------------------
