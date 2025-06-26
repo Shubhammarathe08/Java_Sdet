@@ -1,0 +1,75 @@
+
+// try block
+ block to handle risky code
+ code which may rise an exception
+ ** if exception raised , rest of the try block , wont be executed, even though we handle exception
+  take very risky code only
+  length should be as small as possible
+  enclose within multiple/separate try catch
+
+ ** if exception raised outside anywhere Try block >> Ab-Normal Termination
+
+Try
+{
+}
+---------------------------------------------------------------------------------------------------------
+// catch block
+corresponding block to handle exception ( which may rise in try block )
+after catch, it won't go back to statement where exception raised + resume working - XXX
+it will move forward
+
+if exception raised within catch block  ( * no mechanism to handle exception ) >> Ab-Normal termination
+
+catch (Object o){
+  continuation code
+}
+-----------------------------------------------------------------------------------------------------------------
+// finally block
+will execute in case of normal or abnormal termination
+if exception raised within finally block  ( * no mechanism to handle exception ) >> Ab-Normal termination
+
+*** Except -  JVM closes
+              System.exit(0);
+------------------------------------------------------------------------------------------------------------------
+// Throw
+
+Throw - handover our (explicitly)created exception object to JVM manually | ** not automatically
+Throwing - Exception Object
+Who is throwing - programmer
+Who is catching - JVM
+
+programmer create exception object handover to JVM programmatically/manually
+
+exception object created by - programmer  explicitly
+exception object handed over to JVM  by - programmer  explicitly
+op :- same as automatically thrown exception by responsible method
+
+best for user defined exceptions
+
+        try{
+            throw ce;
+           //  System.out.println(" check ");
+        }
+        catch(ClassCastException e){
+            System.out.println(" class cast exception e captured 1");
+        }
+*** After Throw >> no stmt will work directly >> compile time error - Unreachable Code
+** cant Throw any exception object | Exception and Error
+    Throw new Test(); // compile time error :- incompatible type
+
+** to Throw any type, make that class whose object u want to throw
+   CHILD class of Throwable or any Exception or Error
+
+   if u extends CustomClass to checked/partially/fully Exception Object
+   Throwable , Exception , Io , Interrupted
+   >> u will get compile time error - to handle or declare throws
+
+
+   if u extends CustomClass to  unchecked Exception Object
+   RuntimeException , Error
+   >> u will get compile time error - to handle or declare throws
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+// Throws

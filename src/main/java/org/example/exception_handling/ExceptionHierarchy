@@ -1,0 +1,68 @@
+
+>> every exception occurs at RunTime ONLY
+   No chance of occurring exception at compile time
+
+>>  ( Error >> child classes ) + ( Runtime Exception >> Child classes ) - Un Checked
+>> Partially Checked - parent / child >> Throwable,Exception (class) ** not all child classes are fully checked
+>> Fully Checked - parent + child >> IO, Interrupted ,
+
+>> checked exception (compile time)
+   - exceptions checked by compiler at runtime , for smooth execution of program
+   - should occur at run time
+   - for frequently occurring exception
+   - need handling mechanism / need to declare Throws Exception in caller method
+
+   ex. PrintWriter pw = new PrintWriter("hello.txt");
+   Io, FileNotFound ,
+   java: unreported exception java.io.FileNotFoundException; must be caught or declared to be thrown
+
+>> run time exception (runtime)
+   - exceptions NOT checked by compiler at runtime , whether programmer handling or not
+   - should occur at run time
+   - for rarely occurring exception
+
+   ex. System.out.print(10/0);
+   Arithmetic , NullPointer
+   Exception in thread "main" java.lang.ArithmeticException: / by zero
+     at org.example.exception_handling.ExceptionVsError.doMoreStuff(ExceptionVsError.java:30)
+     at org.example.exception_handling.ExceptionVsError.doStuff(ExceptionVsError.java:25)
+     at org.example.exception_handling.ExceptionVsError.main(ExceptionVsError.java:20)
+
+
+                           Java Exception Hierarchy (Java 17)
+══════════════════════════════════════════════════════════════════════════════
+       Checked Exceptions (Compile-time)               Unchecked Exceptions (Runtime)
+══════════════════════════════════════════════════════════════════════════════
+                Object                                          Object
+                  │                                               │
+              Throwable                                       Throwable
+                  │                                               │
+              Exception                                        Exception
+                  │                                               └── RuntimeException
+                  ├── IOException                                   ├── NullPointerException
+                  │     ├── FileNotFoundException                   ├── ArrayIndexOutOfBoundsException
+                  │     ├── EOFException                            ├── ArithmeticException
+                  │     └── SocketException                         ├── ClassCastException
+                  ├── SQLException                                 ├── IllegalArgumentException
+                  ├── ParseException                               │     └── NumberFormatException
+                  ├── ClassNotFoundException                       ├── IllegalStateException
+                  ├── InterruptedException                         ├── StringIndexOutOfBoundsException
+                  ├── CloneNotSupportedException                   └── UnsupportedOperationException
+                  ├── InstantiationException
+                  ├── InvocationTargetException
+                  └── ReflectiveOperationException
+                                                                Object
+                                                                  |
+                                                               Throwable
+                                                                  └── Error
+                                                                  ├── StackOverflowError
+                                                                  ├── OutOfMemoryError
+                                                                  ├── VirtualMachineError
+                                                                  │     ├── InternalError
+                                                                  │     └── UnknownError
+                                                                  ├── AssertionError
+                                                                  └── LinkageError
+                                                                       ├── NoClassDefFoundError
+                                                                       ├── ClassFormatError
+                                                                       └── UnsupportedClassVersionError
+
