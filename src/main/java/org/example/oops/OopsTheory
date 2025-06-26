@@ -273,7 +273,6 @@ ex. same method names - same argument types but different implementation >> over
       Advantage of Overloading -
         >> same method name - easy to remember , use ,maintain , multiple version of same method
 
-
  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   Over Riding     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       Over riding / Run time polymorphism / Dynamic polymorphism / Late binding
@@ -328,8 +327,28 @@ ex. same method names - same argument types but different implementation >> over
       Advantage of Overriding -
         >> child class can provide its own implementation of method, based on its requirement
 
+                class box {
+                    int width, height, length, volume;
 
+                    void finalize() {
+                        volume = width * height * length;
+                        System.out.println(volume);
+                    }
 
+                    protected void volume() {
+                        volume = width * height * length;
+                        System.out.println(volume);
+                    }
+                }
+
+                op:- Compile Time Error
+                 original >> java.lang.object
+                 protected void finalize() throws Throwable
+
+                 we are trying to override in child class box
+                 with lesser access modifier
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 | Property                     | Overloading                                                      | Overriding
 |-----------------------------|------------------------------------------------------------------ |-----------------------------------------------------------

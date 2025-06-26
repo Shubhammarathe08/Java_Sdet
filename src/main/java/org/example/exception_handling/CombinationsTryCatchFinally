@@ -300,3 +300,29 @@ Compiler time error :- finally without try
            System.out.println("hi");
 
     Compile Time Error :- syntax error
+
+  --------------------------  Very Danger Case  -------------------------------
+    // case 31   Fully Checked Exception w/o possibility of it raising - IN-VALID
+           try{
+               System.out.println("hello");
+              }
+           catch(IoException e){
+             }
+           finally{
+             System.out.println("hi");
+                  }
+
+      Compile Time Error :- java: exception java.io.IOException is never thrown in body of corresponding try statement
+
+
+      // case 33   Partially Checked/Un-checked Exception w/o possibility of it raising - VALID
+             try{
+                 System.out.println("hello");
+                }
+             catch(Exception e){
+               }
+             finally{
+               System.out.println("bello");
+                    }
+
+

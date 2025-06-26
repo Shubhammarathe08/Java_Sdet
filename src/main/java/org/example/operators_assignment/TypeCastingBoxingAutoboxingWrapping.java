@@ -83,6 +83,16 @@ public class TypeCastingBoxingAutoboxingWrapping {
    Object 0 = new Integer(10);
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+String s = new String(" str ");
+Object o = (Object) s ;  // allowed   (Parent)child
+
+Object o = new Object();
+String s1 = (String)o; //not allowed (Child)parent
+
+Object o = new String("gta5");
+String s1 = (String)o; // allowed (Child)child - underlying obj is same or lesser
+
+
 Overloading - Ref matter
 Parent p , Child c
         C c = new C();  // Case: C c = new C();
@@ -129,6 +139,8 @@ ref matters >> vars + method hiding
 
         ((A)((B)c)).m1();              // Output: A (reference type = A) // 777
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 
 
 

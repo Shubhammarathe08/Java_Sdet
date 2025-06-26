@@ -63,6 +63,22 @@ public class Constructor {
        Student s1 = new Student(111);
 
        op:- 111
+
+       class Test {
+                 int x;
+                 Test() {
+                            x = 10;
+                        }
+                   }
+        public class Main {
+                public static void main(String[] args) {
+                Test obj = new Test();
+                System.out.println(obj.x);
+                           }
+                   }
+
+         op:- 10
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
        *** Instance Block VS Constructor
 other than initialization, if we want to perform certain activity for every object

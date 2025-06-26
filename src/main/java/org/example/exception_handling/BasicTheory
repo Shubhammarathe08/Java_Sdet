@@ -52,3 +52,47 @@
       }
     catch(D e2){
       }
+-------------------------------------------------------------------------------------------------------------------------
+                      Common Exceptions
+
+1. ArrayIndexOutOfBoundException
+>> child of RunTime Exception | unchecked
+>> auto raised by JVM , when accessing out of range ele Array
+
+
+2. NullPointerException
+>> child of RunTime Exception | unchecked
+>> auto raised by JVM , when we try to perform any operation on Null value
+
+3. ClassCastException
+>> child of RunTime Exception | unchecked
+>> auto raised by JVM , when we try to typecast parent Obj to Child type
+
+4. StackOverflowError
+>> child of Error  | unchecked
+>> auto raised by JVM , when recursive method calls occurs
+
+5. NoClassDefFoundError
+>> child of Error  | unchecked
+>> auto raised by JVM , when .class files doesn't exist /not found ny JVM
+
+6. ExceptionInInitializerError
+>> child of Error  | unchecked
+>> auto raised by JVM , executing static blocks/static methods
+
+7. IllegalArgumentException
+>> child of RunTime Exception | unchecked
+>> auto raised by JVM , raised explicitly by programmer/API developer to indicate method invoked with illegal argument
+
+8. NumberFormatException
+>> child of RunTime Exception | unchecked
+>> auto raised by JVM , raised explicitly by programmer/API developer to indicate method invoked with illegal argument
+
+9. IllegalStateException
+>> child of RunTime Exception | unchecked
+>> auto raised by JVM , raised explicitly either by programmer/api developer method invoked at wrong time
+
+10. AssertionError
+>> child of Error  | unchecked
+>> auto raised by JVM , raised explicitly either by programmer/api developer for assert statement failed
+

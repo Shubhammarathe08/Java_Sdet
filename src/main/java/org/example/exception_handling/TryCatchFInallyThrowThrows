@@ -31,7 +31,7 @@ if exception raised within finally block  ( * no mechanism to handle exception )
 *** Except -  JVM closes
               System.exit(0);
 ------------------------------------------------------------------------------------------------------------------
-// Throw
+                                                Throw
 
 Throw - handover our (explicitly)created exception object to JVM manually | ** not automatically
 Throwing - Exception Object
@@ -67,9 +67,42 @@ best for user defined exceptions
 
    if u extends CustomClass to  unchecked Exception Object
    RuntimeException , Error
-   >> u will get compile time error - to handle or declare throws
-
+   >> u will NOT get compile time error - to handle or declare throws
 
 -----------------------------------------------------------------------------------------------------------------------
+                                                        Throws
 
-// Throws
+>> used with - constructor + method | ** Not Class
+>> can Throws >> Throwable Class
+>> in our program if there is any ** chance of throwing CHECKED exception
+   Compiler will check >> is it handled ?
+                           did caller method handled ?
+                           declared Throws Exception ?
+   if not - it will throw compile time error
+   compile time error :-
+                java: unreported exception org.example.exception_handling.ClassName; must be caught or declared to be thrown
+
+   ex. Thread.sleep(10000);
+   handled >> public static void main(String[] args) throws CustomClass2, InterruptedException
+   if not handled >> java: unreported exception java.lang.InterruptedException; must be caught or declared to be thrown
+
+
+>> use of Throws - delegate responsibility of exception handling to caller
+                                        caller - may be main() , jvm or any other method
+>> only for CHECKED exception , only to convince compiler
+>> No impact for UN-CHECKED exception
+>> if actually Exception occurs at Runtime, if not handled, Ab-Normal termination
+>> compiler suggestion :- 1. Try Catch  Finally
+                 *** compiler doesn't care if catch actually handles or not, it will not throw CE error
+                 2. declare Throws Exception, caller method will take care of it
+                 *** Throws ExceptionName, delegate responsibility of exception handling to caller
+                     caller - may be main() , jvm or any other method
+>> Better to use Try Catch Finally - Normal Termination
+>> CustomClass extends Throwable {
+    CustomClass(String s){
+    super(s);
+    }
+}
+// super(s) >> make our string description available to default exception handler
+---------------------------------------------------------------------------------------------------------
+
