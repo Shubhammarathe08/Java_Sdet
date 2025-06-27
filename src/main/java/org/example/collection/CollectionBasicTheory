@@ -1,0 +1,36 @@
+
+
+----------------------    Problems with Array     -------------------
+
+arrays - fixed size collection of homogenous elements/objects
+
+1. fixed size | need to know in advance
+2. can hold only homogenous elements
+3. wastage of memory wastage if ele are not as of size
+4. cant expand on demand/requirement
+5. programmer need to write logic for so many frequently operations
+6. no underlying data structure
+7. arrays concept not implemented on standard DS, hence ready made method support not available
+8. memory wise arrays not recommended
+9. can be used to hold primitives and objects
+
+Adv ***
+good performance
+
+-------------------------   Why Collection   --------------------------
+
+collection - represent group of individual objects as a single entity
+
+1. growable in nature | increase/decrease based on requirements
+2. homogenous and heterogeneous type of data it can hold
+3. every collection class is implemented in some standard DS for multiple requirement, ready made support available
+4. being programmer , we can use those methods , not for implementing for frequently used operation
+5. memory wise arrays  recommended
+6. collection can only hold objects
+
+Adv ***
+performance wise , not up to the mark
+
+--------------------------  Collection Framework   ----------------------
+
+several Classes , Interfaces >> to represent collection as an entity for representing group of individual objects

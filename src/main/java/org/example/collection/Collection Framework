@@ -1,0 +1,255 @@
+
+ ------------------      Interfaces    -----------------
+
+ 1. Collection (I)
+ 2. List (I)
+ 3. Set (I)
+ 4. SortedSet (I)
+ 5. NavigableSet (I)
+ 6. Queue (I)
+ 7. Map (I)
+ 8. SortedMap (I)
+ 9. NavigableMap (I)
+ -------------------------------   Collection (I) | Root Interface (Collection Framework)   -----------------------------
+
+Used for >> to represent group of individual objects as an entity
+Interface defines >> most common methods applicable for any collection object
+No concrete class which implements >> Collection interface directly
+
+Collection (I) Vs Collections (C)
+ >> Collections class define several utility methods for any collection objects
+
+ add(Object 0) // add object to collection
+ l.addAll(Collection c) // add collection of objects to already present collection
+
+ remove(Object 0) // remove object from collection
+ removeAll(Collection c) // remove collection from  already present collection
+ clear()  // total empty
+
+ retainAll(Collection c) // except passed collection, rest all will be removed
+
+ contains(Object 0) // check presence of Object inside collection
+ containsAll(Collection c) // check presence of Collection inside collection
+
+ isEmpty() // check is empty
+ size() // check size
+
+ toArray >> return type - Object[]
+
+ --- universal cursor ** works on any collection object ---
+  Iterator iterator()
+  ex. s.iterator()  >> return Iterator<String> set_itr
+
+
+
+ -------------------------------   List (I) | child of Collection   -----------------------------
+ 1. insertion order preserved
+ 2. duplicates allowed
+ 3. insertion order preserved + duplicate object identification - due to indexing
+ 4. underlying ds - resizable array/growable array
+ 5. heterogeneous objects allowed
+ 6. null insertion possible | ** max once
+ 7. size >> default = 10 next >> (curr * 3/2)+1 = 16 ,25, 38 ...
+
+ implementation classes (C)
+ ArrayList (C)
+ Linkedlist (C)
+ Vector (C) -- legacy class
+ Stack (C) -- legacy class
+
+ l.add(Index,Object)
+ l.addAll(Index,Collection)
+ l.get(Index) //
+ l.set(Index, Object)
+ l.remove(Index)
+ l.indexOf(Object)
+ l.lastIndexOf(Object)
+
+ ListIterator listIterator(); >> return ListIterator<Generic> list_itr
+
+          to hold data and transfer data from one location to another location over network
+          serialization - deserialization
+          to recover in case of data corruption
+          every collection class implements Serializable , Cloneable
+          ArrayList + Vector >> implements RandomAccess (I) in java.util [MarkerInterface]
+                                ** Easy and fast access/retrieval - best choice
+                                ** insertion/removal from in between - worst choice
+
+          LikedList >> stored Objects not inconsecutive memory locations
+                     ** hard and slow access/retrieval - worst choice
+                     ** easy insertion/removal from in between - best choice
+                        just reassign pointer to from where add/remove
+                        stack >>LIFO , queue >>FIFO
+
+
+          addFirst();
+          addLast();
+          getFirst();
+          getLast();
+          removeFirst()
+          removeLast()
+
+
+          Vector >> basics +
+                    implements - Serializable, Cloneable, RandomAccess
+                    every method - synchronised >> Thread Safe
+                    low performance
+
+          addElement(Object)
+          removeElement(Object)
+          addElement(Object)
+          insertElementAt(Index, Object)
+          setElementAt(Index, Object)
+          removeElementAt(Index)
+          removeAllElements(Index)
+          elementAt(Index)
+          firstElement(Index)
+          lastElement(Index)
+
+          Enumeration elements()
+          size()
+          capacity()
+
+          Stack >> basics + LIFO
+                              implements - Serializable, Cloneable, RandomAccess
+                              every method - synchronised >> Thread Safe
+                              low performance
+          push(Object) >> insert
+          pop() >> remove + return top object
+          peek() >> just check top element return  ** doesn't remove
+          empty() >> checks emptiness
+          search(Object) >> return  int (index) | -1 if not found
+
+ | Feature                    | ArrayList                             | Vector                            |
+ | -------------------------- | ------------------------------------- | --------------------------------- |
+ | 1. Synchronization         | Non-Synchronized                      | Synchronized                      |
+ | 2. Thread Safety           | Not Thread-Safe                       | Thread-Safe                       |
+ | 3. Relative Performance    | High                                  | Low                               |
+ | 4. Version & Legacy Status | Introduced in JDK 1.2 <br> Non-legacy | Introduced in JDK 1.0 <br> Legacy |
+
+
+  -------------------------------   Set (I) | child of Collection   -----------------------------
+  1. insertion order doesn't matter | not preserved | inserted based on hashCode
+  2. duplicates NOT allowed , strictly UNIQUE
+  3. no new method, existing collection methods
+  4. null insertion - only once
+  5. implements Serializable, Cloneable | NOT RandomAccess
+  6. underlying DS - Hashtable
+  7. heterogeneous objects - Allowed | Except - Treeset
+  8. Best choice for search operation
+
+  *** if we try to add duplicate val - no errors -> simply return false + val wont be added
+
+  >> LinkedHashSet (C)
+              - underlying DS - LinkedList +HashTable
+              - insertion order preserved
+              - ex. for developing cache based applications
+
+
+
+  child Interfaces (I) of Set (I)
+  SortedSet (I)
+  >> basics + insertion in some sorting orders | incr ++ , decr --
+  >> implementing class - TreeSet (C)
+  >> *** heterogeneous objects not allowed | sorting same objects | cant compare different objects
+
+ >> SortedSet (I) --> TreeSet (S)
+                     - underlying DS - Treeset >> balanced tree
+                     - insertion order not preserved + sorted (naturally)
+                                                     + heterogeneous obj not allowed +  NO duplicates allowed
+                                                     + null not allowed
+                     - ex. for developing cache based applications
+                     - if added heterogeneous ele / ele not comparable - ClassCastException
+                     - for Empty/Non-Empty Treeset >> null not allowed | ** next ele face issue -  null pointer exception
+                     - ex. StringBuffer Obj - ClassCastException | String allowed ( class implements comparable )
+                     - ex. 1,2,"a" -  - ClassCastException
+
+    set = [ 5, 10, 20 ]
+
+    | **Method**                                        | **Description**                                                                           | **Example Output (TreeSet)**                    |
+    | ------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------- |
+    | `Comparator<? super E> comparator()`              | Returns the comparator used for sorting elements, or `null` if natural ordering is used.  | Returns `null` if no custom comparator is used. |
+    | `E first()`                                       | Returns the **first (lowest)** element.                                                   | `set.first()` → `5`                             |
+    | `E last()`                                        | Returns the **last (highest)** element.                                                   | `set.last()` → `20`                             |
+    | `SortedSet<E> headSet(E toElement)`               | Returns a **view of elements strictly less than** `toElement`.                            | `set.headSet(10)` → `[5]`                       |
+    | `SortedSet<E> tailSet(E fromElement)`             | Returns a **view of elements greater than or equal to** `fromElement`.                    | `set.tailSet(10)` → `[10, 20]`                  |
+    | `SortedSet<E> subSet(E fromElement, E toElement)` | Returns a **view of elements from `fromElement` (inclusive) to `toElement` (exclusive)**. | `set.subSet(5, 20)` → `[5, 10]`                 |
+
+
+  NavigableSet (I)
+  >> basics + navigation supported |prev, next, first, last, max, min
+  >> implementing class - TreeSet (C)
+  >> *** heterogeneous objects not allowed | sorting same objects | cant compare different objects
+
+  implementation classes (C)
+  HashSet (C)
+  LinkedHashSet (C)
+  TreeSet (C)
+
+
+
+
+  -------------------------------   Queue (I) | child of Collection   -----------------------------
+  1. before processing | prior to processing , represent group of individual objects as a single entity
+  2. usually queue follows  FIFO , but based on our requirement we can implement our own priority order
+  3. ex. before sending mail, as of insertion order, mail should be delivered, queue
+
+
+  implementation classes (C)
+  PriorityQueue (C)
+  BlockingQueue (C)
+     >> PriorityBlockingQueue (C)
+     >> LinkBlockingQueue (C)
+
+-------------------------------  Map (I) | separate **NOT child interface of Collection   -----------------------------
+
+Used for - to represent group of objects and [key:value] pair
+>> keys - Unique | duplicates not allowed
+>> values - DDuplicate allowed
+
+implementation classes (C)
+HashMap (C)
+  >> LinkedHashMap (C)
+WeakHashMap (C)
+IdentityHashMap (C)
+
+Dictionary (Abstract C)  -- legacy classes
+  >>Hashtable (C)        -- legacy classes
+     >>Properties (C)    -- legacy classes
+
+-------------------------------  SortedMap (I) | child interface of Map (I)   -----------------------------
+
+Used for - to represent group of objects and [key:value] pair
+>> basic + insertion as per some sorting order of keys
+>> sorting should be based on Key , NOT value
+
+implementation classes (C)
+TreeMap (C)
+>> *** heterogeneous objects not allowed | sorting same objects | cant compare different objects
+
+-------------------------------  NavigableMap (I) | child interface of Map (I) > SortedMap (I)   -----------------------------
+
+Used for - to represent group of objects and [key:value] pair
+>> basic + defines several method for Navigation purposes
+
+implementation classes (C)
+TreeMap (C)
+>> *** heterogeneous objects not allowed | sorting same objects | cant compare different objects
+
+-----------------------------   Sorting   ------------------------
+      Comparable (I) - default , natural sorting order
+      Comparator (I) - customised sorting order
+
+-----------------------------------------    Cursor    ---------------------------------
+
+get group of object | collection | object at a time - one by one >> cursors
+
+Enumeration (I)  -- legacy Interface
+Iterator (I)
+ListIterator (I)
+
+-----------------------------------------    Utility Classes    ---------------------------------
+
+Collections (C)
+Arrays (C)
+
