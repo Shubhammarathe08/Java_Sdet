@@ -1,6 +1,8 @@
 package org.example.interview.arrays;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArrayPrograms {
 
@@ -29,7 +31,7 @@ public class ArrayPrograms {
 //            return stack.isEmpty(); // True if all brackets are matched
 //        }
 
-        public static void main(String[] args) {
+        public static <Charcter> void main(String[] args) {
             String expr1 = "{[()]}";
             String expr2 = "([{}])";
             String expr3 = "{[(])}";
@@ -92,14 +94,44 @@ public class ArrayPrograms {
             System.out.println("Min1: " + min1);
             System.out.println("Min2: " + min2);
 //----------------------------------------------------------------------------------------------------------
+            // find the biggest substring - non-repeating
+            String ip_str1 = "geeksforgeeks"; // 0-2 2-9
+            int start = 0; // minus 0 ,2 , 3 , 4 ,4
+            int max_len = 0;
+            Map<Character, Integer> map = new HashMap<>();
+            for (int end = 0; end < ip_str1.length(); end++) {
+                System.out.println("end >>"+end);
+                char c = ip_str1.charAt(end);
+                System.out.println("char >>"+c);
+                if (map.containsKey(c) && map.get(c) >= start) {
+                    System.out.println("start before >>"+start);
+                    start = map.get(c) + 1;
+                    System.out.println("start after >>"+start);
+                }
+                map.put(c, end); //start=3 e=10
+                System.out.println("entry >>"+map);
+                System.out.println("len before >>"+max_len);
+                max_len = Math.max(max_len, end - start + 1);
+                System.out.println("len after >>"+max_len);
 
-            // sort array {0100011001}
-            // check brackets [{{}}]()
-            // left shift {01020} - {001020}
-            // right shift {01020} - {10200}
-            // fins biggest substring - non-repeating
-            // permutation and combination
+            }
+            System.out.println(max_len);
+//----------------------------------------------------------------------------------------------------------------------
+                String brac_1 = "([{}])"; //6
+                String brac_2 = "([)}]{"; //6
+
+                if(brac_1.length()%2==0){
+                    HashMap<Character,Character> m1 = new HashMap<>();
+                    m1.put('(',')');
+                    m1.put('[',']');
+                    m1.put('{','}');
+
+                    for(Character c:brac_1.toCharArray()){
+
+                    }
+
+                }
+//----------------------------------------------------------------------------------------------------------------------
 
         }
-
 }

@@ -8,7 +8,7 @@ public class Jdk_Jre_Jvm {
 JDK ( java development kit. JRE + JVM + Utilities )
 
 
-                          Test.java
+                          GFG.java
 
                           Compiler (javac)
 

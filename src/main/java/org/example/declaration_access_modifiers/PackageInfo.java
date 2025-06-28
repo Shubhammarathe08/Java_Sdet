@@ -19,7 +19,7 @@ public class PackageInfo {
     *** helpful to organize classes/interfaces into logical groups
 
     >> first non commented line of the source file should be package statement
-    >> source file - Test.java | amost 1 package statement nt allowed | 1 or 0
+    >> source file - GFG.java | amost 1 package statement nt allowed | 1 or 0
 
     fully qualified name: org.example.DeclarationAccessModifiers.PackageInfo
     PackageInfo.java - class >> part of the DeclarationAccessModifiers package.
@@ -29,13 +29,13 @@ public class PackageInfo {
                     www.allstate.com >> com.allstate.www
 
                     com.allstate.protectionPlans.warranty
-     javac Test.java >> generated .class placed in CWD
+     javac GFG.java >> generated .class placed in CWD
 
      >> to place generated .class file in destination directory
-     javac -d . Test.java  | . for cwd
+     javac -d . GFG.java  | . for cwd
      java com.allstate.protectionPlans.warranty.Test Test
-     javac -d src/main/java Test.java  | src/main/java for destination directory
-        javac -d F: Test.java
+     javac -d src/main/java GFG.java  | src/main/java for destination directory
+        javac -d F: GFG.java
         java com.allstate.protectionPlans.warranty.Test Test
      if corresponding package structure is not present in the destination directory,it will be created automatically
 

@@ -31,10 +31,10 @@ public class Declaration {
   }
   class C {
   }
-  file name >> Test.java
+  file name >> GFG.java
 
   we can compile | java program | java source file | .java file
-  javac Test.java
+  javac GFG.java
   for every class >> in a program >> separate .class file is created
 
   java A / java B / java C
