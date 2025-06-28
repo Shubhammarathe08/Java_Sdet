@@ -25,8 +25,14 @@ public class StringPrograms {
               String s1 = "shu1";
               String s2 = "shu1";
 
+        // ==  VS .equals()
+        String
 
-        // == .equals()
+        StringBuffer
+
+        StringBuilder
+
+//-----------------------------------    String Comparison Program    -------------------------------------------------
 
         // scp pointing to same content
         System.out.println(s1 == s2);
@@ -47,14 +53,13 @@ public class StringPrograms {
         System.out.println(s4.equals(s5));
 
         String s6 = "NaveeN";
-
         // replace - if executed successfully created new string -> address differs than SCP
         System.out.println(s5 == s6);
         System.out.println(s5.equals(s6));
 
         String str = null;
-        System.out.println(str.valueOf(10));
-        // ans 10 >> Even though str is null | static method >> valueOf
+        System.out.println(str.valueOf(10)); // equivalent to 10+"" -> covert to String Object
+        // 10 >> Even though str is null | static method >> valueOf
         // Java resolves static method calls using the class type (String) not the reference (str).
 
         String s1 = "xxx";
@@ -66,10 +71,9 @@ public class StringPrograms {
         String s11 = new String("javaguides");
         String s22 = new String("javaguides");
         System.out.println(s11 = s22);
-        // s1 will be printed
+        // s11 will be printed
 
-
-
+//-----------------------------------    String intern()   -------------------------------------------------
         String s111 = "hello"; // scp
         String s222 = new String("hello"); // heap + -->>>
 
@@ -85,7 +89,7 @@ public class StringPrograms {
 
         // checks SCP - if string present >> return string | if not - then add + return
 
-         */
+
 
 
 
@@ -171,6 +175,8 @@ public class StringPrograms {
         HashSet<String> my_set = new HashSet<>(Arrays.asList(str5.split("")));
         System.out.println(my_set.toString());
 
+
+         */
 
 
 

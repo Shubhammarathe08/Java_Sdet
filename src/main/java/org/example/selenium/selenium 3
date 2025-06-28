@@ -1,0 +1,35 @@
+
+Selenium
+
+JsonWire Protocol >>
+final selenium stable 3 version >> 3.141.59
+jason wire protocol >> upto 3.7
+jason wire protocol + w3c >> 3.8 to 3.141.59
+only w3c > 4.0 onwards
+latest stable version >> 4.33
+
+                            [Java Test Code]>>(scripts for application flow logic)
+                                     |
+                                     |
+                        [Selenium Client Library](Selenium JARs -creates | HTTP request with JSON payload)
+                                     |
+                                     |
+                             Json Wire Protocol / W3c protocol
+                                     |
+                                     |
+                       [Browser Driver](HTTP Server | translates request to browser command)
+                                     |
+                                     |
+                              [Actual Browser](performs action and returns result)
+                                     |
+                                     |
+                             [Browser Driver](creates JSON response back)
+                                     |
+                                     |
+                            Json Wire Protocol / W3c protocol
+                                     |
+                                     |
+                        [Selenium Client Library](parses response to Java object)
+                                     |
+                                     |
+                         [Your Test Code Continues]

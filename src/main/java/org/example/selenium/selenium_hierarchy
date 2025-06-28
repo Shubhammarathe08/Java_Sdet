@@ -1,0 +1,19 @@
+
+                                    SearchContext (I)
+                                           | extends
+                                     WebDriver (I)
+                                           |extends
+              +----------------------------+-----------------------------+
+              | extends                    |                              |  extends
+        Options (I)                        |                     TakesScreenshot (I)
+              |    extends                 |                              |extends
+     Timeouts (I), Navigation (I)          |                 JavaScriptExecutor (I)
+                                           |
+                                  RemoteWebDriver (C)
+              +----------------------------+-----------------------------+
+              |                            |                             |
+        SafariDriver (C)            ChromiumDriver (C)             FirefoxDriver (C)
+                                            |
+                               +------------+------------+
+                               |                         |
+                       ChromeDriver (C)           EdgeDriver (C)
