@@ -1,0 +1,146 @@
+
+
+desired capabilities ( class )
+>> a class in Selenium that allows you to set [ properties + preferences + configurations ]
+for browser sessions before starting them
+
+DesiredCapabilities capabilities = new DesiredCapabilities();
+     capabilities.setBrowserName("chrome");
+     capabilities.setCapability("platformName", "Windows 10");
+
+what can we configure >>
+   Browser type & version | Platform | Custom preferences or switches (e.g. headless, incognito) |
+   SSL certificate settings | Proxy settings
+
+*** DesiredCapabilities is still valid for RemoteWebDriver
+(e.g. Grid, cloud providers like BrowserStack, Sauce Labs)
+where capabilities need to be passed to the remote node.
+==========================================================================================================
+chrome options ( class )
+>> Selenium 4 promotes using Options classes
+ChromeOptions / FirefoxOptions / EdgeOptions / SafariOptions
+>> Options class to configure and customize browser behavior
+
+
+        ChromeOptions options = new ChromeOptions();
+        // Add desired configurations
+        options.addArguments("--start-maximized"); // Open maximized
+        options.addArguments("--incognito");       // Open in incognito mode
+        options.addArguments("--disable-popup-blocking"); // Disable pop-ups
+        options.addArguments("--headless");        // Run in headless mode (no browser UI)
+
+use -> Opening in incognito mode + Disabling extensions + Running headless (without GUI) + Managing SSL certificates
+      + Adding experimental features + Merging with capabilities for Selenium Grid
+===============================================================================================================
+
+synchronisation issue
+>> Synchronisation issues occur when Selenium commands execute faster than the web application’s response time.
+>> Selenium tries to interact with an element before it is present, visible, or clickable, leading to exceptions like:
+   NoSuchElementException
+   ElementNotVisibleException
+   ElementNotInteractableException
+===============================================================================================================
+waits
+
+| **Wait Type**                     | **Description**                                                                | **Use Case**                                                                             |
+| --------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| **Implicit Wait**                 | Global wait for finding elements                                               | If element not found immediately, polls DOM for a defined time before throwing exception |
+| **Explicit Wait (WebDriverWait)** | Wait for a specific condition for a specific element                           | Waits until condition is true (e.g., element clickable, visible)                         |
+| **Fluent Wait**                   | Advanced explicit wait with polling frequency and ignoring specific exceptions | For dynamic wait requirements with custom polling intervals                              |
+
+
+            // implicit wait >>>>>>>>>>
+            // applied to whole page - all elements
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+            // Waits up to 10 seconds for any element to appear before throwing NoSuchElementException.
+
+
+            // explicit wait >>>>>>>>>>
+            // wait for specific conditions to be true
+            // if an element found before that - moves forward
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("loginBtn")));
+            loginButton.click();
+
+            // wait for title
+            wait.until(ExpectedConditions.titleContains("Dashboard"));
+            // Waits for an iframe to be available and switches context for further operations within it.
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("myFrame")));
+            // Before clicking any button, link, or input that may take time to become active after loading.
+            WebElement loginButton1 = wait.until(ExpectedConditions.elementToBeClickable(By.id("loginBtn")));
+            loginButton.click();
+            // Before sending keys or reading text from an element to ensure it’s visible on U
+            WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
+            username.sendKeys("myUser");
+            // Ensures the element exists in the DOM even if not visible yet. Useful for hidden elements that become visible later via JS.
+            WebElement hiddenElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("hiddenField")));
+            //Waits for JavaScript alerts to appear before switching to them.
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+            // Waits for loaders/spinners or overlays to disappear before proceeding.
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loader")));
+
+
+            // fluent wait >>>>>>>>>>
+            // FluentWait is useful when polling for conditions that might not be element-based,
+            // such as waiting for a file to appear in a download directory.
+            // Ignores NoSuchElementException during polling
+            //  Use Fluent Wait for highly dynamic applications needing flexible polling and exception handling.
+            Wait<WebDriver> fluentWait = new FluentWait<>(driver)
+                    .withTimeout(Duration.ofSeconds(20))
+                    .pollingEvery(Duration.ofSeconds(2))
+                    .ignoring(NoSuchElementException.class);
+
+            WebElement dynamicElement = fluentWait.until(driver1 -> driver1.findElement(By.id("dynamicId")));
+            dynamicElement.click();
+----------------------------------------------------------------------------------------------
+            String downloadPath = "C:\\Users\\YourUser\\Downloads";
+            String expectedFileName = "example.pdf";
+
+            // FluentWait to check if file exists
+            FluentWait<String> wait1 = new FluentWait<>(downloadPath)
+                    .withTimeout(Duration.ofSeconds(30))   // total timeout
+                    .pollingEvery(Duration.ofSeconds(2))   // polling interval
+                    .ignoring(Exception.class);            // ignore all exceptions during wait
+
+            wait1.until(new Function<String, Boolean>() {
+                public Boolean apply(String path) {
+                    File file = new File(path + File.separator + expectedFileName);
+                    boolean exists = file.exists();
+                    System.out.println("Checking file exists: " + exists);
+                    return exists;
+                }
+//===============================================================================================
+dynamic elements
+exceptions
+hidden elements
+shadow dom elements
+actions class
+keyboard actions
+listeners
+file download and auto it
+selenium grid
+=======================================================================
+selenium 4 features >>
+
+relative locator
+WebElement password = driver.findElement(By.name("password"));
+WebElement username = driver.findElement(RelativeLocator.with(By.tagName("input")).above(password));
+
+window
+        // Open new tab
+        WebDriver tab = driver.switchTo().newWindow(WindowType.TAB);
+        tab.get("https://bing.com");
+
+        // Open new window
+        WebDriver window = driver.switchTo().newWindow(WindowType.WINDOW);
+        window.get("https://duckduckgo.com");
+
+element level screenshot
+
+        WebElement logo = driver.findElement(By.id("hplogo"));
+        File src = logo.getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(src, new File("./logo.png"));
+
+
+

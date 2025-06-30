@@ -1,0 +1,26 @@
+
+java based , free , testing framework - test next generation
+
+assertion -> hard and soft asserts  >> Done
+annotations -->> Done
+priorities  -->> Done
+grouping of test cases -->> Done
+test dependency management - DependsOn -->> Done
+enable/disable - -->> Done
+reporting - detailed html, extent report, allure report
+parallel execution
+parametrization of test cases -
+data provider -@DataProvider
+
+re execution-
+listners -
+invocation count -
+======================================================================================
+
+Order
+
+Suite > Test > Classes > Class > Methods
+======================================================================================
+testng.xml >> testng config file | Runner Class
+allows execution of >> selected test cases, test groups , enable/disable
+priorities, dependencies, parameterized test cases, parallel execution

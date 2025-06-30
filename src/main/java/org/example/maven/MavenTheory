@@ -1,0 +1,144 @@
+
+
+open source build tool ( specifically designed for java projects ) | developed by apache
+dependency management tool
+
+Maven Life Cycle
+
+>> src/main/java | helper, utils, lib, functions, jar, war
+>> src/test/java | tests , junit/testng
+>> src/main/resources | properties. config, files, images, test data, testng.xml
+>> target | contains build output , test reports ** can be deleted and creates on new run
+   >> output
+>> pom.xml
+compile
+run
+package
+build
+manage dependency
+===========================================================================
+mvn site >> generate report
+maven-surefire-report-plugin >>
+mvn clean test >>
+===========================================================================
+mvn remote repo
+mvn local repo
+=============================================================================
+| **Tool**            | **Role**                                                     |
+| ------------------- | ------------------------------------------------------------ |
+| **Maven**           | Build tool managing project lifecycle and dependencies.      |
+| **Compiler Plugin** | Compiles Java source code to target bytecode version.        |
+| **Surefire Plugin** | Executes tests and generates reports as part of Maven build. |
+=============================================================================
+| Command             | Meaning                   | Common usage                              |
+| ------------------- | ------------------------- | ----------------------------------------- |
+| `mvn clean`         | Deletes `target/`         | Fresh build environment                   |
+| `mvn compile`       | Compiles main code        | Check compilation errors                  |
+| `mvn clean compile` | Clean + compile           | Confirm build readiness                   |
+| `mvn test`          | Compiles & runs tests     | Execute automation tests                  |
+| `mvn clean test`    | Clean + test              | Clean run of automation suite             |
+| `mvn package`       | Compiles, tests, packages | Create jar/war                            |
+| `mvn clean package` | Clean + package           | Full clean build                          |
+| `mvn install`       | Installs to local repo    | Share built jar with other projects       |
+| `mvn clean install` | Clean + install           | CI/CD pipelines to build + test + install |
+=============================================================================
+maven build lifecycle
+  >> build (default)
+       validate > compile > test > packaging > integration test > verify > install > deploy
+  >> clean
+  >> site
+========================================================================
+mvn clean install
+mvn test
+===================================================================
+>> target | contains op reports
+mvn clean | delete target dir + remove all build op | clean previous run output
+mvn validate | check necessary info + things available to compile
+mvn compile | compiles code, creates .class files for components
+mvn test | runs tests using suitable framework
+mvn package | takes compiled code and packages into distributable format (JAR/WAR)
+mvn integration-test | runs integration test on package
+mvn verify | checks quality of package
+mvn install | install package in local repo to be used as dependency
+mvn deploy | copies final package to remote repo, to be distributed to other dev
+mvn site | generate documentation for project
+===========================================================================
+
+build tool >> software framework to
+>> generate source code
+>> compile source code
+>> run automated test cases
+>> package application into executable jar/war ( for deployment )
+>> manage dependencies
+>> can install packaged code in - central repo (maven central repo) , local repo , server repo
+====================================================================================================
+
+project process management >> building + documentation + releasing + distribution
+dependency management >> downloading jar + other dependency + adding to classpath ()
+cross env consistency >> pom.xml (easy to maintain )
+standard directory structure
+pom.xml >> config file | project related detail + dependency + version + plugins + other settings
+parent tag >> project
+
+xmlns - namespace >> to link ur pom to mavens pom | defines structure + rules
+xsi:schemaLocation - doc related to xml schema, tells how and what to parse
+model version - POM model 4.0 ( which rule structure to apply in xsd )
+
+group id - project name | reverse domain name | project name ( fyull name )
+artifact id - unique project id | project specific name within groups of projects
+version - version of project | jar
+
+properties - custom properties  | group versions (** other tage pass as $prop_name var)
+dependencies
+  dependency - set of jars | that project needs to compile and run
+  group id - org name
+  artifact id - library name
+  version - version
+  scope - default (compile) | in which phase jars to be added and use it
+  exclude -
+  exclusions
+    exclusion
+  ** if dependency not present  in .m2 local folder, it will download from maven central repo
+
+  dependency management
+    dependencies
+       dependency - it will not add Jars | it will provide restriction, either u use this or don't compile
+  ** used - when multi module case - with parent POM with dependency management
+            child modules can inherit theses version
+            to prevent version conflict + version consistency + customisation + avoid compatibility + one place control
+  can use bill of material - BOM + artifactory to replace central repo
+
+  build >>
+  config build structure
+  // default - src/main/java
+  source directory >> location of source code
+  configuration
+     java version -> control java version
+  plugins
+    plugin  - decide which plugin will do build
+         source
+         target
+
+ pluginmanagement        >> manages version | not builds it
+  plugins
+     plugin  - decide which plugin will do build
+
+repositories
+  repository
+    id - repo
+    url - url of repo
+
+plugin repositories
+  repository
+    id - repo
+    name -
+    url - url of repo
+       release
+          enabled
+
+profiles  >> to switch between env  dev / qa / prod
+  activation
+    property
+      name
+        value
+ -Denv=prod
