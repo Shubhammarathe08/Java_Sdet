@@ -111,15 +111,12 @@ waits
                     return exists;
                 }
 //===============================================================================================
-dynamic elements
-exceptions
-hidden elements
-shadow dom elements
-actions class
-keyboard actions
-listeners
-file download and auto it
+
+actions class --> Done
+keyboard actions  --> Done
+file download and auto it -->
 selenium grid
+exceptions
 =======================================================================
 selenium 4 features >>
 

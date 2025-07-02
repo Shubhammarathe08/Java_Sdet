@@ -99,7 +99,7 @@ public class ArrayPrograms {
 //----------------------------------------------------------------------------------------------------------
         // find the biggest substring - non-repeating
         String ip_str1 = "geeksforgeeks"; // 0-2 2-9
-        int start = 0; // minus 0 ,2 , 3 , 4 ,4
+        int start = 0; // minus 0 ,2 , 3 , 4 ,4 //table
         int max_len = 0;
         Map<Character, Integer> map = new HashMap<>();
         for (int end = 0; end < ip_str1.length(); end++) {

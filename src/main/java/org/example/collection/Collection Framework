@@ -145,8 +145,6 @@ Collection (I) Vs Collections (C)
               - insertion order preserved
               - ex. for developing cache based applications
 
-
-
   child Interfaces (I) of Set (I)
   SortedSet (I)
   >> basics + insertion in some sorting orders | incr ++ , decr --

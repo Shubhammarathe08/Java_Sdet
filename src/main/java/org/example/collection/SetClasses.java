@@ -46,7 +46,7 @@ public class SetClasses {
 
         SortedSet s = null;
         TreeSet<Integer> tr_set3 = new TreeSet(s);
-        // conversion from collection to sorted set - based on s sorting order
+        // conversion from collection to sorted set - based on sorting order
 
 
     }
