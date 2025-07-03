@@ -297,7 +297,7 @@ ex. same method names - same argument types but different implementation >> over
       ** if parent = static m1() child = static m1() >> VALID but not overriding , method hiding
       Method Hiding
                      >> method resolution done by compiler at compile time - based on REFERENCE
-                     >> bothncopies available | parent + child >> ref will decie which will execute
+                     >> both copies available | parent + child >> ref will decide which will execute
 
       ** if parent = abstract m1() | child =  m1() >> VALID - overriding/implementing abstract method
       ** if parent = m1() | child =  abstract m1() >> VALID - overriding/implementing abstract method
@@ -306,7 +306,7 @@ ex. same method names - same argument types but different implementation >> over
       ** if child class method throws - CHECKED exception, | compulsory parent class method must throw - same or its parent exception
       ** no restrictions for UNCHECKED exceptions
 
-      ** we cant over ride var rag mwthod with normal method | need exactly same var arg method
+      ** we cant over ride var rag method with normal method | need exactly same var arg method
          class A >> m1(int... x)  class B extends A >> m1(int... x) -Valid | m1(int x) -Invalid
 
       non-static >> static -Invalid | static >> non-static -Invalid
