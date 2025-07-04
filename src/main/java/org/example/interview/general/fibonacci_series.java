@@ -9,7 +9,7 @@ public class fibonacci_series {
     static int curr=1;
     static int next;
 
-    // normal w/o recursion
+    // normal w/o recursion   // prev curr next
     static  int[] fibonacci(int ele){   // 0 1 1 2 3 5 8
         int[] temp = new int[ele+2];
         temp[0] =prev;

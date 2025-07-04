@@ -7,7 +7,7 @@ public class factorial_of_num {
     // normal w/o recursion
     static  int without_recursion_factorial(int num){
         // 5 4 3 2 1 = 120
-        while(num >1 ){
+        while(num >=1 ){
             res = res*num;
             num--;
         }

@@ -1,4 +1,18 @@
 
+get() --> declare- WebDriver (I), impl- RemoteWebDriver (C) | void
+navigate() -->  declare- WebDriver (I), impl- RemoteWebDriver (C) | Navigation
+
+Actual method >> RemoteWebDriver -  this.execute(DriverCommand.GET(url));
+
+Navigation (I)
+void back(); void forward(); void to(String url); void to(URL url);void refresh();
+RemoteNavigation (C)
+impl --> void back(); void forward(); void to(String url); void to(URL url);void refresh();
+here get() refers to RemoteWebDriver get() method >> RemoteWebDriver.this.get()
+===============================================================================================
+getText() >> inside
+getAttribute()
+
 
 desired capabilities ( class )
 >> a class in Selenium that allows you to set [ properties + preferences + configurations ]
