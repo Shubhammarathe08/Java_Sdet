@@ -1,0 +1,231 @@
+
+
+Q.1) what is software testing
+Ans:-
+>> process of verification and validation of the product/application
+>> to make sure that it meets the requirement
+>> fit for use
+>> software does what it is supposed to do
+===================================================================================================================================
+
+Q.2) why ?
+>> to save money | cost to fix defect in later phases ins costlier than identified in early phases
+>> builds image of brand/product + gain user trust
+>> prevent defect/bugs
+>> to make software/application/product reliable, usable and secure | from user points of view
+>> overall quality of product/software application increases
+===================================================================================================================================
+
+Q.3) Objectives ?
+>> finding existing defects + prevention of possible defects
+>> fit for customer use
+>> performs what it is supposed to do
+>> builds confidence
+>> reduces risks of failure
+===================================================================================================================================
+
+Q.4) Testing Principles
+
+✅ 1. Testing shows presence of defects
+✔️ but cannot prove there are no defects.
+✔️ Example (Insurance domain):
+   While testing a claim processing module, you find calculation errors for certain claim types.
+   Fixing these does not guarantee no defects remain in other rare claim scenarios or policy types.
+
+✅ 2. Exhaustive testing is impossible
+✔️ Testing every possible input and scenario is impractical except for very simple systems.
+✔️ Example:
+   Testing an insurance premium calculator for all age combinations (18-100),
+   diseases, riders, and policy terms would take infinite time.
+   Instead, you focus on risk-based and equivalence partitioning to test representative inputs effectively.
+
+✅ 3. Early testing
+✔️ Testing activities should start as early as possible in the SDLC
+    to catch defects sooner and reduce cost.
+✔️ Reviewing requirements for a new insurance product configuration system
+   can catch missing validation rules early,
+   preventing later rework when implementation has already started.
+
+✅ 4. Defect clustering
+✔️ A small number of modules usually contain most of the defects (Pareto principle: 80-20 rule).
+✔️ In an insurance portal, the payment gateway integration and premium calculation engine
+   may have the highest defects compared to static policy info pages.
+   Prioritizing testing efforts here yields better quality results.
+
+✅ 5. Pesticide paradox
+✔️ Repeating the same test cases will eventually no longer find new bugs.
+   Test cases need to be reviewed and updated regularly.
+✔️ If you only test standard term insurance premium calculations,
+   bugs in newly added riders (accident cover, waiver of premium) may remain undetected
+   unless test cases are enhanced for new features.
+
+✅ 6. Testing is context dependent
+✔️ Testing approach varies based on application context (e.g., safety-critical, e-commerce, insurance).
+✔️ Testing an insurance underwriting rules engine requires strict regulatory compliance validation,
+    while testing a marketing landing page focuses more on UI and usability.
+
+✅ 7. Absence of errors fallacy
+✔️ Finding and fixing defects does not help if the system built is not what the user wanted.
+✔️ The claims processing system passes all functional tests
+   but fails business validation because it doesn’t handle out-of-network hospitals,
+   which is a critical requirement for insurance operations.
+===================================================================================================================================
+Q.5) causes of software defects
+
+1. Requirements-related causes
+       unclear or incomplete user stories
+       frequently Changing requirements without impact analysis
+       misunderstood requirements by developers or testers
+       // in correct / incomplete requirement
+
+2. Communication-related causes
+       Gap between developers and testers
+       Miscommunication within the team
+       Inadequate documentation
+       // wrong understanding propagated
+
+3. Design-related causes
+       Poor system design
+       Incorrect interface design between modules
+       Non-adherence to design standards
+       // components
+
+4. Development-related causes
+        Coding mistakes / logical errors
+        Incorrect implementation of algorithms
+        Lack of coding standards enforcement
+        Integration issues between modules or APIs
+        // number formats, spaces, colors, exceptions, fallback logic, error handling
+
+5. Testing-related causes
+        Inadequate test coverage
+        Missing negative test scenarios
+        Environment/configuration issues causing undetected bugs
+        Tester’s lack of domain knowledge
+        // edge cases, lack of adequate data
+
+6. Tools, Environment, Data-related causes
+        Unsupported or outdated tools/frameworks
+        Test environment not matching production
+        Insufficient or incorrect test data
+        // low data quality and quantity , not having performance check tools, security check tool
+
+7. Process-related causes
+        Skipping code reviews or walk throughs
+        Lack of static analysis or verification steps
+        Time pressure leading to untested code being released
+        // review not covering standard, where missed in delete/update                                                                                        |
+===================================================================================================================================
+Q.6) Integration Testing  ? stubs ? drivers ?
+
+Purpose: Checks if different modules or components integrated work together correctly.
+
+Big Bang:
+        All modules integrated at once; no stubs or drivers used.
+
+Top-Down:
+         Starts from top modules, uses STUBS for lower modules (which are not yet developed )
+
+Bottom-Up:
+         Starts from lower modules, uses DRIVERS to simulate higher modules (which are not yet developed )
+
+Sandwich (Hybrid): Combination of top-down and bottom-up; uses both stubs and drivers.
+
+Stubs : Dummy modules [ simulating lower-level components ]
+Drivers: Dummy modules [ simulating higher-level components]
+
+Tools Used:
+
+JUnit/TestNG – code integration testing
+Mockito – creating stubs/mocks  >>>>> STUBS
+Spring Test – Spring Boot integration testing
+Postman/RestAssured – API integration testing
+
+When Performed:
+                After unit testing and before system testing to ensure modules interact seamlessly.
+
+=====================================================================================================
+Q.7 ) levels of testing ?
+                  UAT testing
+            system testing
+     integration testing
+unit testing
+
+✅ 1. Unit Testing
+What: Testing individual units/functions/methods of code in isolation.
+Who: Developers
+Purpose: Ensure each code unit works correctly.
+Expected Output: Each method returns correct output for given inputs.
+Example: Testing calculateInterest() method to check if it returns correct interest amount for principal=1000, rate=5%, time=2 years.
+
+✅ 2. Integration Testing
+What: Testing interaction between integrated modules.
+Who: Developers / Testers
+Purpose: Ensure modules communicate and work together correctly.
+Expected Output: Correct data flow and output when modules interact.
+Example: Testing Login module integrated with Account Summary module to ensure correct user data is fetched post-login.
+
+✅ 3. System Testing
+What: Testing the entire integrated system end-to-end.
+Who: Testers (QA team)
+Purpose: Verify system meets specified requirements as a whole | SRS
+Expected Output: All features work correctly together in the full application.
+Example: Testing banking app complete flow – login, view balance, transfer money, logout.
+
+✅ 4. User Acceptance Testing (UAT)
+What: Testing by end users or clients to validate business requirements.
+Who: End Users / Product Owners / Clients / stack holders
+Purpose: Ensure system is acceptable for release and meets user needs | BRS
+Func + Non Func >>Ui , functionality, compliance , performance , usability
+Expected Output: Users approve that the system works as intended in their business context.
+Example: Client tests e-commerce site to ensure they can search, add to cart, purchase, and receive order confirmation email correctly.
+
+===================================================================================================================================
+ Q.7 )
+===================================================================================================================================
+Q.8 ) types of testing
+
+static [verification]
+>> reviews
+>> inspections
+>> walkthroughes
+
+dynamic [validation]
+1. functional
+    1.a white box testing/ structural testing
+       >> unit test
+       >> code coverage
+       >>
+       >>
+    1.b black box testing ( testing technique )
+       >> Equivalence Partitioning
+       >> Boundary Value Analysis,
+       >> Decision Table,
+       >> State Transition,
+       >> Use Case Testing
+2. non functional
+       >> load
+       >> stress
+       >> volume
+       >> spike
+       >> security ( penetration )
+       >> usability
+       >> compliance testing
+>>>> i18n l10n
+| **Aspect**          | **i18n (Internationalization)**                                                                         | **l10n (Localization)**                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **What**            | Application’s **design and development readiness** to support multiple languages/locales.               | **Adapting the product to a specific region or language** by translating and adjusting cultural elements.                            |
+| **Type of Testing** | **Non-Functional Testing** – ensures code supports adaptability without hardcoded locale-specific data. | **Non-Functional Testing** – ensures correct implementation of language translations, regional settings, date/time/currency formats. |
+| **Example**         | Verify UI design allows longer German text without truncation.                                          | Verify Hindi translations are accurate and currency symbol is ₹ for India.                                                           |
+===================================================================================================================================
+ Q.8 ) incremental vs incremental integration testing
+
+ | **Aspect**  | **Incremental Testing**                                      | **Incremental Integration Testing**                                                                              |
+ | ----------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+ | **Scope**   | **Broad approach** – testing features as they are built.     | **Specific to integration testing** – integrating and testing modules step by step.                              |
+ | **Focus**   | Can be unit, integration, or system testing in increments.   | Only focuses on **integration of modules incrementally**.                                                        |
+ | **Example** | Testing features of an app incrementally during development. | Integrating Login module with Dashboard, then Dashboard with Profile incrementally and testing each integration. |
+
+===================================================================================================================================
+ Q.9 )
+

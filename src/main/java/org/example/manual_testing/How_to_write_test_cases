@@ -1,0 +1,42 @@
+
+
+-------------------   Quick Checklist While Designing Inputs    --------------------
+use test technique for effective test cases
+
+Valid
+✔ Valid data as per requirements | +ve /happy path
+✔ boundary value conditions - edge cases
+✔ equivalence partitioning - check o/p in range
+✔ decision table check - combinations
+✔ state transitioning - active, blocked, enabled, disabled, in progress, stuck ...
+✔ use case testing - It focuses on testing the functionalities as per user workflows
+
+
+In-Valid
+✔ In-Valid data as per requirements
+   >> | case sensitivity, in-complete i/p , wrong input, not-allowed data type, null, blank, space
+✔ Correct formats & patterns (dates, emails, phone)
+✔ allowed Size/length limits (min, max, exact length)
+✔ Data type correctness (numeric, text, boolean)
+✔ Boundary value inputs (min-1, min, max, max+1)
+
+✔ Error msgs / fallback logic / validation msgs
+✔ Input method correctness (UI, API, file uploads, copy paste)
+
+✔ Invalid/malformed inputs
+✔ Injection attacks or scripts (security)
+
+-------------------   Quick Checklist While Designing API Test cases     --------------------
+  | **Priority** | **Aspect**         | **Why**                                               | **How**                                                                                                    | **What to Check**                                                                                                |
+  | ------------ | ------------------ | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+  | 1            | Endpoint & Method  | Correct API and action used                           | Verify in API documentation (Swagger). Enter URL and method in Postman.                                    | Base URL, Resource path, HTTP method (GET, POST, PUT, DELETE)                                                    |
+  | 2            | Auth & Access      | Ensure security and authorised access                 | Test with valid, invalid, expired , no token in Postman.                                                         | Access allowed for valid token, 401 for missing token, 403 for invalid token                                     |
+  | 3            | Headers            | Required for auth and content processing              | Add in Postman Headers tab with correct key-value pairs.                                                   | Authorization (Bearer token), Content-Type (application/json)                                                    |
+  | 4            | Params / Body      | Inputs must match specification                       | For GET: base uri,  path/query params in URL/Params tab. For POST/PUT: enter JSON body in Body tab as raw JSON.   | Path parameters (e.g. /users/1), Query parameters (e.g. ?sort=asc), Body fields – names, types, mandatory fields |
+  | 5            | Status Codes       | Validate API response as per standards                | Check status code in Postman response section.                                                             | 200 OK, 201 Created, 400 Bad Request, 401/403 Unauthorized/Forbidden, 404 Not Found, 500 Server Error            |
+  | 6            | Response Body      | Ensure data correctness and structure                 | View response body in Postman.                                                                             | All expected fields present, Correct data types, Values as per specification                                     |
+  | 7            | Negative Scenarios | Check robustness and error handling                   | Pass invalid or missing data in Postman and observe response.                                              | Proper error status codes, Clear and meaningful error messages                                                   |
+  | 8            | Database Impact    | Confirm data persistence or update                    | Run SQL queries in database tools like PgAdmin or DBeaver.                                                 | Records created, updated, or deleted correctly as per API operation                                              |
+  | 9            | Response Headers   | Validate additional info and content-type correctness | Check Headers tab in Postman response.                                                                     | Content-Type (application/json), Any custom headers present                                                      |
+  | 10           | Schema Validation  | Ensure response matches defined structure             | Manually check field names, types, and nested structure in Postman. Use schema validator plugin if needed. | Field names, Data types, Nested structure as per schema                                                          |
+  | 11           | Performance        | Meets SLA performance benchmarks                      | Check response time shown in Postman after request execution.                                              | Response time in milliseconds, Within expected limits (e.g. < 2 second                                           |

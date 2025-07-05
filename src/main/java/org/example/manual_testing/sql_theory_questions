@@ -1,0 +1,139 @@
+✅ 1. DDL (Data Definition Language)
+🔷 Purpose: Define or modify schema structures.
+ Create , Alter , Rename , Truncate , Drop
+-- Create table
+CREATE TABLE Employee (
+  EmpID SERIAL PRIMARY KEY,
+  Name VARCHAR(50),
+  Salary NUMERIC(10,2),
+  Department VARCHAR(30)
+);
+-- Alter table to add a new column
+ALTER TABLE Employee ADD COLUMN JoiningDate DATE;
+-- Drop table
+DROP TABLE Employee;
+-- Truncate table (delete all data, keep structure)
+TRUNCATE TABLE Employee;
+
+✅ 2. DML (Data Manipulation Language)
+🔷 Purpose: Manipulate data within tables.
+Insert, Update, Delete
+-- Insert data
+INSERT INTO Employee (Name, Salary, Department, JoiningDate)
+VALUES ('John Doe', 60000.00, 'IT', '2023-06-01');
+-- Update data
+UPDATE Employee
+SET Salary = Salary + 5000
+WHERE EmpID = 1;
+-- Delete data
+DELETE FROM Employee
+WHERE EmpID = 1;
+
+✅ 3. DQL (Data Query Language)
+🔷 Purpose: Query/fetch data.
+Select
+-- Select all employees in IT department
+SELECT * FROM Employee
+WHERE Department = 'IT';
+-- Select specific columns
+SELECT Name, Salary
+FROM Employee
+WHERE Salary > 50000;
+
+✅ 4. TCL (Transaction Control Language)
+🔷 Purpose: Manage transactions for data integrity.
+COMMIT, ROLLBACK, SAVEPOINT, SET TRANSACTION
+-- Begin transaction
+BEGIN;
+-- Update salary
+UPDATE Employee
+SET Salary = Salary + 3000
+WHERE EmpID = 2;
+-- Create savepoint
+SAVEPOINT before_bonus;
+-- Further update
+UPDATE Employee
+SET Salary = Salary + 2000
+WHERE EmpID = 2;
+-- Rollback to savepoint (undo last update only)
+ROLLBACK TO SAVEPOINT before_bonus;
+-- Commit transaction
+COMMIT;
+
+✅ 5. DCL (Data Control Language)
+🔷 Purpose: Grant or revoke permissions.
+GRANT, REVOKE.
+-- Grant select permission to user 'test_user'
+GRANT SELECT ON Employee TO test_user;
+-- Revoke select permission from user 'test_user'
+REVOKE SELECT ON Employee FROM test_user;
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+✅ 1. Primary Key
+🔷 Definition:
+A column or set of columns that uniquely identifies each row in a table.
+Cannot contain NULL values.
+Only one primary key per table.
+
+CREATE TABLE Employee (
+  EmpID SERIAL PRIMARY KEY,
+  Name VARCHAR(50),
+  Department VARCHAR(30)
+);
+✔ Here, EmpID is the Primary Key uniquely identifying each employee.
+
+✅ 2. Foreign Key
+🔷 Definition:
+A column in one table that refers to the Primary Key of another table.
+Used to establish relationships between tables (enforces referential integrity).
+
+CREATE TABLE Department (
+  DeptID SERIAL PRIMARY KEY,
+  DeptName VARCHAR(50)
+);
+
+CREATE TABLE Employee (
+  EmpID SERIAL PRIMARY KEY,
+  Name VARCHAR(50),
+  DeptID INT REFERENCES Department(DeptID)
+);
+✔ Here, DeptID in Employee table is a Foreign Key referring to DeptID in Department table.
+
+✅ 3. Composite Key
+🔷 Definition:
+A Primary Key made up of two or more columns to uniquely identify a row.
+Used when a single column is not sufficient to uniquely identify a row.
+
+CREATE TABLE CourseRegistration (
+  StudentID INT,
+  CourseID INT,
+  RegistrationDate DATE,
+  PRIMARY KEY (StudentID, CourseID)
+);
+✔ Here, the combination of StudentID and CourseID forms the Composite Primary Key, as neither alone uniquely identifies a registration.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+                              Constraints
+
+| **Constraint**  | **Description**                                                                          | **Example Syntax**                                 | **Explanation**                                                                                    |
+| --------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **PRIMARY KEY** | Uniquely identifies each record in a table. Combines **UNIQUE + NOT NULL**.              | `id SERIAL PRIMARY KEY`                            | Creates a primary key column `id` which auto-increments and cannot be null.                        |
+| **FOREIGN KEY** | Maintains **referential integrity** by linking to primary key of another table.          | `user_id INT REFERENCES users(id)`                 | `user_id` in orders table refers to `id` in users table ensuring only valid user IDs are inserted. |
+| **UNIQUE**      | Ensures all values in a column are **distinct**.                                         | `email VARCHAR(50) UNIQUE`                         | Ensures no duplicate emails are inserted into the table.                                           |
+| **NOT NULL**    | Ensures a column **cannot have NULL values**.                                            | `name VARCHAR(100) NOT NULL`                       | Requires every record to have a value for `name`.                                                  |
+| **CHECK**       | Enforces a condition for values in a column.                                             | `age INT CHECK (age >= 18)`                        | Only allows age values greater than or equal to 18.                                                |
+| **DEFAULT**     | Assigns a **default value** to a column if no value is provided during insert.           | `created_at TIMESTAMP DEFAULT NOW()`               | Automatically sets `created_at` to current timestamp if not provided.                              |
+| **EXCLUDE**     | Prevents certain combinations of column values using an index with exclusion constraint. | `EXCLUDE USING gist (room WITH =, during WITH &&)` | Ensures no two rows have overlapping time ranges in the same room (used with range types).         |
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+                            drop  VS  delete  VS truncate
+| **Operation** | **Description**                                                                                | **Syntax Example**                   | **Impact**                                                               | **Rollback Support**                                               | **Cautions**                                                                                                                  |
+| ------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| **DELETE**    | Removes specific rows based on condition; supports **ON DELETE CASCADE** to delete child rows. | `DELETE FROM employees WHERE id=10;` | Deletes selected rows; table structure remains; slower for large data.   | ✅ Yes – can rollback DELETE if within transaction.                 | Avoid DELETE without WHERE. Check cascade to avoid unintended child data deletion. Leaves table, constraints, indexes intact. |
+| **TRUNCATE**  | Removes **all rows quickly**; cannot delete specific rows.                                     | `TRUNCATE TABLE employees;`          | Deletes all data instantly; resets identity if used; faster than DELETE. | ✅ Yes – can rollback TRUNCATE if within transaction in PostgreSQL. | Cannot use WHERE. Fails if foreign key exists without CASCADE. Does not fire DELETE triggers.                                 |
+| **DROP**      | Deletes entire table structure and data permanently.                                           | `DROP TABLE employees;`              | Removes table, data, constraints, indexes, privileges completely.        | ✅ Yes – can rollback DROP if within transaction in PostgreSQL.     | Cannot recover table after commit unless backup exists. Use carefully in production.                                          |
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+

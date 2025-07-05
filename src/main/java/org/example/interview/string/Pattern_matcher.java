@@ -14,7 +14,7 @@ public class Pattern_matcher {
     return count;
     }
     public static void main(String[] args){
-        String ip = "11Hdns&53211fff"; //pattern = 11 count ??
+        String ip = "11Hdns&53211ff11f"; //pattern = 11 count ??
         System.out.println( matched_pattern_count(ip,"11") );
     }
 }
