@@ -1,0 +1,225 @@
+
+id ,
+name , class name , tag name ,
+link text , partial link text ,
+xpath ,
+css
+
+
+        driver.findElement(By.id("")); // id
+        // amazon - cart | id="nav-cart-count"]
+        // By.id("nav-cart-count")
+//-------------------------------------------------------------------------------------------------------------------------------------
+        driver.findElement(By.name("")); // name
+        // amazon - search box top | name="field-keywords"
+        // By.name("field-keywords")
+//-------------------------------------------------------------------------------------------------------------------------------------
+        driver.findElement(By.className("")); // class name
+        // amazon - logo | class="nav-logo-link nav-progressive-attribute"
+                    country flag element (top right)| class="icp-nav-link-inner"
+        // By.className("nav-logo-link nav-progressive-attribute") X multiple classes
+        // By.className("nav-logo-link") (single class) correct can use only single class here
+        // By.className("icp-nav-link-inner")
+//-------------------------------------------------------------------------------------------------------------------------------------
+        driver.findElement(By.tagName("")); // tag name
+//-------------------------------------------------------------------------------------------------------------------------------------
+        driver.findElement(By.linkText("")); // link text ( test  behind which link is enabled )
+        //amazon - sell section |  <a href="/b/?_encoding=UTF8&amp;ld=AZUSSOA-sell&amp;class="nav-a
+                                    " tabindex="0" data-csa-c-type="link"  data-csa-c-content-id="nav_cs_sell" >
+                                    Sell
+                                    </a>
+        //         By.linkText("Sell")
+//-------------------------------------------------------------------------------------------------------------------------------------
+        driver.findElement(By.partialLinkText(""));// partial link text link text ( test  behind which link is enabled )
+        // Amazon - returns and orders | Returns
+                                            & Orders
+        // By.partialLinkText("Returns")
+//-------------------------------------------------------------------------------------------------------------------------------------
+        driver.findElement(By.xpath(""));// xpath
+        // amazon - cart | id="nav-cart-count"
+        //           By.xpath("//div/span[@id="nav-cart-count"")
+        // amazon - return and orders| href="/gp/css/order-history?ref_=nav_orders_first"
+        //           By.xpath("//div/a[@href="/gp/css/order-history?ref_=nav_orders_first"]")
+//-------------------------------------------------------------------------------------------------------------------------------------
+        driver.findElement(By.cssSelector(""));// css
+        // amazon - search box zoom lens icon | div span input[id="nav-search-submit-button"]
+        //          By.cssSelector("div span input[id=\"nav-search-submit-button\"]")
+-------------------------------------------------------------------------------------------------------------------------------------
+                       X apth and css
+                       / - absolute xpath
+                       // relative xpath |  ( / for immediate child )
+                                             ( // for all children )
+                       css       |  ( "" for immediate child )
+                                  ( " " space for all children )
+     ** absolute is faster
+-------------------------------------------      X P A T H   L O C A T E R S      -----------------------------------------------------------
+why automation ?
+>> To reduce human error,efforts and dependency
+to perform certain repetitive tasks which are important and require frequent testing.
+
+what is Selenium ?
+>> An open source umbrella project/API that consists of tools and libraries
+that enable and support the automation of web browsers and mimic the human actions.
+
+HTML  (Hyper Text Markup Language)
+Hypertext > the link between the web pages
+markup > used to define the text document within tag which defines the structure of web pages.
+It is used to create web pages and web applications.
+we can create our own static page.
+It is used for display purpose.
+
+DOM (Document Object Model)
+Its an object-oriented representation of the web page,
+which can be modified with a scripting language such as JavaScript.
+Anything found in an HTML or XML document can be
+accessed, changed, deleted, or added using the Document Object Model, with a few exceptions.
+DOM is a programming API(interface) for HTML and XML documents,
+which defines the logical structure of documents and the way a document is accessed and manipulated.
+
+Xpath ( XML Path language )
+It helps to locate element and navigate nodes, within the XML and HTML documents.
+generally we should use CSS selectors as they are fast ***,
+but in below conditions we use xpath
+1) when element can’t be located with css
+   ex. element doesn’t have id or class or attribute and its duplicate in nature
+2) Requirement where user wants to search elements both forwards and backwards in the DOM hierarchy,
+   What this means is that with XPath, you could locate parent elements by using child elements.
+
+Absolute
+starts with single forward slash ( / ),
+Ex. /html/body/div[2]/header/div/div[3]/div[1]/div[1]/span/a/div[2]/span[1]
+Absolute XPath Expression locate the UI elements faster ***
+as they contain the Complete/Full path of the UI element from the root
+but Not Reliable in a product where ui change can happen often.
+
+Relative
+starts with double forward slash ( // )
+Ex.  //div[@id='nav-main']//span[@class='nav-line-1']
+Reliable when compared to the Absolute XPath Expressions and
+can sustain small changes in the UI elements on the web page
+but its comparatively slower than absolute Xpath expression.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+id-
+class-
+attribute-
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+text
+url >> https://www.yatra.com/
+
+exact-  text() = ''
+//*[ text() = 'Holidays' ]
+//li/span[ text() = 'Holidays' ]
+
+partial- contains( text() , '' )
+//li/span[ contains(  text() , 'Holi' ) ]
+//span[ not( contains( text() , 'Holidays' ) ) ]
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+starts, ends, contains
+url >> amazon | https://www.amazon.com/primeday?ref_=nav_cs_gb
+
+starts-with()
+//span[starts-with(text(),'Samsung Galaxy')]
+//span[@aria-hidden="true" and starts-with(text(),'Samsung Galaxy')]
+
+** ends-with() - doesn't works with xpath 1.0
+>>  (Chrome, Firefox, Edge, Safari) currently implement only XPath 1.0.
+//a[ends-with(@aria-label,'Kitchen')]
+
+contains(@attribute , '' )
+url >> flipkart | https://www.flipkart.com/
+//div//a[contains(@aria-label , 'Appliances')]
+//div[ contains( @aria-label , 'on' ) ]
+//div//a//span[contains(text() , 'Login' )]
+//div//a//span[not( contains(text() , 'Login' ) )]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+family tree
+
+url >> Amazon | https://www.amazon.com/ref=nav_logo
+
+parent - element >> sign in >> in parent div of >> Accounts and Lists
+//span[ contains ( text() , 'Account & Lists' ) ]/parent::a//span[text()='Hello, sign in']
+
+child - element >> sign in >> from parent @id='nav-link-accountList' >> to child >> span
+//div[ @id='nav-link-accountList']/a/div/span[text()='Hello, sign in']
+
+nth child - element >> hello sign in (full ele)
+//div[@id="nav-tools"]/div[2]
+
+sibling
+>> following >> downward - element- footer >> Get To Know Us >> Amazon Devices
+//li[@class="nav_first"]/following-sibling::li//*[text()='Amazon Devices']
+>> preceding >> upward
+    //a[ contains( @class,'a-link-normal' ) and text()='Start here.' ]/parent::div/preceding-sibling::span
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+child , grand child, out of family *
+element >> footer >> start here. >> link
+
+>> preceding - all matching tags / in family or not doesn't matter
+    //a[ contains( @class,'a-link-normal' ) and text()='Start here.' ]/preceding::div
+>> following - all matching tags / in family or not doesn't matter
+    //a[ contains( @class,'a-link-normal' ) and text()='Start here.' ]/following::div
+
+>> ancestor - all matching tags - previous ones / ** only in family - all above parent:parent hopping
+    //a[ contains( @class,'a-link-normal' ) and text()='Start here.' ]/ancestor::div
+>> descendant - all matching tags - following ones / ** only in family - before closing parent tag
+    //div[@class="rhf-state-signin"]/descendant::div
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+normalize
+svg
+shadow
+psuedo
+
+
+
+-------------------------------------------      C S S   L O C A T E R S      -----------------------------------------------------------
+
+                                    General format >>  tag  , tag[attribute='value']
+
+id : a[id='a-autoid']  -  a#a-autoid
+class : a[class='a-button'] -  a.a-button
+any random attribute :  div[aria-label='Your recently']
+
+>>>>>> Partial matching  : attributes
+Start: Tag[attribute ^= 'value']   Ex. div a img[ alt ^= 'OnePlus' ]
+End: Tag[attribute $= 'value']  Ex. div a img[ alt $= 'OnePlus' ]
+Tag[attribute *= 'value'] Ex. div a img[ alt *= 'OnePlus' ]
+
+>>>> match text or partial text or contains
+NO
+SUCH
+FUNCTIONALITY
+>>>>>> Family Tree Navigation
+Parent  - Can’t travel to parent node
+
+first-child - li:first-child / li:first-of-type
+target only the first child of the element's parent.
+
+last-child - li:last-child
+target only the last child of the element's parent.
+
+only-child - span:only-child / li:only-of-type
+target elements which are the only child of its parent.
+
+nth-last-of-type - td:nth-last-of-type(2) / td:nth-last-child(2)
+Select according to the type of element and nth last position of element.
+>>>>>>>> more
+Preceeding Sibling :- No such thing
+Preceeding :- No such thing
+
+following sibling / following ( + )
+Ex : tr#extra_line+tr em
+
+nth element - li:nth-of-type(2) / li:nth-child(2)
+select according to the type of element and position of element.
+
+Direct Child : ( > )
+Descendents : ( space  )
+>>>>>>>
+    //dynamic elements
+    //hidden elements
+    //shadow dom elements
+    // svg
+    */
