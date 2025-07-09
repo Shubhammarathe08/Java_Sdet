@@ -100,8 +100,11 @@ can sustain small changes in the UI elements on the web page
 but its comparatively slower than absolute Xpath expression.
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 id-
+//div[@id='nav-logo']
 class-
+//div[@class="nav-search-submit nav-sprite"]
 attribute-
+//span[@aria-label="Go"]
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 text
 url >> https://www.yatra.com/
@@ -166,60 +169,104 @@ element >> footer >> start here. >> link
 >> descendant - all matching tags - following ones / ** only in family - before closing parent tag
     //div[@class="rhf-state-signin"]/descendant::div
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+url >> flipkart
+https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off
 
-normalize
-svg
-shadow
-psuedo
+and
+    //div[contains(text(),'POCO') and contains(text(),'128')  and contains(text(),'Blue') ]
+or
+    //div[contains(text(),'POCO') and ( contains(text(),'128')  or contains(text(),'Blue') ) ]
 
+dynamic xpath
+url >> yatra
+https://www.yatra.com/
+   //*[@class='MuiTabs-root css-hfnaye']//button//span[1][contains(text(),'Holidays')]    // +""+
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+text() - 0 param
+normalize-space(@) - 1 param >> attribute/text()
+contains(@,'') - 1 param >> attribute/text() , "to compare" - value/text
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+normalize-space(@attribute) = ''  / contains( normalize-space(@attribute) , ''  )
+normalize-space(text()) = ''      /  contains( normalize-space(text()) , ''  )
+   //div[normalize-space(text())='New customer?']
+   //*[ contains(   normalize-space( text() ) , ' Start here' ) ]
+
+   ** HTML
+   <div class="_16ZfEv"><a class="YLCOuy" href="#" aria-label="  Flipkart     MY       "
+   title="Flipkart"><picture title="Flipkart">
+
+  //*[ normalize-space(@aria-label) = 'Flipkart MY']
 -------------------------------------------      C S S   L O C A T E R S      -----------------------------------------------------------
 
-                                    General format >>  tag  , tag[attribute='value']
+                             Css Selectors ( Cascading Style Sheets )
 
-id : a[id='a-autoid']  -  a#a-autoid
-class : a[class='a-button'] -  a.a-button
-any random attribute :  div[aria-label='Your recently']
+id- <Imp>
+div[id='nav-logo']   |    div#nav-logo
+class- <Imp>
+div[class="nav-search-submit nav-sprite"] | div.nav-search-submit.nav-sprite (* multi class c1.c2.c3)
+attribute- <Imp>
+span[aria-label="Go"] |
 
 >>>>>> Partial matching  : attributes
 Start: Tag[attribute ^= 'value']   Ex. div a img[ alt ^= 'OnePlus' ]
 End: Tag[attribute $= 'value']  Ex. div a img[ alt $= 'OnePlus' ]
 Tag[attribute *= 'value'] Ex. div a img[ alt *= 'OnePlus' ]
 
+starts-with
+div a img[ title^='Flip']
+
+** ends-with - works with css
+div a img[ title$='kart']
+
+contains(@attribute , '' ) * w.r.t attribute not text
+div a img[alt*='OnePlus']
+
 >>>> match text or partial text or contains
 NO
 SUCH
 FUNCTIONALITY
+
 >>>>>> Family Tree Navigation
 Parent  - Can’t travel to parent node
+Child -
+          immediate child  >   *forward arrow   <Imp>
+          relative childs " "  *space           <Imp>
+
+element - amazon footer >> sections & sub sections
 
 first-child - li:first-child / li:first-of-type
 target only the first child of the element's parent.
+div.navFooterLinkCol.navAccessibility:first-child
 
 last-child - li:last-child
 target only the last child of the element's parent.
+div.navFooterLinkCol.navAccessibility:last-child
 
 only-child - span:only-child / li:only-of-type
 target elements which are the only child of its parent.
+span.nav-search-submit-text input:only-child
+span.nav-search-submit-text input:only-of-type
 
-nth-last-of-type - td:nth-last-of-type(2) / td:nth-last-child(2)
+nth-child(2) ,nth-of-type(2), nth-last-of-type(2) , nth-last-child(2)
 Select according to the type of element and nth last position of element.
->>>>>>>> more
+div.navFooterLinkCol.navAccessibility:first-child li:nth-child(6) | top-bottom  <Imp>
+div.navFooterLinkCol.navAccessibility:first-child li:nth-of-type(6) | top-bottom
+div.navFooterLinkCol.navAccessibility:first-child li:nth-last-of-type(1) | bottom-top
+div.navFooterLinkCol.navAccessibility:first-child li:nth-last-child(1) | bottom-top
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> more
 Preceeding Sibling :- No such thing
-Preceeding :- No such thing
+following sibling / following ( + )   <Imp>
+element >> amazon footer >> 1 sections >> 2nd child >.
+div.navFooterLinkCol.navAccessibility:first-child ul>li:nth-child(1)+li
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Extreme Xpath
 
-following sibling / following ( + )
-Ex : tr#extra_line+tr em
+url >> tutorials point | https://www.tutorialspoint.com/how-to-use-xpath-in-selenium-webdriver-to-grab-svg-elements
+Svg - name() , local-name()
+//*[name()='svg' and @data-icon='house']/*[local-name()='path']
 
-nth element - li:nth-of-type(2) / li:nth-child(2)
-select according to the type of element and position of element.
+Shadow Root Element
+Pseudo
 
-Direct Child : ( > )
-Descendents : ( space  )
->>>>>>>
-    //dynamic elements
-    //hidden elements
-    //shadow dom elements
-    // svg
-    */
