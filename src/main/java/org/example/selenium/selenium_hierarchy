@@ -17,3 +17,103 @@ Timeouts (I), |    Navigation (I)          |                 JavaScriptExecutor 
                                +------------+------------+
                                |                         |
                        ChromeDriver (C)           EdgeDriver (C)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  Interfaces
+SearchContext (I) - Root Interface
+WebDriver (I)
+TakesScreenshot (I)
+JavaScriptExecutor (I)
+Alert (I)
+WebElement (I)
+Navigation (I)
+Timeouts (I)
+Wait (I)
+Options (I)
+TargetLocator (I)
+Window (I)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   Classes
+               RemoteWebDriver (class)
+            ChromiumDriver  (class)
+ChromeDriver  (class),   EdgeDriver  (class)
+FirefoxDriver  (class) ,
+InternetExplorerDriver  (class)
+SafariDriver  (class)
+
+Duration (Class)
+Timeunit (Class)
+
+WebDriverWait (class)[Child]  extends FluentWait (class) [Parent]
+ExpectedConditions (class)
+Actions (class)
+Select (class)
+By (Abstract class)
+ChromeOptions (class)
+WebDriverException (class) extends RuntimeException  (unchecked)
+   >> Root Class Selenium exceptions
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+KEYS (Enum)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   Methods and Arguments and Return Type
+   >>>  name | argument | return type
+
+        get() | String url | void
+        navigate() | | Navigation
+        to() | String url/URL url | void
+        back() |  | void
+        forward() |  | void
+        refresh() |  | void
+
+        manage() ** timeouts/window | | Options
+        logs() |
+        addCookie() | Cookie cookie | void
+        getCookies() | | Set<Cookies>
+        deleteCookie() | Cookie cookie | void
+        deleteAllCookies() | | void
+
+        timeouts() | | Timeouts
+        implicitlyWait() | long, TimeUnit.SECONDS / Duration.ofSeconds(long) | Timeouts
+        WebDriver wait = WebDriverWait(WebDriver driver, Duration timeout, Duration sleep)
+        WebDriver wait = WebDriverWait(WebDriver driver, Duration timeout)
+        Wait<WebDriver> fluentWait = new FluentWait<>(T input) | driver , anything else
+        <T> T until(Function<? super F, T> isTrue);
+
+        window() |  | Window
+         maximize() |  | void
+         minimize() | | void
+         getSize(); | | Dimension
+         setSize() | Dimension targetSize | void
+         getPosition() | | Point
+         setPosition() | Point targetPosition | void
+
+        switchTo() | | TargetLocator
+
+
+
+
+
+
+                void fullscreen();
+
+        getTitle() |  | String >> retrieves the title of the current web page.
+        getCurrentUrl() |  | String >> retrieves the URL of the current web page loaded in the browser.
+        getWindowHandle() | | String >> current window id
+        getWindowHandles() | | Set<String> >> retrieves a set of all open window handles (IDs)
+                                              in the current WebDriver session.
+        getPageSource() | | retrieves the entire HTML source code of the current web page as a String
+
+        findElements(By by); | By | List<WebElement>
+        findElement(By by); |  By | WebElement
+        ** By class has all static methods + static classes for each method
+
+    String getCurrentUrl();
+    String getTitle();
+
+
+    void close();
+    void quit();
+    Set<String> getWindowHandles();
+    String getWindowHandle();
+    TargetLocator switchTo();
+    Navigation navigate();
+    Options manage();

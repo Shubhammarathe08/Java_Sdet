@@ -1,0 +1,310 @@
+1. Introduction & Experience
+Introduce yourself.
+
+Can you provide a brief introduction about yourself, including your experience and key skills?
+Tell me something about yourself.
+Explain your Automation Framework, all the components.
+Describe your test automation framework and its components.
+Have you created a framework from scratch? Explain the architecture.
+Which design pattern have you used in your framework?
+What are your roles and responsibilities in the project?
+How many team members have you led in your previous projects, and what were your key responsibilities as a lead?
+Which industry domains have you worked in throughout your career?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+2. Core Java
+OOPs Concepts
+Explain OOPs concepts with real-time examples.
+What are the three key OOP concepts implemented in your framework? Explain each with examples.
+What is abstraction? Explain where/how it shows up in your automation framework.
+How can we achieve 100% abstraction in Java?
+What is an interface?
+What is polymorphism? Where have you applied it in your framework?
+What is method overloading and method overriding? Explain both and where you used them in your framework.
+Can we overload or override static methods?
+Difference between constructor overloading and method overloading.
+Explain different types of Inheritance.
+What is a constructor? Walk through how your base class uses it to set up WebDriver.
+Can we overload a constructor in Java?
+Can we override a constructor in Java?
+Is constructor overloading possible?
+What is the final keyword in Java?
+What is the static keyword in Java and its primary use cases?
+What is a static class? What's the use of it?
+Can a class be private, and where can it be used?
+What is the use of the protected access modifier?
+What is memory management in Java?
+What is method hiding in Java?
+What is the purpose of interfaces in Java? Provide examples of how you have implemented them in your test automation framework.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Collections
+Internal working of collections.
+What collection will you choose and why?
+What are the major differences between "ArrayList" and "LinkedList" in Java?
+Difference between "List" and "Set" in Java.
+Internal working of TreeMap and HashMap.
+Difference between Comparable and Comparator.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Strings
+SCP and string literals – how do they work?
+How many String objects will be created?
+       String s1 = new String("JAVA");
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Multithreading
+Write a synchronized Singleton class.
+How do you ensure thread safety while running tests in parallel?
+Explain the static keyword in Java and its primary use cases.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Exception Handling
+What are exceptions in Java?
+List some exceptions you faced during automation and how you handled them.
+What is finally block in Java?
+Difference between finally and finalize in Java.
+Difference between throw and throws.
+What is NullPointerException?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Miscellaneous Java Programs
+Write a Java program to convert uppercase letters to lowercase.
+Write a Java program to convert uppercase to lowercase and vice versa (e.g., HexAwarE → hEXaWARe).
+Write a Java program to find the second largest number in an array.
+Write a Java program to find the largest and smallest elements in an array.
+Write a Java program to print all the array elements that appear at least 2 times.
+Write a Java program to compute the factorial of a given number.
+Write a Java program to reverse a given number.
+Write a Java program for the sum of n prime numbers.
+Write code to read username & password from a properties file.
+Write a program to find if a number is prime.
+Write a program for sum of n prime numbers.
+Given an array (6, 8, 11, 6, 7, 18) and a target sum of 17, write a program to find the indices of any two elements whose sum equals the target.
+Write a Java program to reverse a string.
+Write a Java program to reverse each word in a string.
+      Input: "I am a software Tester"
+      Output: "I ma a erawtfos retseT"
+Write a Java program to reverse the entire sentence.
+     Input: "I am a Software Tester"
+     Output: "Tester Software am I"
+Write a Java program to remove duplicate characters from a string.
+Write a Java program to count and display duplicate characters in a given string.
+Write a Java program to count and display the number of occurrences of the character "A" in a given string.
+Write a Java program to determine the frequency of each character in a given string and identify the character that appears most frequently.
+Write a Java program to compute and display the frequency of every character in a given string.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Selenium & Automation Testing
+
+Locators & Waits
+What are the different types of locator strategies in Selenium?
+Write the syntax for explicit wait in Selenium.
+What kind of waits are there in Selenium?
+In what cases do we need to use implicit/explicit wait?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Handling Web Elements
+How do you handle dynamic web elements?
+Write the syntax of the Select class and explain its methods.
+How do you handle iFrames?
+How do you switch to different windows in Selenium?
+Why do we use SET in Window Handles?
+How do you handle mouse actions in Selenium?
+How do you handle keyboard actions in Selenium?
+How do you press the ENTER key using the Actions class? Write the syntax.
+How do you use the SHIFT key to type uppercase letters in Selenium? Write the syntax.
+How to print all the links from a webpage? Where do you store those links?
+How to check for broken links? How would you validate each link if there are 20 links on a webpage?
+Write code to find Broken Links in Selenium.
+How to handle multiple frames?
+You have 3 frames (Frame A, Frame B, Frame C). After clicking Frame C, the application opens another tab containing a login, password, and sign-in function. Write the Selenium automation script for this scenario.
+How to handle Location popup in Selenium?
+How to handle dynamic dropdowns in Selenium?
+A JavaScript alert appears randomly on a button click — how do you handle it in Selenium?
+How can you retrieve the font type, color, and size of a text element in Selenium?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Exceptions in Selenium
+What is a StaleElementReferenceException? Why does it occur, and how can it be resolved?
+What is an ElementNotFoundException? Why does it occur, and what are the best solutions?
+List some exceptions you faced during automation and how you handled them.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Page Object Model & Design Patterns
+What is a Page Object Model?
+What are the advantages and disadvantages of the Page Object Model?
+Page Object or not? What trade-offs?
+What is a Singleton Design Pattern?
+What is the purpose of a constructor in Page Factory?
+Explain Page Factory in Selenium and its annotations.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+TestNG
+What are different types of TestNG Annotations used?
+Write the hierarchy of annotations in TestNG.
+What is the difference between Soft Assertion and Hard Assertion in TestNG?
+Scenario: You have two test methods – one with priority = 1 and another without any priority. What will be the order of execution in TestNG?
+In TestNG, how will you ensure that screenshots will be taken only for failed test cases?
+Suppose you have 200 test cases and 49 fail, how would you collect the data of only failed test cases in TestNG? Best way?
+Which TestNG listeners have you used in your automation framework?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Cucumber
+How do you run your test cases in parallel in Cucumber?
+Explain the contents of the Runner File in Cucumber.
+What is the difference between Scenario and Scenario Outline in Cucumber?
+What are your Cucumber options?
+In Cucumber, how can you ensure that a specific piece of code runs only before the first scenario in a feature file?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Selenium Grid & Parallel Testing
+What is Selenium Grid?
+How do you perform parallel testing in TestNG or Selenium Grid?
+How can you execute Selenium test cases on a remote machine?
+Explain how do you perform parallel execution in your framework.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Framework & CI/CD Integration
+How do you integrate and execute your Selenium tests in a CI/CD pipeline?
+Explain how Jenkins is integrated into a CI/CD pipeline.
+Which CI/CD pipeline tools have you worked with? Can you explain your experience in implementing them?
+What is Maven Surefire plugin?
+How do you manage dependencies?
+Where's the reporting?
+How do you generate Reports in Selenium?
+How do you customize reports after your test execution?
+How do you manage test data?
+How do you pass data to your Selenium Scripts?
+How do you decide the priorities of your Test Cases?
+If you want to execute one test case again and again, how do you do that?
+How do you run the failed test cases?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Scenario-Based Questions
+Scenario: Open the Myntra website and search for "mobile". Write an XPath to capture the price of each mobile displayed in the results.
+Write an XPath expression to locate the label named "Senior Citizen" on the SpiceJet UI.
+Write an XPath expression to locate a specific cell in a web table based on the value of a neighboring cell.
+A particular text can appear in any cell within a web table. How would you locate it dynamically?
+Using Selenium WebDriver, write an automation script to open W3Schools, extract all company names from the "Tables" section, and verify if a specific text exists within the extracted list.
+What is the difference between CSS Selectors and XPath?
+How do you perform verification and assertion in Selenium?
+What is the difference between driver.get() and driver.navigate().to()?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+4. API Testing
+HTTP Methods & Status Codes
+What are the different HTTP methods used in API testing?
+In API testing, how do the "POST" and "PUT" methods differ in terms of functionality and implementation?
+What are the common HTTP status codes you have encountered during API testing?
+Explain the HTTP status codes "401 Unauthorized" and "500 Internal Server Error". What do they indicate?
+What is the difference between 201 and 204 Status Code?
+What is the difference between 401 and 403 Status Code?
+What are Path parameters and Query parameters in API testing?
+What is the difference between Query Parameters and Path Parameters?
+What are the components of an API Request?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Tools & Techniques
+How do you mock third-party APIs in your test environment?
+What is dependency injection in Rest Assured? How does it enhance API testing?
+How to perform data-driven testing in Postman?
+What are the important validations you will put on an API?
+Validate a given API payload and explain your approach.
+Have you tested GraphQL APIs? What was your testing approach?
+What is REST, and how does it function?
+What is WSDL, and what role does it play?
+How do SOAP and REST differ in web service design?
+What is a web service, and why is it important in today's applications?
+Have you tested REST web services before, and how was your experience?
+Why do we use SOAP UI for testing?
+What assertions are commonly used in SOAP UI?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Scenario-Based API Testing
+Simulate Two Users Updating Same Record
+Goal: Detect race conditions
+Expected Behavior: Server should lock or manage conflicts (e.g., optimistic locking). Second update should wait or fail gracefully.
+Handling 500 Internal Server Errors
+Steps: Get access to server logs/tools (e.g., New Relic, Datadog), track request timestamp + endpoint, analyze error stack for root cause.
+Mock API Responses
+Use When: Backend is not ready or unstable. Tools: Postman (Mock Server), WireMock, Mockoon. Benefit: Test frontend or client integration early.
+Monitor for API Slowdowns
+Track Metrics: Response time trends. Tools: Datadog, New Relic, Postman Monitors. Trigger: Alert if response time increases over time.
+Find Access Tokens in Browser
+How: Local Storage → DevTools > Application tab, Network Tab → Check login API response, Console → window.localStorage.getItem('tokenKey').
+Validate JSON Schema
+Use tools like JSON Schema Validator. Helps ensure consistent structure in response fields.
+Check for Missing Fields or Nulls
+Validate each key-value pair. Edge Case: Fields should not be missing or randomly null without reason.
+Test with Realistic & Edge Data
+Use valid, invalid, empty, too long, and special character data. Helps catch validation gaps.
+Automate Regression with API Tests
+Use tools like RestAssured, Postman (Collection Runner), or Karate. Automate common flows (login, create, update, delete).
+Test Caching Behavior
+Repeated GETs → Are they faster? Use headers like Cache-Control, ETag, If-None-Match. Verify cache hits vs. misses.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+5. SQL & Database Testing
+SQL queries related to joins, min, max, average, group by.
+What is the use of GROUP BY in SQL?
+Write a SQL query to get a mini-statement of my bank for a range of dates.
+What SQL query would you use to get the second highest salary from a table?
+Have you tested GraphQL APIs? What was your testing approach?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+6. Git & Version Control
+How do you resolve Conflicts in Git?
+What is the difference between git pull and git patch?
+If you join a new project, what git commands do you use from start to end? What are the stages you follow?
+Explain commonly used Git commands and branching strategies.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+7. Agile & Testing Methodologies
+What is the defect life cycle?
+What is the difference between Agile and Waterfall Model?
+What is 3 Amigos?
+Difference between Scrum and Kanban.
+Smoke vs Sanity Testing, Regression vs Retesting.
+What do we mean by bug leakage, and how do we handle it?
+Can you give a brief explanation of Agile methodology?
+What is RTM and why is it essential in testing?
+What is integration testing, and how is it conducted?
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+8. Scenario-Based & Behavioral Questions
+How would you test a payments system end-to-end?
+There's a flaky test failing in CI – walk me through debugging.
+You missed a blocker bug – what now?
+Given a login form, how would you test for brute-force attacks?
+What if the backend API is intermittently failing – how do you approach?
+No clear PRD for a new feature – what now?
+If a developer says “this is not a bug”, how would you convince them otherwise?
+How would you handle a critical bug discovered just before release?
+How many testers are in your team, and how is work distributed?
+Explain how to retrieve an Excel file name using a Data-Driven Framework (DDF).
+What is the JavaScript command to scroll up and down on a webpage?
+Do you have any questions for us regarding the role or company?
+

@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public class Waits {
@@ -28,8 +29,8 @@ public class Waits {
             driver.manage().window().maximize();
 
             // implicit wait >>>>>>>>>>
-            // applied to whole page - all elements
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+            // applied to whole page - all elements // Duration.ofSeconds(30)
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             // Waits up to 10 seconds for any element to appear before throwing NoSuchElementException.
 
 

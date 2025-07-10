@@ -22,6 +22,11 @@ public class JavaScriptExecutorExamples {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(); // local Execution
 
+            // click - script , ele | "arguments[0].click();" , ele
+            // height - vertical | window.scrollTo ( from , to ) | document.body.scrollHeight
+            // height - vertical | window.scrollTo ( from , to ) | -document.body.scrollHeight
+            // scrollIntoView() | "arguments[0].scrollIntoView(true);", ele
+
             // Js Executor
             JavascriptExecutor js = (JavascriptExecutor) driver;
             //  Object executeScript(String script, Object... args); | min 1 >> script Rest Var Arg
