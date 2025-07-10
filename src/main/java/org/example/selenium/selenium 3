@@ -7,6 +7,11 @@ jason wire protocol >> upto 3.7
 jason wire protocol + w3c >> 3.8 to 3.141.59
 only w3c > 4.0 onwards
 latest stable version >> 4.33
+selenium manager -
+>> 4.6 and  onwards
+3.141.59 | run with Java versions 7, 8, 9, 11 | XXX 17 and onwards | max 11
+4 and onwards | run with Java versions 8, 9, 11 | XXX 7 and lower | min 8
+
 
                             [Java Test Code]>>(scripts for application flow logic)
                                      |

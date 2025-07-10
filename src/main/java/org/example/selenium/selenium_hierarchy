@@ -79,14 +79,27 @@ KEYS (Enum)
         <T> T until(Function<? super F, T> isTrue);
 
         window() |  | Window
-         maximize() |  | void
-         minimize() | | void
-         getSize(); | | Dimension
-         setSize() | Dimension targetSize | void
-         getPosition() | | Point
-         setPosition() | Point targetPosition | void
+          maximize() |  | void
+          minimize() | | void
+          getSize(); | | Dimension
+          setSize() | Dimension targetSize | void
+          getPosition() | | Point
+          setPosition() | Point targetPosition | void
 
         switchTo() | | TargetLocator
+           frame() | int index | WebDriver
+           frame() | String frame_id_or_name | WebDriver
+           frame() | WebElement element | WebDriver
+           parentFrame() | | WebDriver  *** switch back to immediate parent
+           defaultContent() | | WebDriver *** Switches WebDriver’s context back to the main (top-level) HTML document
+           window() | String nameOrHandle | WebDriver
+
+        alert() | | Alert
+          accept() | | void
+          dismiss() | | void
+          getText() | | String
+          sendKeys(); | String to_send | void
+
 
 
 

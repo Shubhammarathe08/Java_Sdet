@@ -20,7 +20,7 @@ public class Locators {
             WebElement ele = driver.findElement(By.xpath("//span//button[text()='Continue shopping']"));
             ele.click();
             Thread.sleep(2000);
-            driver.getTitle();
+            driver.findElement(By.id(""))
         }
         finally{
         }

@@ -43,7 +43,6 @@ options.setAcceptInsecureCerts(true);
 WebDriver driver = new ChromeDriver(options);
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
                Shadow DOM Example
 
 WebElement shadowHost = driver.findElement(By.cssSelector("my-element"));
