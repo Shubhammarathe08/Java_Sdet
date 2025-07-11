@@ -1,0 +1,131 @@
+
+git hub [remote repository - host location]
+git - distributed version control system (vcs)
+| **Concept**           | **Explanation**                                                        | **Example / Location**                                               |
+| --------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Remote Repo**       | Repository hosted on GitHub, GitLab, Bitbucket for team collaboration. | [https://github.com/username/repo](https://github.com/username/repo) |
+| **Local Repo**        | The .git folder tracking your project’s history on your machine.       | Hidden folder in your project directory.                             |
+| **Working Directory** | Your project files and folders where you make code changes.            | VSCode, IntelliJ, Eclipse editor files.                              |
+| **Staging Area**      | Where changes are added via `git add` before committing to local repo. | Index file managed by Git internally.                                |
+
+working directory > staging area > local repo > remote repo
+
+when we code - working directory
+               ** if we do some code - git status >> untracked files in red color
+when we add changes ( git add ./filename ) - working directory > staging area
+                                                ** after git add, green color
+when we commit changes ( git commit -m "msg" ) - staging area > local repo
+when we push changes ( git push origin master) - local repo > remote repo
+
+
+scenario :- clone a repo and use
+install git (2.xx)
+make empty folder
+- git clone "remote repo url"
+clones files+structure from remote location specified by url
+Directly creates a local repository by cloning an existing remote repository.
+- git remote
+checks remote is specified for remote repo url
+- git remote add SDET "remote repo url"
+** if git remote gave u nothing, then add remote repo url with some alias/nickname name - SDET
+** adds nickname SDET to remote repo url for frequent operation
+- git remote
+checks remote should return remote name as SDET
+- git pull SDET / git pull SDET master/main(default branch) | git pull = git fetch + git merge
+It downloads (fetches) changes from the remote repository
+Merges them into your current local branch
+- git branch | * master (if old repo before 2020) * main(after 2020)
+
+========================================================
+Scenario 1- You create a repo directly from GitHub UI
+GitHub by default creates  "main/master" branch in remote repo | * as per version before 2.28 master after it main
+(since Oct 2020 they changed default from master to main for new repos after git 2.28).
+git 2.50 - remote repo - main
+
+Scenario 2- You create am empty repo in local folder
+git 2.28  or git 2.00 or git 2.50 or any version
+git init - create .git repo into folder | local repo .git
+u did code changes file1.txt | working directory
+u added changes - git add . | staging area
+u committed changes - ??? where u are committing ???
+when commiting git creates master branch default - * master
+git commit -m "first commit"
+git branch | return >> * master
+when u try to push
+it will give error >> set up stream
+git push --set-upstream origin master/main | ** because there is no remote
+once u add remote ?? but how ?? there is no remote repo
+then create remote repo >> my_remote_repo
+default branch - * main
+git remote add origin "my_remote_repo//url"
+git remote | return >> origin
+git push origin
+it will give error >> set up stream
+git push --set-upstream origin master/main |
+** because default branch "main" | u are pushing * master
+** specify branch to push from local to remote | doesn't care abt remote
+git push origin "" | give branch name to push
+git push origin "main"  >> locally we don't have main branch , to push on remote | x not present
+git push origin "master" >> locally we don't have main branch , to push on remote | works fine
+
+| **Command**                             | **Effect**                                                      |
+| --------------------------------------- | --------------------------------------------------------------- |
+| `git push --set-upstream origin master` | Pushes local master ➔ origin/master and sets upstream tracking. |
+| `git push` (afterwards)                 | Pushes to origin/master by default.                             |
+| `git pull` (afterwards)                 | Pulls from origin/master by default.                            |
+
+
+| **Command**              | **Scenario**                         | **Result**                                                                                                                                                              |
+| ------------------------ | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `git pull origin`        | No branch specified, no upstream set | ❌ Fails. Git doesn't know which branch to pull.                                                                                                                         |
+| `git pull origin main`   | Local `main` branch does NOT exist   | ✅ Pulls `main` from remote but creates it locally as a new branch (if you checkout main first or use special flags). Otherwise, error: "Couldn't find remote ref main". |
+| `git pull origin master` | Local `master` exists                | ✅ Works. Fetches and merges `origin/master` into local `master`.                                                                                                        |
+
+
+One-line simplified analogy
+✅ Push ➔ You need local branch to exist to push it to remote.
+✅ Pull ➔ You need remote branch to exist to pull it, and local branch context to merge into.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+                     remote repo
+main
+
+                       local repo
+master
+
+git push origin "branch_name_to_Push"
+   | doesn't matter branch is on remote, we need to push our branch
+   | branch we are pushing, is it available on local ?
+
+scenario 1 :- we made folder, code, added, committed - we have * master(local)
+remote repo (* main - remote) + got remote add origin
+git push origin "master"  - Works | * locally exists + * master - remote
+git push origin   - fail >> where to push
+git push origin "main"  - fail | * locally doesn't exists
+
+git pull origin "main"  - Works | remotely exists + adds main branch to local
+git pull origin   - fail >> from where to pull
+git pull origin "master"  - Works | remotely exists
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+scenario 2 :- we made github repo * main(remote),clone * main(local)
+git pull origin "main"  - Works | remotely exists
+git pull origin   - fail >> from where to pull
+git pull origin "master"  - fail | remotely doesn't exists
+
+git push origin "master"  - Works | remotely doesn't exists
+git push origin   - fail >> where to push
+git push origin "main"  - Works | remotely exists
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+https://github.com/Shubhammarathe08/My_Company
+repo name - My_Company | main (do not touch + no access)
+master (pull/push)
+https://github.com/Shubhammarathe08/My_Company/tree/master
+git clone "master_url"
+ur branch - feature_1
+git remote add origin "master_url"
+git push origin feature_1
+PR
+PR - Approved
+merge to base branch - whatever it is (master)
+

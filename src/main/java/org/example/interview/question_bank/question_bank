@@ -90,10 +90,10 @@ Given an array (6, 8, 11, 6, 7, 18) and a target sum of 17, write a program to f
 Write a Java program to reverse a string.
 Write a Java program to reverse each word in a string.
       Input: "I am a software Tester"
-      Output: "I ma a erawtfos retseT"
+      Output: "I ma a erawtfos retseT"
 Write a Java program to reverse the entire sentence.
-     Input: "I am a Software Tester"
-     Output: "Tester Software am I"
+      Input: "I am a Software Tester"
+      Output: "Tester Software am I"
 Write a Java program to remove duplicate characters from a string.
 Write a Java program to count and display duplicate characters in a given string.
 Write a Java program to count and display the number of occurrences of the character "A" in a given string.

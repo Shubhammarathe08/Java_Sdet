@@ -119,14 +119,6 @@ KEYS (Enum)
         findElement(By by); |  By | WebElement
         ** By class has all static methods + static classes for each method
 
-    String getCurrentUrl();
-    String getTitle();
+        close() | | void  **
+        quit() | | void   **
 
-
-    void close();
-    void quit();
-    Set<String> getWindowHandles();
-    String getWindowHandle();
-    TargetLocator switchTo();
-    Navigation navigate();
-    Options manage();
