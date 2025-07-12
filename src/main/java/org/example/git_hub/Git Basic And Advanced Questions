@@ -1,0 +1,61 @@
+Git Interview Questions (10 Years Experienced)
+🔷 1. Fundamentals & Concepts
+    What is Git? Explain its architecture.
+    Difference between Git and SVN.
+    What is the difference between working directory, staging area, and repository?
+    Explain the Git workflow from local to remote.
+    What is .git folder? What does it contain?
+    What is the difference between git init and git clone?
+    What is the use of git config? How do you set global username and email?
+
+🔷 2. Branching and Merging
+    What is branching in Git? How do you create and switch branches?
+    Difference between git merge and git rebase.
+    What is a fast-forward merge vs a three-way merge?
+    How do you resolve merge conflicts?
+    What is a detached HEAD state? How do you fix it?
+
+🔷 3. Remote Repositories
+     How do you connect to a remote repository?
+     What does git remote add origin <url> do?
+     Difference between git fetch and git pull.
+     What is upstream tracking? How do you set it?
+     Explain git push --set-upstream origin branch_name.
+
+🔷 4. Commands & Use Cases
+     What does git status show you?
+     Difference between git log and git reflog.
+     What is git stash? How do you apply and drop stashes?
+     How do you delete a branch locally and remotely?
+     Explain git cherry-pick with use case.
+     What is git revert vs git reset?
+     Difference between git reset --soft, --mixed, and --hard.
+     How do you undo the last commit without losing changes?
+
+🔷 5. Advanced Git
+     Explain rebase interactive (git rebase -i) for squashing commits.
+     How do you amend a commit?
+     What is git tag? How do you create and push tags?
+     What is git bisect and when do you use it?
+     How do you see the difference between two branches?
+     How do you pull a single file from another branch?
+     What is .gitignore and .gitkeep?
+     Explain submodules in Git.
+     What is Git hooks? Have you used them?
+     Explain Git workflows: Git Flow, Feature Branching, Forking Workflow.
+
+🔷 6. Practical Scenario Questions
+     You committed secrets/passwords by mistake. How do you remove them from history?
+     Your teammate force-pushed and overwrote history. How will you recover your lost commits?
+     How to revert a specific commit in the middle of history?
+     How do you handle conflicts when multiple developers work on the same file?
+     How do you clone a repo into a specific folder?
+
+🔷 7. CI/CD and DevOps Integrations
+How do you integrate Git with Jenkins pipelines?
+
+What is webhooks in GitHub?
+
+How do you trigger build on commit push?
+
+Have you used GitHub Actions? Explain use cases.

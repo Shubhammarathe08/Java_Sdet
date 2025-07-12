@@ -1,12 +1,21 @@
 
 git hub [remote repository - host location]
 git - distributed version control system (vcs)
-| **Concept**           | **Explanation**                                                        | **Example / Location**                                               |
-| --------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| **Remote Repo**       | Repository hosted on GitHub, GitLab, Bitbucket for team collaboration. | [https://github.com/username/repo](https://github.com/username/repo) |
-| **Local Repo**        | The .git folder tracking your project’s history on your machine.       | Hidden folder in your project directory.                             |
-| **Working Directory** | Your project files and folders where you make code changes.            | VSCode, IntelliJ, Eclipse editor files.                              |
-| **Staging Area**      | Where changes are added via `git add` before committing to local repo. | Index file managed by Git internally.                                |
+
+**Remote Repo**
+    Repository hosted on GitHub, GitLab, Bitbucket for team collaboration
+    [https://github.com/username/repo](https://github.com/username/repo)
+**Local Repo**
+    The (.git) folder tracking your project’s history on your machine
+    Hidden folder in your project directory
+
+**Working Directory**
+    Your project files and folders where you make code changes.
+    VSCode, IntelliJ, Eclipse editor files
+
+**Staging Area**
+    Where changes are added via `git add` before committing to local repo.
+    Index file managed by Git internally
 
 working directory > staging area > local repo > remote repo
 
