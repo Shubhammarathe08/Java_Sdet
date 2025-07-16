@@ -1,32 +1,348 @@
 
 git hub [remote repository - host location]
 git - distributed version control system (vcs)
+>> used to track changes in source code during software development
+>> It allows multiple developers to work on a project efficiently
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+.git is a hidden folder created when you run | git init / git clone
 
+Contents:
+HEAD: points to current branch
+hooks: client-side hooks for automation
+config: project-specific configurations
+refs: references to branches, tags
+objects: all commits, trees, and blobs (actual data)
+index: staging area info
+
+Example Usage:
+If you delete .git folder, your project becomes a normal directory without Git tracking
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+**git init**
+✔ Step 1. Does not create a new folder; you run it inside an existing folder.
+✔ Step 2. Initializes a .git folder inside the current folder (creates a local repo).
+✔ Step 3. Does NOT create any branch immediately.
+A branch (usually main or master) is created only after your first commit.
+✔ Step 4. No remote is linked. You must add it manually:
+git remote add origin <repo-url>
+✔ Step 5. Does not download any files from remote. Your working directory remains as is.
+
+**git clone**
+✅ 1. Creates a folder named project/ (unless you specify a folder name).
+✅ 2. Initializes a .git folder inside it (local repo)
+✅ 3. Creates a local branch (e.g. main) pointing to origin/main.
+✅ 4. Sets up remote tracking: Your local main tracks origin/main for pull/push.
+✅ 5. Copies all files from the latest commit in main into your working directory.
+
+
+** we can clone specific branch also
+git clone -b feature --single-branch https://github.com/Shubhammarathe08/java_development_2025
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 **Remote Repo**
     Repository hosted on GitHub, GitLab, Bitbucket for team collaboration
     [https://github.com/username/repo](https://github.com/username/repo)
 **Local Repo**
     The (.git) folder tracking your project’s history on your machine
     Hidden folder in your project directory
-
-**Working Directory**
-    Your project files and folders where you make code changes.
-    VSCode, IntelliJ, Eclipse editor files
-
 **Staging Area**
     Where changes are added via `git add` before committing to local repo.
     Index file managed by Git internally
+**Working Directory**
+    Your project files and folders where you make code changes.
+    VSCode, IntelliJ, Eclipse editor files
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+| **Git**                                | **SVN**
+| ---------------------------------------|------------------------------------
+| Distributed VCS  full copy of repo/user | Centralized VCS: Single central repo
+| Faster as operations are mostly local | Slower due to server dependency
+| Supports offline commits              | Requires server connection for commits
+| Branching is lightweight and fast     | Branching is heavy and slow
+| Popular tools: GitHub, GitLab         | Popular tool: Apache Subversion (SVN)
+| Better for large, distributed teams   | Better for smaller teams needing centralized control
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Workflow
 
 working directory > staging area > local repo > remote repo
-
 when we code - working directory
                ** if we do some code - git status >> untracked files in red color
 when we add changes ( git add ./filename ) - working directory > staging area
                                                 ** after git add, green color
 when we commit changes ( git commit -m "msg" ) - staging area > local repo
 when we push changes ( git push origin master) - local repo > remote repo
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+git config
+>> Configures Git settings such as user info, editor, aliases, diff tools.
+When you install Git for the first time, whiling pull/push it will prompt for this
+you must set your username and email so your commits have identifiable author details.
+         git config --global user.name "Your Name"
+         git config --global user.email "youremail@example.com"
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Do we still use username and password for commit/push/pull ?
+
+For local commit >>> No authentication needed.
+                     Commits are local actions.
+For push/pull/clone over HTTPS >>> Username/password will not work on GitHub/GitLab.
+                                   You must use PAT or SSH key.
+Personal Access Token (PAT)
+A token generated from GitHub or GitLab that replaces your password for authentication
+when using HTTPS URLs for clone, push, and pull.
+
+no repeated prompts
+git config --global credential.helper manager-core
+
+For SSH:
+If you use SSH cloning (e.g. git@github.com:user/repo.git), your SSH key authenticates you.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+git branch
+
+branch is simply a pointer to a commit —
+a lightweight movable label that lets you isolate your work
+without affecting the main or master branch.
+
+Multiple branches help you:
+  Develop features in isolation.
+  Fix bugs independently.
+  Experiment without breaking stable code.
+
+create branch >> gut branch branch_name
+    git branch feature/login | branch-1 * it doesn't make any folder/hierarchy structure  just convention
+    git branch feature/logout |branch-2 *
+    git branch feature | branch-3 * branch- 1,2,3 are different | deleting any branch wont affect others
+    git branch TC12011
+
+list branches
+    git branch >> list current branch |  git branch - a  >> list all branches
+
+switch/checkout to branch
+    git checkout feature/login | git switch feature/login
+
+    *** smartly create + switch
+         git switch -c feature/login
+         git checkout -b feature/login
+
+Git pull | git pull = git fetch + git merge |our structure - main > master > feature
+    git pull <remote-name> <branch-name> | * The name of the remote-branch you want to pull
+    git pull origin feature/login
+    * remote branch should exist, otherwise, pull will fail
+
+    git fetch
+       downloads all new commits
+       >> from - the remote  | ** for our local if we set remote as repo url/main branch
+          into - your local repo's(local - main) remote tracking branches(remote - main)
+                 (e.g., origin/main)
+    simple : go to remote (origin/main) > check new changes/commit on feature/login
+             > download > update (local tracking branch) local-main
+             ✅ It creates/updates a reference (origin/feature/login) in your local repo
+                 to know “where the remote feature/login is pointing to.”
+              --- origin/feature/login -> commit X (tracking remote branch)
+
+    git merge
+       Merges those fetched commits into your currently checked-out branch
+       updates your working directory.
+        | you are on >> (local branch)feature_1 , it will merge changes into it
+        | you are on >> (local branch)master , it will merge changes into it
+          ** in case of master , it will not create feature/login locally and merge
+
+ in our case >> fetches from main + merge into local branch (on which we are - checked out)
+
+Git push
+     to upload your local repository content to a remote repository
+         git push <remote-name> <branch-name> | * The name of the local-branch you want to push
+         git push origin feature/login
+     * local branch should exist, otherwise, push will fail
+     Git sends the commits from your local branch to the remote repository.
+     If the remote branch doesn't exist, it will be created (unless configured otherwise).
+     If the remote branch has new commits that you don't have locally,
+     Git will reject the push (to avoid losing commits)| * need to git pull first to merge changes.
+
+git push/pull --set-upstream origin master
+    >> Push/Pull local master ➔ origin/master and sets upstream tracking
+      >> Pushes your local master branch to the remote (origin/master)
+      >> If origin/master doesn't exist, it creates it.
+      >> Sets upstream tracking for the branch
+           >> Pulls changes from origin/master into your local master branch
+           >> Sets upstream tracking for the branch
+           >> If origin/master doesn’t exist | git fetch has nothing to download → fails immediately
+
+Git rename branch
+   git branch -m old_name new_name
+   git branch -m feature/origin feature/my_origin
+
+Git delete branch
+  local branch (not yet on remote)
+  >> git branch -d feature/login
+  >> git branch -D feature/login --> force delete
+  remote branch
+  >> git push origin --delete feature/login
+
+Git Merge Branch
+Suppose you are on main and want to merge feature/login:
+
+git checkout main
+git merge feature/login
+
+steps
+ 1. Switches from your current branch to the main branch (or master, depending on your repo).
+ 2. Ensures you’re on the branch you want to merge into
+ 3. Takes all the commits from feature/login and integrates them into main.
+ 4. If there are no conflicts, Git automatically:
+ 5. Creates a new merge commit (unless it’s a fast-forward merge).
+ 6. Updates main to include feature/login's changes.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      ROLLBACKS      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Untracked -- Files Git has never seen (not in repo history).	🔴 Red
+Now git add .   /  git add <file>  ||   git commit -m "text"
+Tracked	Files -- Git knows about (previously staged/add or committed/commit).
+→ Tracked + Staged (🟢)
+Modified File (Tracked but Unstaged 🔴)
+Unstaged -- Tracked files with changes not staged (modified but not git added).	🔴 Red
+→ git add . → Staged (🟢)
+-------------------------------------------------------------------------------------------
+Here's a point-wise breakdown of how each Git command behaves in all specified cases:
+   wd - working directory
+   case 1:  wd- "line1"(untracked)
+   case 2:  git add . | "line1"(staged/tracked)
+   case 3:  git add . | "line1"(staged/tracked) + commit-1
+   case 4:  commit-1 + "line2"(untracked)
+   case 5:  commit-1 + git add . | "line2"(staged/tracked)
+   case 6:  git add . | "line2"(staged/tracked) + commit-2
+   case 7:  commit-2 + "line3"(untracked)
 
 
+### **1. git clean**
+**Purpose**: Cleans untracked files from working directory
+
+**Cases:**
+1. **Untracked "line1" (Case 1)**
+   - `-f`: Removes line1
+   - `-fd`: Removes line1 (and untracked directories)
+   - `-n`: Shows what would be removed (dry-run)
+
+2. **Staged/Tracked (Cases 2-3,5-6)**
+   - No effect on any staged/committed files
+
+3. **Untracked "line2"/"line3" (Cases 4,7)**
+   - Same behavior as Case 1
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+### **2. git reset** | git reset [<mode>] [<commit>]
+**Purpose**:
+Resets current HEAD to specified state
+Undo changes in your Git repository by moving the current branch (HEAD) to a different commit.
+It can modify the staged/tracked area file/content (index), wd/untracked, or both, depending on the options used.
+
+Working Directory/Untracked :- Represents the immediate changes to files in your local filesystem.
+Staging Index/Buffer :- A snapshot of changes that are ready to be committed.
+Commit History :- The permanent record of changes in your repository.
+
+Unlike git revert, which creates a new commit to undo changes
+git reset directly manipulates the commit history and can rewrite it.
+
+ex. 1 | line1 c1 > line2 c2 > line3 c3 > line4 Un-tracked
+ex. 2 | line1 c1 > line2 c2 > line3 c3 > line4 Staged
+ex. 3 | line1 c1 > line2 c2 > line3 c3 > line4 Staged + line5 untracked
+ex. 4 | line1 c1 > line2 c2 > line3 c3 > line4 c4 (Head-c4)
+
+git reset <file> | unstage changes + Does NOT move HEAD (unlike reset --soft/--hard).
+ex. 1 | line1 c1 > line2 c2 > line3 c3 > line4 Un-tracked
+      >> Nothing changes in commits, staging, or working directory (Head-c3)
+ex. 2 | line1 c1 > line2 c2 > line3 c3 > line4 Staged
+      >> Unstages line4 + Wd/untracked keeps line4 + Commit history-untouched (Head-c3)
+ex. 3 | line1 c1 > line2 c2 > line3 c3 > line4 Staged + line5 untracked
+      >> Unstages line4 + Wd/untracked keeps line4,line5 + Commit history-untouched (Head-c3)
+ex. 4 | line1 c1 > line2 c2 > line3 c3 > line4 c4 (Head-c4)
+       >> >> Nothing changes in commits, staging, or working directory
+
+git reset --soft
+>> Moves HEAD to the target commit (default: HEAD~1 if no commit is specified).
+>> Does not touch the staging area (index) or working directory.
+>> Changes between old and new HEAD become staged.
+
+ex. 1 | line1 c1 > line2 c2 > line3 c3 > line4 Un-tracked
+        --soft >> Nothing changes in commits, staging, or working directory (Head-c3)
+ --soft HEAD~1 >> c3 unstaged + c2,c1 -no effect + wd/untracked -line3,line4 (Head-c2)
+ex. 2 | line1 c1 > line2 c2 > line3 c3 > line4 Staged
+        --soft >> Nothing changes in commits, staging, or working directory (Head-c3)
+ --soft HEAD~1 >> c3 unstaged + c2,c1 -no effect + wd/untracked -line3,line4 (Head-c2)
+ex. 3 | line1 c1 > line2 c2 > line3 c3 > line4 Staged + line5 untracked
+        --soft >> Nothing changes in commits, staging, or working directory (Head-c3)
+ --soft HEAD~1 >> c3 unstaged + c2,c1 -no effect + staged-line4 + wd/untracked - line3,line5 (Head-c2)
+ex. 4 | line1 c1 > line2 c2 > line3 c3 > line4 c4 (Head-c4)
+        --soft >> Nothing changes in commits, staging, or working directory (Head-c4)
+ --soft HEAD~1 >> c4 unstaged + c3,c2,c1 -no effect + wd/untracked -line4 (Head-c3)
+
+git reset --hard
+>> Moves HEAD to the target commit.
+>> Resets staging area (index) to match the new HEAD.
+>> Discards all changes in the working directory (including untracked files if clean.requireForce is false).
+>> Dangerous: Can permanently lose uncommitted work.
+
+ex. 1 | line1 c1 > line2 c2 > line3 c3 > line4 Un-tracked
+        --hard >> Nothing changes in commits, staging, or working directory (Head-c3)
+ --hard HEAD~1 >> c3 unstaged line3 deleted + c2,c1 -no effect + wd/untracked -line4 (Head-c2)
+ex. 2 | line1 c1 > line2 c2 > line3 c3 > line4 Staged
+        --hard >> unstaged line4 deleted + c3,c2,c1-no effect + wd/untracked-no effect (Head-c3)
+ --hard HEAD~1 >> c3 unstaged line3,line4 deleted + c2,c1 -no effect + wd/untracked-no effect (Head-c2)
+ex. 3 | line1 c1 > line2 c2 > line3 c3 > line4 Staged + line5 untracked
+        --hard >> unstaged line4 deleted + c3,c2,c1-no effect + wd/untracked-line5 (Head-c3)
+ --hard HEAD~1 >> c3 unstaged line3,line4 deleted + c2,c1-no effect + wd/untracked-line5 (Head-c2)
+ex. 4 | line1 c1 > line2 c2 > line3 c3 > line4 c4 (Head-c4)
+        --hard >> Nothing changes in commits, staging, or working directory (Head-c4)
+ --hard HEAD~1 >> c4 unstaged line4 deleted + c3,c2,c1-no effect + wd/untracked-no effect (Head-c3)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+### **3. git restore**
+
+git restore <file> → Discards working directory changes (only for tracked/staged files).
+If a file is modified but not staged, this reverts it to the last staged/committed version.
+Does not affect untracked files.
+
+git restore --staged <file> → Unstages changes (moves from staging back to working directory as modified).
+If a file is staged but not committed, this removes it from staging but keeps changes in the working directory.
+Does not affect committed files or untracked files.
+
+ex. 1 | line1 c1 > line2 c2 > line3 c3 > line4 Un-tracked
+      git restore <file> :- No effect (only works on tracked/staged files; line4 is untracked).
+      git restore :- No effect (no tracked/staged changes in WD to discard).
+      git restore --staged <file> :- No effect (no tracked/staged changes to unstage) (HEAD~3)
+ex. 2 | line1 c1 > line2 c2 > line3 c3 > line4 Staged
+      git restore <file> :- No effect (line4 is staged, not modified in WD).
+      git restore :- No effect (no unstaged/untracked changes in WD).
+      git restore --staged <file> :- Unstages line4 + unstaged/untracked/wd- line4 (HEAD~3)
+ex. 3 | line1 c1 > line2 c2 > line3 c3 > line4 Staged + line5 untracked
+      git restore <file> :- No effect (line4 is staged; line5 is untracked).
+      git restore :- No effect (no unstaged tracked changes).
+      git restore --staged <file> :- Unstages line4 (→ WD as modified; line5 remains untracked).
+ex. 4 | line1 c1 > line2 c2 > line3 c3 > line4 c4 (Head-c4)
+      git restore <file> :- No effect (no unstaged changes in WD).
+      git restore :- No effect (no unstaged tracked changes).
+      git restore --staged <file> :- No effect (no staged changes to unstage).
+ex. 5 | line1 c1 > line2 c2 > line3 c3 > line4 Staged + line5 untracked
+      git restore <file> :- No effect (line4 is staged; line5 is untracked).
+      git restore :- No effect (no unstaged tracked changes).
+      git restore --staged <file> :- Unstages line4 (→ WD as modified; line5 remains untracked).
+
+### **4. git checkout**
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+### **5. git revert**
+Creates a new commit that undoes changes from a previous commit.
+Local history remains intact (no rewriting).
+Safe for private branches.
+
+git revert HEAD
+    >> undo last commit locally
+git revert #commit_id
+    >> reverts specific commit locally
+git revert #commit_id + git push origin main
+    >> reverts specific commit remotely
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+### **6. git reflog**
+### **7. git stash**
+### **8. git reflog**
+**Un stashing:**
+- `stash apply`: Applies without removing from stash
+- `stash pop`: Applies and removes from stash
+- `stash drop`: Removes specific stash
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      Scenarios      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 scenario :- clone a repo and use
 install git (2.xx)
 make empty folder
