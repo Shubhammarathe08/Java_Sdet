@@ -22,10 +22,7 @@ public class JavaScriptExecutorExamples {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(); // local Execution
 
-            // click - script , ele | "arguments[0].click();" , ele
-            // height - vertical | window.scrollTo ( from , to ) | document.body.scrollHeight
-            // height - vertical | window.scrollTo ( from , to ) | -document.body.scrollHeight
-            // scrollIntoView() | "arguments[0].scrollIntoView(true);", ele
+            // *** click , scroll  (vertical , horizontal , till element visible) ,  get doc title
 
             // Js Executor
             JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -56,23 +53,30 @@ public class JavaScriptExecutorExamples {
                 js.executeScript("arguments[0].style.backgroundColor='"+bg_color+"'", eee);
             }
 
-            // doc title
+            // get doc title
             String s = js.executeScript("return document.title").toString();
             System.out.println(s);
 
             Thread.sleep(5000);
 
-            // Scroll down
+            // Scroll up to down
             js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+
+            // Scroll left to right edge
+            js.executeScript("window.scrollTo(document.body.scrollWidth, 0)");
 
             Thread.sleep(5000);
 
-            // Scroll up
+            // Scroll down to up
             js.executeScript("window.scrollTo(0,-document.body.scrollHeight)");
+
+            // Scroll right to left edge
+            js.executeScript("window.scrollTo(-document.body.scrollWidth, 0)");
 
             Thread.sleep(5000);
 
             // Scroll into view
+            // Works for both vertical and horizontal scrolling
             WebElement eww = driver.findElement(By.xpath("//div//strong[text()='Featured products']"));
             js.executeScript("arguments[0].scrollIntoView(true);", eww);
 
@@ -80,12 +84,10 @@ public class JavaScriptExecutorExamples {
 
             //Zoom
             js.executeScript("document.body.style.zoom='200%'");
-
             Thread.sleep(5000);
 
             // Refresh
             js.executeScript("history.go(0)");
-
 
             Thread.sleep(5000);
 
