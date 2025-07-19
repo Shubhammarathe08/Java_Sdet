@@ -47,6 +47,20 @@ actions.moveToElement(element).click().build().perform();
  JavascriptExecutor js = (JavascriptExecutor) driver;
 js.executeScript("arguments[0].click();", element);
 
+            // Locate the element to hover over
+            WebElement accountLists = driver.findElement(By.id("nav-link-accountList"));
+
+            // Create Actions object
+            Actions actions = new Actions(driver);
+
+            // Move to the element (mouse hover)
+            actions.moveToElement(accountLists).build().perform();
+
+            // Optionally, click on sub-menu item after hover
+            WebElement yourOrders = driver.findElement(By.linkText("Your Orders"));
+            actions.moveToElement(yourOrders).click().build().perform();
+
+
 */
 
 
@@ -58,6 +72,10 @@ js.executeScript("arguments[0].click();", element);
 
 //            .build() - compiles multiple actions into a single executable action sequence (ActionChain).
 //            .perform() - then executes that built sequence.
+
+            // normal click()
+            // actions click()
+            // javascript click()
 //-----------------------------------------------------------------------------------------------------------
              // drag and drop
             driver.findElement(By.id("aaa")).sendKeys("abbbbc");

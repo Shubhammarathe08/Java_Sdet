@@ -1,0 +1,157 @@
+✅ 🔷 1. List (Interface)
+🔹 Definition: Ordered collection allowing duplicate elements.
+🔹 Introduced in: Java 1.2
+🔹 Key Points:
+Maintains insertion order.
+Allows positional access via index.
+Implemented by ArrayList, LinkedList, Vector, Stack.
+🔹 Common Methods:
+add(), addAll(), get(), set(), remove(), clear(), size(), isEmpty()
+indexOf(), lastIndexOf(), subList(), contains()
+🔹 Ordering: Maintains insertion order.
+
+✅ 🔷 2. ArrayList (Class)
+🔹 Definition: Resizable array implementation of List.
+🔹 Introduced in: Java 1.2
+🔹 Synchronization: Not synchronized, thread-unsafe.
+🔹 Null Handling: Allows null elements.
+🔹 Ordering: Maintains insertion order.
+🔹 Performance: Fast random access (O(1)), slow inserts/deletes in middle (O(n)).
+🔹 Default Capacity: 10
+🔹 Constructors:
+ArrayList()
+ArrayList(int initialCapacity)
+ArrayList(Collection<? extends E> c)
+🔹 Use Case: Frequent retrieval operations.
+
+✅ 🔷 3. LinkedList (Class)
+🔹 Definition: Doubly-linked list implementation of List and Deque.
+🔹 Introduced in: Java 1.2
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Allows null elements.
+🔹 Ordering: Maintains insertion order.
+🔹 Performance: Fast insert/delete anywhere (O(1)), slow random access (O(n)).
+🔹 Constructors:
+LinkedList()
+LinkedList(Collection<? extends E> c)
+🔹 Use Case: Frequent insertion/deletion, queue or stack operations.
+
+✅ 🔷 4. Vector (Class)
+🔹 Definition: Legacy dynamic array, similar to ArrayList but synchronized.
+🔹 Introduced in: Java 1.0
+🔹 Synchronization: Synchronized, thread-safe.
+🔹 Null Handling: Allows null elements.
+🔹 Ordering: Maintains insertion order.
+🔹 Performance: Slower than ArrayList due to synchronization.
+🔹 Default Capacity: 10
+🔹 Constructors:
+Vector()
+Vector(int initialCapacity)
+Vector(int initialCapacity, int capacityIncrement)
+Vector(Collection<? extends E> c)
+🔹 Use Case: Legacy multi-threaded code.
+
+✅ 🔷 5. Stack (Class)
+🔹 Definition: Legacy LIFO stack extending Vector.
+🔹 Introduced in: Java 1.0
+🔹 Synchronization: Synchronized.
+🔹 Null Handling: Allows null elements.
+🔹 Ordering: LIFO order.
+🔹 Performance: Slower due to synchronization.
+🔹 Constructors:
+Stack()
+🔹 Unique Methods:
+push(E item), pop(), peek(), empty(), search(Object o)
+🔹 Use Case: Stack operations (LIFO).
+
+✅ 🔷 6. Queue (Interface)
+🔹 Definition: Collection for holding elements prior to processing (FIFO).
+🔹 Introduced in: Java 1.5
+🔹 Key Points:
+Implemented by LinkedList, PriorityQueue, ArrayDeque.
+🔹 Common Methods:
+offer(), poll(), peek(), remove(), element()
+🔹 Ordering: Depends on implementation (FIFO for LinkedList and ArrayDeque, priority order for PriorityQueue).
+
+✅ 🔷 7. PriorityQueue (Class)
+🔹 Definition: Unbounded priority queue based on heap.
+🔹 Introduced in: Java 1.5
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Does not allow null elements.
+🔹 Ordering: Natural ordering or custom Comparator.
+🔹 Constructors:
+PriorityQueue()
+PriorityQueue(int initialCapacity)
+PriorityQueue(int initialCapacity, Comparator<? super E> comparator)
+PriorityQueue(Collection<? extends E> c)
+🔹 Use Case: Priority-based processing tasks.
+
+✅ 🔷 8. ArrayDeque (Class)
+🔹 Definition: Resizable array implementation of Deque interface.
+🔹 Introduced in: Java 1.6
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Does not allow null elements.
+🔹 Ordering: Maintains insertion order.
+🔹 Constructors:
+ArrayDeque()
+ArrayDeque(int initialCapacity)
+ArrayDeque(Collection<? extends E> c)
+🔹 Use Case: Stack or queue with better performance than Stack or LinkedList.
+
+✅ 🔷 9. Set (Interface)
+🔹 Definition: Collection that does not allow duplicate elements.
+🔹 Introduced in: Java 1.2
+🔹 Implemented by: HashSet, LinkedHashSet, TreeSet.
+🔹 Common Methods:
+add(), remove(), clear(), contains(), size(), isEmpty(), iterator()
+🔹 Ordering: Defined by implementation.
+
+✅ 🔷 10. HashSet (Class)
+🔹 Definition: Hash table-based Set implementation.
+🔹 Introduced in: Java 1.2
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Allows one null element.
+🔹 Ordering: No guaranteed order.
+🔹 Performance: O(1) average for add/remove/contains.
+🔹 Constructors:
+HashSet()
+HashSet(Collection<? extends E> c)
+HashSet(int initialCapacity)
+HashSet(int initialCapacity, float loadFactor)
+🔹 Use Case: General-purpose set without duplicates.
+
+✅ 🔷 11. LinkedHashSet (Class)
+🔹 Definition: Extends HashSet with insertion order maintained.
+🔹 Introduced in: Java 1.4
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Allows one null element.
+🔹 Ordering: Maintains insertion order.
+🔹 Performance: Slightly slower than HashSet.
+🔹 Constructors:
+LinkedHashSet()
+LinkedHashSet(Collection<? extends E> c)
+LinkedHashSet(int initialCapacity)
+LinkedHashSet(int initialCapacity, float loadFactor)
+🔹 Use Case: Ordered set without duplicates.
+
+✅ 🔷 12. SortedSet (Interface)
+🔹 Definition: Extends Set to maintain elements in sorted order.
+🔹 Introduced in: Java 1.2
+🔹 Implemented by: TreeSet
+🔹 Unique Methods:
+first(), last(), headSet(), tailSet(), subSet()
+🔹 Ordering: Natural order or custom Comparator.
+
+✅ 🔷 13. TreeSet (Class)
+🔹 Definition: Implements SortedSet using TreeMap internally (Red-Black tree).
+🔹 Introduced in: Java 1.2
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Does not allow null elements.
+🔹 Ordering: Natural or Comparator order.
+🔹 Performance: O(log n) for add/remove/contains.
+🔹 Constructors:
+TreeSet()
+TreeSet(Comparator<? super E> comparator)
+TreeSet(Collection<? extends E> c)
+TreeSet(SortedSet<E> s)
+🔹 Use Case: Sorted unique elements.

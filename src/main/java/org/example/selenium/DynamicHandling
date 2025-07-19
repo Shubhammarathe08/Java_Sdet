@@ -1,0 +1,144 @@
+how to handle dynamic  xpath ?
+>> use partial
+>> dynamic xpath (replace)
+>> partial matching
+>> relative xpath - referring fixed element
+=========================================================================================================
+how to handle dynamic web table ?
+>> headers //th
+>> rows //tr
+>> columns //td
+>> cell //tr[]//td[]
+>> loops to iterate and check
+=========================================================================================================
+how to handle dynamic alerts ?
+>> try {
+
+           WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+           Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+           Alert alert = driver.switchTo().alert();
+           String alertText = alert.getText();
+           if (alertText.contains("success")) {
+               alert.accept();
+               System.out.println("Accepted success alert");
+           }
+           else if (alertText.contains("warning")) {
+               alert.dismiss();
+               System.out.println("Dismissed warning alert");
+           }
+           else {
+               alert.accept(); // Default action
+           }
+       }
+       catch (TimeoutException e) {
+           System.out.println("Alert did not appear within timeout: " + e.getMessage());
+       }
+       catch (NoAlertPresentException e) {
+           System.out.println("No alert present when trying to switch: " + e.getMessage());
+       }
+       catch (Exception e) {
+           System.out.println("Unexpected error: " + e.getMessage());
+       }
+=========================================================================================================
+how to check and handle windows based pop up ?
+>> NO
+>> login auth pop up | how to do :-  http://Username:Password@google.com
+
+    String url = "http://google.com";
+    String username = "admin";
+    String password = "admin";
+
+    try {
+        // Try URL auth first
+        String authUrl = "http://" + username + ":" + password + "@" + url.replace("http://", "");
+        driver.get(authUrl);
+
+        // Verify login success
+        if (driver.getCurrentUrl().contains("dashboard")) {
+            System.out.println("Logged in via URL auth");
+        } else {
+            throw new Exception("URL auth failed");
+        }
+    } catch (Exception e) {
+        System.out.println("Falling back to DevTools");
+        // Implement Method 3 here as fallback
+    }
+=========================================================================================================
+how to upload file ?
+
+=========================================================================================================
+how to download file ?
+
+=========================================================================================================
+how to check broken links file ?
+>>
+ System.setProperty("webdriver.chrome.driver", "path_to_chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+        // Fetch all <a> tags
+        List<WebElement> links = driver.findElements(By.tagName("a"));
+        System.out.println("Total links found: " + links.size());
+        for (WebElement link : links) {
+            String url = link.getAttribute("href");
+            // Skip if href is null or empty
+            if (url == null || url.isEmpty()) {
+                System.out.println("URL is empty. Skipping...");
+                continue;
+            }
+            // Validate link
+            checkLink(url);
+        }
+        driver.quit();
+    }
+
+    public static void checkLink(String urlLink) {
+        try {
+            URL url = new URL(urlLink);
+            HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+            httpConn.setConnectTimeout(5000);
+            httpConn.connect();
+            int respCode = httpConn.getResponseCode();
+            if (respCode >= 400) {
+                System.out.println(urlLink + " --> Broken link. Response code: " + respCode);
+            } else {
+                System.out.println(urlLink + " --> Valid link. Response code: " + respCode);
+            }
+        } catch (Exception e) {
+            System.out.println(urlLink + " --> Exception: " + e.getMessage());
+        }
+=========================================================================================================
+normal click()
+actions click()
+javascript click()
+
+Feature	                        element.click()	    Actions.click()	JavaScript Click
+Realistic interaction	                 ✅ Yes	         ✅ Yes	         ❌ No
+Visibility check	                      ✅ Yes	       ✅ Yes        	❌ No
+Works on hidden elements	                ❌ No	         ❌ No	           ✅ Yes
+
+=========================================================================================================
+<div id="content">
+    <p>Welcome <strong>User</strong>!</p>
+</div>
+
+getText()
+- visible text between the opening and closing tags of an HTML element.
+- Visible text content without HTML tags. Example: "Welcome User!"
+Vs
+getAttribute()
+- Retrieves the value of any specified attribute of the HTML element (including hidden ones)
+- element.getAttribute("innerHTML")
+- Inner HTML markup with tags. Example: "<p>Welcome <strong>User</strong>!</p>"
+
+=========================================================================================================
+verify() Vs assert()
+
+
+| **Aspect**                 | **Assert() (Hard Assert)**                           | **Verify() (Soft Assert)**                                           |
+| -------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------- |
+| **Behavior on failure**    | Stops test execution immediately.                    | Continues execution despite failure.                                 |
+| **Usage in Selenium Java** | `Assert.assertEquals()`, `Assert.assertTrue()`       | SoftAssert softAssert = new SoftAssert();                            |
+| **Reporting**              | Immediate failure reported.                          | Reports all failures at end >>  softAssert.assertAll();              |
+| **Example**                | `Assert.assertEquals(actual, expected);`             | `softAssert.assertEquals(actual, expected); softAssert.assertAll();` |
+
+=========================================================================================================

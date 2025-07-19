@@ -1,0 +1,103 @@
+🌐 What Is Constructor Chaining?
+
+- Constructor chaining is when one constructor calls another constructor
+ in the same class (this(...)) or the superclass (super(...)).
+- In an inheritance hierarchy, constructor chaining ensures that
+ the parent class is initialized before the child.
+
+🧬 Our Class Setup Overview
+We’ll build three classes:
+- P1: Has three constructors → no-arg, two-arg, and var-arg.
+- C1 extends P1: Calls one of the P1 constructors using super(...).
+- GC1 extends C1: Calls a C1 constructor, continuing the chain.
+
+💡 Code Example: Constructor Chaining with Overloading
+`java
+class P1 {
+    P1() {
+        System.out.println("Parent: no-arg constructor");
+    }
+
+    P1(int a, int b) {
+        System.out.println("Parent: 2-arg constructor → " + a + ", " + b);
+    }
+
+    P1(int... values) {
+        System.out.println("Parent: var-arg constructor → " + java.util.Arrays.toString(values));
+    }
+}
+
+class C1 extends P1 {
+    C1() {
+        // Calls Parent's no-arg constructor
+        super();
+        System.out.println("Child: no-arg constructor");
+    }
+
+    C1(int x, int y) {
+        // Calls Parent's 2-arg constructor
+        super(x, y);
+        System.out.println("Child: 2-arg constructor → " + x + ", " + y);
+    }
+
+    C1(int... nums) {
+        // Calls Parent's var-arg constructor
+        super(nums);
+        System.out.println("Child: var-arg constructor → " + java.util.Arrays.toString(nums));
+    }
+}
+
+class GC1 extends C1 {
+    GC1() {
+        // Chaining: calls Child's no-arg → Parent's no-arg
+        super();
+        System.out.println("Grandchild: no-arg constructor");
+    }
+
+    GC1(int a, int b) {
+        // Chaining: calls Child's 2-arg → Parent's 2-arg
+        super(a, b);
+        System.out.println("Grandchild: 2-arg constructor");
+    }
+
+    GC1(int... values) {
+        // Chaining: calls Child's var-arg → Parent's var-arg
+        super(values);
+        System.out.println("Grandchild: var-arg constructor");
+    }
+}
+`
+
+---
+
+🧪 Sample Output (when instantiating)
+
+`java
+new GC1();
+// Output:
+// Parent: no-arg constructor
+// Child: no-arg constructor
+// Grandchild: no-arg constructor
+
+new GC1(5, 10);
+// Output:
+// Parent: 2-arg constructor → 5, 10
+// Child: 2-arg constructor → 5, 10
+// Grandchild: 2-arg constructor
+
+new GC1(1, 2, 3);
+// Output:
+// Parent: var-arg constructor → [1, 2, 3]
+// Child: var-arg constructor → [1, 2, 3]
+// Grandchild: var-arg constructor
+`
+
+---
+
+🎯 Why This Matters
+
+- It ensures that objects are constructed top-down: superclass → subclass.
+- Helps enforce initialization order.
+- You gain fine control over which parent constructor is triggered by subclass constructors.
+
+---

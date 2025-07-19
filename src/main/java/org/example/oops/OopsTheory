@@ -127,7 +127,7 @@ C obj = new C ();
 obj.m1(){} // ambiguity problem // diamond access problem
 }
 
->> java doesnt support Multiple Inheritance with respect to classes [ diamond problem ]
+>> java doesn't support Multiple Inheritance with respect to classes [ diamond problem ]
               >> to avoid ambiguity
               >> to avoid complexity
               >> to avoid confusion
@@ -151,7 +151,6 @@ m1();
 
 interface  C extends A,B{
 }
-
 
 
 class impl implements C {

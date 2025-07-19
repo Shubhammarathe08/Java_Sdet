@@ -1,0 +1,145 @@
+✅ 🔷 1. Map (Interface)
+🔹 Definition: Core interface representing a collection of key-value pairs with unique keys.
+🔹 Introduced in: Java 1.2
+🔹 Key Points:
+
+Does not extend Collection.
+Key-value mapping.
+No duplicate keys allowed, values can be duplicate.
+Implemented by HashMap, LinkedHashMap, TreeMap, WeakHashMap, IdentityHashMap, Hashtable, ConcurrentHashMap.
+🔹 Common Methods:
+put(), putAll()
+get(),getOrDefault()
+replace(), replaceAll()
+remove(), clear()
+isEmpty() , size(), containsKey(), containsValue()
+keySet(), values(), entrySet()
+🔹 Ordering: Defined by implementation.
+
+✅ 🔷 4. HashMap (Class)
+🔹 Definition: Hash table-based Map implementation.
+🔹 Introduced in: Java 1.2
+🔹 Synchronization: Not synchronized, thread-unsafe.
+🔹 Null Handling: Allows one null key, multiple null values.
+🔹 Ordering: No ordering guaranteed.
+🔹 Performance: Fast – O(1) average for get/put.
+🔹 Default Capacity: 16, Load Factor: 0.75
+🔹 Constructors:
+
+HashMap()
+HashMap(int initialCapacity)
+HashMap(int initialCapacity, float loadFactor)
+HashMap(Map<? extends K, ? extends V> m)
+🔹 Use Case: General-purpose single-threaded map.
+
+✅ 🔷 5. LinkedHashMap (Class)
+🔹 Definition: Extends HashMap with insertion order or access order maintained.
+🔹 Introduced in: Java 1.4
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Allows one null key, multiple null values.
+🔹 Ordering: Maintains insertion order by default, access order if specified.
+🔹 Performance: Slightly slower than HashMap due to ordering overhead.
+🔹 Default Capacity: 16, Load Factor: 0.75
+🔹 Constructors:
+
+LinkedHashMap()
+LinkedHashMap(int initialCapacity)
+LinkedHashMap(int initialCapacity, float loadFactor)
+LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
+LinkedHashMap(Map<? extends K, ? extends V> m)
+🔹 Unique Feature: Override removeEldestEntry to create LRU Cache.
+🔹 Use Case: Caches or ordered iteration.
+
+✅ 🔷 2. SortedMap (Interface)
+🔹 Definition: Extends Map to maintain keys in ascending sorted order.
+🔹 Introduced in: Java 1.2
+🔹 Implemented by: TreeMap
+🔹 Unique Methods: firstKey, lastKey, headMap, tailMap, subMap.
+🔹 Ordering: Natural order or custom Comparator.
+🔹 Null Handling: TreeMap does not allow null keys.
+
+✅ 🔷 3. NavigableMap (Interface)
+🔹 Definition: Extends SortedMap adding navigation methods for closest matches and range operations.
+🔹 Introduced in: Java 1.6
+🔹 Implemented by: TreeMap
+🔹 Unique Methods: lowerKey, floorKey, ceilingKey, higherKey, pollFirstEntry, pollLastEntry, descendingMap.
+🔹 Ordering: Natural or custom order.
+
+✅ 🔷 6. TreeMap (Class)
+🔹 Definition: Implements NavigableMap and SortedMap using Red-Black Tree.
+🔹 Introduced in: Java 1.2
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Does not allow null keys, allows null values.
+🔹 Ordering: Keys stored in natural order or using Comparator.
+🔹 Performance: O(log n) for get/put.
+🔹 Constructors:
+
+TreeMap()
+TreeMap(Comparator<? super K> comparator)
+TreeMap(Map<? extends K, ? extends V> m)
+TreeMap(SortedMap<K, ? extends V> m)
+🔹 Use Case: When sorted key-value pairs are required.
+
+✅ 🔷 7. WeakHashMap (Class)
+🔹 Definition: HashMap with keys stored as weak references.
+🔹 Introduced in: Java 1.2
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Allows one null key, multiple null values.
+🔹 Ordering: No ordering guaranteed.
+🔹 Performance: Similar to HashMap.
+🔹 Default Capacity: 16, Load Factor: 0.75
+🔹 Constructors:
+
+WeakHashMap()
+WeakHashMap(int initialCapacity)
+WeakHashMap(int initialCapacity, float loadFactor)
+WeakHashMap(Map<? extends K, ? extends V> m)
+🔹 Unique Feature: Entries are automatically removed when keys are no longer referenced elsewhere (GC-ed).
+🔹 Use Case: Memory-sensitive caches.
+
+✅ 🔷 8. IdentityHashMap (Class)
+🔹 Definition: HashMap using reference equality (==) instead of .equals() for key comparison.
+🔹 Introduced in: Java 1.4
+🔹 Synchronization: Not synchronized.
+🔹 Null Handling: Allows null keys and null values.
+🔹 Ordering: No ordering guaranteed.
+🔹 Performance: Similar to HashMap.
+🔹 Default Capacity: Internal capacity starts at 21 (doubles when needed).
+🔹 Constructors:
+
+IdentityHashMap()
+IdentityHashMap(int expectedMaxSize)
+IdentityHashMap(Map<? extends K, ? extends V> m)
+🔹 Use Case: When identity-based uniqueness (reference-based keys) is required, e.g., serialization frameworks, object graphs.
+
+✅ 🔷 9. Hashtable (Legacy Class)
+🔹 Definition: Legacy synchronized Map implementation.
+🔹 Introduced in: Java 1.0
+🔹 Synchronization: Synchronized, thread-safe.
+🔹 Null Handling: Does NOT allow null keys or values.
+🔹 Ordering: No ordering guaranteed.
+🔹 Performance: Slower due to synchronization.
+🔹 Default Capacity: 11, Load Factor: 0.75
+🔹 Constructors:
+
+Hashtable()
+Hashtable(int initialCapacity)
+Hashtable(int initialCapacity, float loadFactor)
+Hashtable(Map<? extends K, ? extends V> t)
+🔹 Use Case: Legacy systems; replaced by ConcurrentHashMap.
+
+✅ 🔷 10. ConcurrentHashMap (Class)
+🔹 Definition: Thread-safe HashMap alternative with better concurrency.
+🔹 Introduced in: Java 1.5
+🔹 Synchronization: Thread-safe with segment locking (Java 1.5-1.7) or bucket-level locking (Java 1.8+).
+🔹 Null Handling: Does NOT allow null keys or values.
+🔹 Ordering: No ordering guaranteed.
+🔹 Performance: Better than Hashtable due to reduced locking overhead.
+🔹 Constructors:
+
+ConcurrentHashMap()
+ConcurrentHashMap(int initialCapacity)
+ConcurrentHashMap(int initialCapacity, float loadFactor)
+ConcurrentHashMap(int initialCapacity, float loadFactor, int concurrencyLevel)
+ConcurrentHashMap(Map<? extends K, ? extends V> m)
+🔹 Use Case: High-concurrency multi-threaded scenarios.
