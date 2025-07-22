@@ -1,0 +1,169 @@
+
+
+BRD/BRS business requirement
+FRD/FRS functional requirement
+Epic > User Story > Scenario
+
+Gherkin - A domain-specific language (DSL) for writing BDD test cases in plain English
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+keywords - Feature, Scenario, Scenario outline, example, Given, When, Then, And, But
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Feature | TestLoginFunctionality.feature | extension .feature
+         high-level description of a software functionality that provides business value
+         ** cant have multiple feature file with same name
+         ex. Feature: Shopping Cart Management
+              Scenario: Adding an item to an empty cart
+              Scenario: Removing an item from cart
+              Scenario: Updating item quantity in cart
+              Scenario: Viewing cart contents
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Scenario :
+          "A scenario is an individual test case
+          that describes a particular behavior of the system using Given-When-Then syntax."
+
+structure :
+           Given: Initial context/preconditions
+           When: The action/event that occurs
+           Then: The expected outcome
+
+Scenarios help :
+                 to bridge communication between technical and non-technical stakeholders
+                 by using business-readable language
+
+most features have multiple scenarios to cover different:
+                Happy paths
+                Edge cases
+                Error conditions
+                Alternative flows
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Scenario Outline :
+                  run scenario for multiple data sets ,data driven
+                  Used for parameterized tests/scenario to run the same scenario with multiple data sets.
+
+Scenario Outline: Login with different credentials
+  Given I am on the login page
+  When I enter username "<username>" and password "<password>"
+  Then I should see "<result>"
+
+  Examples:
+    | username  | password  | result      |
+    | validuser | ValidPass | dashboard   |
+    | invalid   | wrongpass | error message |
+    | locked    | secret    | account locked |
+
+@When("I enter username {string} and password {string}")
+public void enterCredentials(String username, String password) {
+    loginPage.enterCredentials(username, password);
+}
+
+@Then("I should see {string}")
+public void verifyResult(String expectedResult) {
+    if(expectedResult.equals("dashboard")) {
+        Assert.assertTrue(dashboardPage.isDisplayed());
+    }
+    else if(expectedResult.equals("error message")) {
+        Assert.assertTrue(loginPage.getErrorMessage().contains("Invalid"));
+    }
+    // ... other conditions
+}
+
+Examples :
+          keyword used under Scenario Outline to provide tabular data for parameterization.
+          Each row in Examples table runs the scenario once with that data.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Data Table :
+            Used to pass multiple data values to a single step in tabular format.
+            Examples → For Scenario Outline parameterization
+            Data Table → For passing structured data to a single step
+
+Feature: Shopping Cart
+
+Scenario: Add multiple products to cart
+  Given the user is on the product page
+  When the user adds the following products to the cart
+    | productName  | quantity | price  |
+    | Laptop       | 2        | 50000  |
+    | Mouse        | 3        | 500    |
+    | Keyboard     | 1        | 2000   |
+  Then the cart should display correct total amount
+
+@When("the user adds the following products to the cart")
+    public void the_user_adds_the_following_products_to_the_cart(DataTable dataTable) {
+        List<Map<String, String>> products = dataTable.asMaps(String.class, String.class);
+
+        for(Map<String, String> product : products){
+            String name = product.get("productName");
+            int qty = Integer.parseInt(product.get("quantity"));
+            int price = Integer.parseInt(product.get("price"));
+
+            System.out.println("Adding to cart: " + name + " | Quantity: " + qty + " | Unit Price: " + price);
+
+            // Example Selenium actions (pseudo-code):
+            // driver.findElement(By.xpath("//div[text()='"+name+"']//following-sibling::button")).click();
+            // driver.findElement(By.id("quantity")).clear();
+            // driver.findElement(By.id("quantity")).sendKeys(String.valueOf(qty));
+            // driver.findElement(By.id("add-to-cart")).click();
+
+            calculatedTotal += qty * price;
+        }
+    }
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Step Definitions :
+                  Java (or other language) methods that implement the steps written in Gherkin
+                  Links Gherkin keywords to executable code using annotations
+                  like @Given, @When, @Then @And @But - for every annotation separate method
+
+                  gherkin
+                  Scenario: Login with valid credentials
+                    Given I am on the login page
+                    When I enter username "testuser" and password "Pass123"
+                    Then I should see the dashboard
+
+                  java
+                  @When("I enter username {string} and password {string}")
+                  public void enterCredentials(String username, String password) {
+                      loginPage.enterUsername(username);
+                      loginPage.enterPassword(password);
+                  }
+Utility :
+          helper methods, classes containing code to perform function which and be directly used
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    // Basic configurations
+    features = "src/test/resources/features",
+    glue = {"stepdefinitions", "hooks", "support"},
+    tags = "@smoke and not @ignore",
+
+    // Plugin configurations
+    plugin = {
+        "pretty",                          // Console output formatting
+        "html:target/cucumber-reports.html", // HTML report
+        "json:target/cucumber.json",        // JSON report
+        "junit:target/cucumber.xml",        // JUnit XML report
+        "timeline:target/timeline",         // Timeline report
+        "rerun:target/rerun.txt"            // Rerun failed tests
+    },
+
+    // Execution configurations
+    monochrome = true,                     // Clean console output
+    dryRun = false,                        // Skip execution (check step definitions)
+    strict = true,                         // Fail if undefined steps exist
+
+    // Reporting configurations
+    publish = true,                        // Publish to Cucumber Cloud
+    stepNotifications = true,               // Show step notifications
+
+    // Parallel execution
+    objectFactory = "io.cucumber.core.backend.DefaultObjectFactory",
+
+    // Name formatting
+    name = {"^[A-Z].*"}                   // Only run scenarios with capitalized names
+)
+public class TestRunner {
+    // This class should be empty - all configuration is in the annotations
+}

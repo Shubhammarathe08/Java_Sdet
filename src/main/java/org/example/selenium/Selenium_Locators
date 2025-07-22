@@ -263,10 +263,25 @@ div.navFooterLinkCol.navAccessibility:first-child ul>li:nth-child(1)+li
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Extreme Xpath
 
+*** svg
 url >> tutorials point | https://www.tutorialspoint.com/how-to-use-xpath-in-selenium-webdriver-to-grab-svg-elements
 Svg - name() , local-name()
 //*[name()='svg' and @data-icon='house']/*[local-name()='path']
+----------------------------------------------------------------------------------------------------------
+*** Google > 9 dots > any elements
 
+Saved - //div[@aria-label="Google apps"]//span[text()='Saved']
+click on element > curtain appears > click on devtools
+click EventListeners > blur > delete all events
+now we can inspect
+
+# dev tools > source > debugger; > run
+ex. search box > search xyz
+right click > disappears + np event listeners present ???
+dev tools > source > debugger; > run
+now search xyz > pause debugger, inspect element
+
+----------------------------------------------------------------------------------------------------------
 Shadow Root Element
 Pseudo
 

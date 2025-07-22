@@ -1,0 +1,11 @@
+| **Order** | **Annotation**  | **Description**                                                                                        |
+| --------- | --------------- | ------------------------------------------------------------------------------------------------------ |
+| 1         | `@BeforeSuite`  | Runs **before** all tests in the suite. Used for global setup, e.g. DB connection, property file load. |
+| 2         | `@BeforeTest`   | Runs **before `<test>` tag** in testng.xml. Used for test-level setup.                                 |
+| 3         | `@BeforeClass`  | Runs **before first method of the current class**. Used to initialize browser or page classes.         |
+| 4         | `@BeforeMethod` | Runs **before each `@Test` method**. Used for method-level preconditions like login.                   |
+| 5         | `@Test`         | The actual **test case**. Multiple tests run between BeforeMethod and AfterMethod.                     |
+| 6         | `@AfterMethod`  | Runs **after each `@Test` method**. Used for logout or cleanup actions.                                |
+| 7         | `@AfterClass`   | Runs **after all test methods of the current class**. Used to close browser.                           |
+| 8         | `@AfterTest`    | Runs **after `<test>` tag** in testng.xml. Used for cleanup at test level.                             |
+| 9         | `@AfterSuite`   | Runs **after all tests in the suite**. Used to close DB connections, flush reports, etc.               |

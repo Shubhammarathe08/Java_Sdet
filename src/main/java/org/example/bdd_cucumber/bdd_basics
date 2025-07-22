@@ -1,0 +1,103 @@
+
+Traditional Development Process
+
+BDD  ( behavior driven development )
+stack holders + product owner/ Business analyst | discuss business req, created doc BRD
+Po + Qa + Dev >> 3 amigos ( collaborate around requirement )
+               | discuss how to turn business req to system , created doc FRD >> user stories
+               | plain english formatted scenarios (in Gherkin ) Given, When, Then | examples | data tables
+CUCUMBER - automation tool that supports BDD (Gherkin) format scenarios
+Scenarios - used for manual test cases , executing, generating report
+Automation - Cucumber , Jbehave comes into picture
+---------------------------------------------------------------------------------------------------------
+*** discuss, collaborate, ask questions
+When to do Automation
+>> Resource, Bandwidth, Budget, Need regression testing, frequent testing on critical flows
+========================================================================================================
+
+🔄 TDD Cycle Diagram
+Write the Test (Fails)
+(Test fails initially)
+     >> Make the Code Work
+        (Write minimum code to pass the test)
+         >> Improve the Code (Refactor)
+            (Clean, optimize, restructure without changing behaviour)
+
+➡ Repeat N Cycles
+
+           +----------------------+
+           | 1. Write the Test    |
+           |    (Fails)           |
+           +----------+-----------+
+                      |
+                      v
+              [Test Fails]
+                      |
+                      v
+           +----------+-----------+
+           | 2. Make the Code     |
+           |    Work (Passes)     |
+           +----------+-----------+
+                      |
+                      v
+              [Test Passes]
+                      |
+                      v
+           +----------+-----------+
+           | 3. Improve the Code  |
+           |    (Refactor)        |
+           +----------+-----------+
+                      |
+                      v
+               Repeat Cycle
+✅ Summary
+Write test → Test fails → Write code → Test passes → Refactor → Repeat.
+=======================================================================================================
+📝 Behavior Driven Development (BDD)
+An Extension of TDD
+
+Works on a higher level of abstraction as compared to TDD
+
+Always ask:
+➔ Have we covered all the possible scenarios (examples)?
+
+Test First Approach
+
+Authors → 3 Amigos:
+➔ PO / Dev / QA
+🔄 BDD Cycle Diagram
+  Write Failure Feature/Scenario
+  (Test fails initially)➔ Red (FAIL)
+      >> Make the Test Pass
+         (Write code to make feature/scenario pass)
+            >> Refactor
+               (Improve code quality)
+➡ Repeat N Cycles
+           +---------------------------+
+           | 1. Write Failure          |
+           |    Feature/Scenario       |
+           +-------------+-------------+
+                         |
+                         v
+                     [Red FAIL]
+                         |
+                         v
+           +-------------+-------------+
+           | 2. Make the Test Pass     |
+           +-------------+-------------+
+                         |
+                         v
+                  [Test Pass]
+                         |
+                         v
+           +-------------+-------------+
+           | 3. Improve the Code       |
+           |    (Refactor)             |
+           +-------------+-------------+
+                         |
+                         v
+                   Repeat Cycle
+✅ Summary
+BDD = TDD + Collaboration + Examples
+Focus: Specification by Example (SBE)
+==========================================================================================================

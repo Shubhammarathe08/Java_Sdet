@@ -1,0 +1,31 @@
+Feature: Login Functionality
+  As a registered user
+  I want to log into the e-commerce site
+  So that I can access my account and make purchases
+
+  Scenario: Successful login with valid credentials
+    Given I am on the login page
+    When I enter valid username "testuser@example.com" and password "Secure123!"
+    And I click the login button
+    Then I should be redirected to my account dashboard
+    And I should see a welcome message "Welcome back, Test User"
+
+  Scenario: Login fails with incorrect password
+    Given I am on the login page
+    When I enter valid username "testuser@example.com" and invalid password "wrongpass"
+    And I click the login button
+    Then I should see an error message "Invalid credentials"
+    And I should remain on the login page
+
+  Scenario: Login fails with empty password
+    Given I am on the login page
+    When I enter valid username "testuser@example.com" and leave password empty
+    And I click the login button
+    Then I should see an error message "Password cannot be empty"
+    And the login button should be disabled
+
+  Scenario: Account locked after multiple failed attempts
+    Given I have attempted to login 4 times with invalid credentials
+    When I attempt to login for the 5th time with invalid credentials
+    Then I should see an error message "Account locked for 30 minutes"
+    And I should receive an email notification about the locked account

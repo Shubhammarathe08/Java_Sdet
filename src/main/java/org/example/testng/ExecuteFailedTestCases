@@ -1,0 +1,152 @@
+Method 1: Using TestNG's IRetryAnalyzer
+Create a retry analyzer class:
+
+java
+import org.testng.IRetryAnalyzer;
+import org.testng.ITestResult;
+
+public class RetryAnalyzer implements IRetryAnalyzer {
+    private int retryCount = 0;
+    private static final int maxRetryCount = 3; // Maximum retry attempts
+
+    @Override
+    public boolean retry(ITestResult result) {
+        if (retryCount < maxRetryCount) {
+            retryCount++;
+            return true;
+        }
+        return false;
+    }
+}
+Use the retry analyzer in your test:
+
+java
+@Test(retryAnalyzer = RetryAnalyzer.class)
+public void yourTestMethod() {
+    // Test implementation
+}
+Method 2: Using testng-failed.xml
+After your initial test run, TestNG automatically creates a testng-failed.xml file in your output directory (test-output folder by default)
+
+Run only the failed tests by executing this file:
+
+bash
+mvn test -DtestSuite=testng-failed.xml
+or in your Java code:
+
+java
+TestNG testng = new TestNG();
+testng.setTestSuites(Collections.singletonList("test-output/testng-failed.xml"));
+testng.run();
+Method 3: Programmatically (TestNG 7.0+)
+java
+TestNG testng = new TestNG();
+testng.setTestClasses(new Class[] { /* Your test class */ });
+testng.addListener(new IAnnotationTransformer() {
+    @Override
+    public void transform(ITestAnnotation annotation, Class testClass,
+            Constructor testConstructor, Method testMethod) {
+        annotation.setRetryAnalyzer(RetryAnalyzer.class);
+    }
+});
+testng.run();
+Additional Tips:
+To control the number of retries, adjust the maxRetryCount in the RetryAnalyzer
+
+For Maven projects, you can add this to your pom.xml:
+
+xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.22.2</version>
+    <configuration>
+        <suiteXmlFiles>
+            <suiteXmlFile>testng-failed.xml</suiteXmlFile>
+        </suiteXmlFiles>
+    </configuration>
+</plugin>
+============================================================================================
+*** - Remember that the testng-failed.xml approach is particularly useful
+when you want to rerun failed tests after the complete test suite has finished executing.
+
+    public void onTestFailure(ITestResult result) {
+        System.out.println("onTestFailure: " + result.getName());
+    }
+
+    public void onTestSkipped(ITestResult result) {
+        System.out.println("onTestSkipped: " + result.getName());
+    }
+==================================================================================================
+Choosing the Right Approach for Rerunning Failed Tests in TestNG
+Each of these approaches serves different purposes in TestNG. Here's when to use each one:
+
+1. onTestFailure (TestListenerAdapter)
+Best for: Logging, reporting, or taking screenshots when tests fail
+Use when:
+You need to perform actions when a test fails (e.g., capture screenshot, log additional info)
+You want to track failures but don't necessarily want to retry
+You're building custom reporting mechanisms
+Limitations: Doesn't actually retry tests, just notifies you of failures
+
+2. testng-failed.xml
+Best for: Re-executing all failed tests after a complete test run
+Use when:
+You want to run all failed tests in a separate execution
+You need to analyze failures after the complete test suite runs
+You want to avoid immediate retries (e.g., for flaky tests that might pass on second run)
+Advantages:
+Clean separation between initial run and retries
+Can be executed manually later
+Preserves the original test context
+
+3. IRetryAnalyzer
+Best for: Immediate, automatic retry of failed tests
+Use when:
+You have flaky tests that often pass on second attempt
+You want automatic retries without manual intervention
+You need to retry specific tests with different retry counts
+Advantages:
+Completely automated
+Configurable per-test retry counts
+Integrates seamlessly with TestNG lifecycle
+
+Recommended Approach by Scenario:
+For flaky tests that might pass on retry:
+Use IRetryAnalyzer with 1-3 retry attempts
+Combine with onTestFailure for logging
+
+For CI/CD pipelines:
+First run: Full test suite
+Second run: Execute testng-failed.xml if first run had failures
+Use onTestFailure for failure reporting
+
+For debugging intermittent failures:
+Use testng-failed.xml to isolate and rerun just the failed tests
+Add detailed logging in onTestFailure
+For critical tests that must pass:
+Use IRetryAnalyzer with higher retry count (3-5)
+Combine with explicit waits/conditions to address timing issues
+
+Best Practice Combination:
+
+java
+@Test(retryAnalyzer = RetryAnalyzer.class)
+public void criticalTest() {
+    // test code
+}
+
+// In your listener class
+@Override
+public void onTestFailure(ITestResult result) {
+    captureScreenshot(result.getName());
+    logFailureDetails(result.getThrowable());
+}
+
+// Then in your CI script:
+// First run: mvn test
+// Second run (if failures): mvn test -Dsurefire.suiteXmlFiles=testng-failed.xml
+Choose based on whether you need immediate retries (IRetryAnalyzer)
+or post-execution analysis (testng-failed.xml),
+with listeners (onTestFailure) for supplementary failure handling in both cases.
+
