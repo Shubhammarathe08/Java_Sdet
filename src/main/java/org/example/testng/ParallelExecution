@@ -47,6 +47,7 @@ xml
     </classes>
   </test>
 </suite>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Clean Thread-Safe Implementation
 BaseTest Class (Thread-safe WebDriver management)
 java

@@ -1,0 +1,176 @@
+Actual classes having test methods @Test
+
+package com.tests;
+public class LoginTests {
+    @Test(priority = 1)
+    public void validLoginTest() {
+        System.out.println("Testing valid login");
+    }
+    @Test(priority = 2)
+    public void invalidLoginTest() {
+        System.out.println("Testing invalid login");
+    }
+}
+
+package com.tests;
+public class RegistrationTests {
+    @Test(groups = "regression")
+    public void newUserRegistration() {
+        System.out.println("Registering new user");
+    }
+    @Test(groups = {"regression", "smoke"})
+    public void duplicateEmailTest() {
+        System.out.println("Testing duplicate email registration");
+    }
+}
+------------------------------------------------------------
+package com.tests;
+public class CartTests {
+    @Test
+    public void addToCart() {
+        System.out.println("Adding item to cart");
+    }
+    @Test(dependsOnMethods = "addToCart")
+    public void removeFromCart() {
+        System.out.println("Removing item from cart");
+    }
+}
+-----------------------------------------------------
+package com.tests;
+public class PaymentTests {
+    @Test()
+    public void creditCardPayment() {
+        System.out.println("Processing credit card payment");
+        // Actual test would include:
+        // 1. Enter card details
+        // 2. Submit payment
+        // 3. Verify success message
+    }
+    @Test()
+    public void paypalPayment() {
+        System.out.println("Processing PayPal payment");
+        // Would include PayPal redirect verification
+    }
+}
+-----------------------------------------------------------------------------------------------
+*** Run Suites In Parallel
+
+<suite name="MasterSuite" parallel="suites" thread-count="2">
+  <suite-files>
+    <suite-file path="suite1.xml"/>  <!-- AuthSuite -->
+    <suite-file path="suite2.xml"/>  <!-- CheckoutSuite -->
+  </suite-files>
+</suite>
+
+MasterSuite (parallel="suites", thread-count=2)
+│
+├── Thread-1: AuthSuite (parallel="classes", thread-count=2)
+│   ├── Thread-1A: LoginTests (methods run sequentially)
+│   └── Thread-1B: RegistrationTests (methods run sequentially)
+│
+└── Thread-2: CheckoutSuite (parallel="methods", thread-count=3)
+    ├── Thread-2A: testAddToCart()
+    ├── Thread-2B: testRemoveFromCart()
+    └── Thread-2C: testCreditCard()
+    (testPayPal() waits for thread availability)
+-----------------------------------------------------------------------------------------------
+*** Run Classes In Parallel
+under single <test> tag, multiple classes , runs parallel
+*** individual methods runs sequentially
+
+<suite name="CombinedSuite" parallel="classes" thread-count="4">
+  <test name="AllTests">
+    <classes>
+      <class name="LoginTests"/>
+      <class name="RegistrationTests"/>
+      <class name="CartTests"/>
+      <class name="PaymentTests"/>
+    </classes>
+  </test>
+</suite>
+
+Thread-1: LoginTests
+  ├── testValidLogin()
+  └── testInvalidLogin() (sequential)
+
+Thread-2: RegistrationTests
+  ├── testNewUser()
+  └── testDuplicateUser() (sequential)
+
+Thread-3: CartTests
+  ├── testAddToCart()
+  └── testRemoveFromCart() (sequential)
+
+Thread-4: PaymentTests
+  ├── testCreditCard()
+  └── testPayPal() (sequential)
+
+  parallel="classes" is better when:
+  You want to keep related classes in one <test> group
+  Need to share <test>-level configurations (e.g., parameters, groups)
+  Prefer cleaner XML with fewer <test> tags
+------------------------------------------------------------------------------------------------
+*** Run Tests In Parallel
+
+Scenario: E-Commerce Platform Testing
+Requirement:
+Run authentication tests sequentially (due to shared session state)
+Run checkout tests in parallel (independent transactions)
+Allocate more threads to checkout (higher priority)
+
+<suite name="EcommerceSuite" parallel="tests" thread-count="4">
+  <!-- Auth tests run sequentially in 1 thread -->
+  <test name="AuthTests" parallel="classes" thread-count="1">
+    <classes>
+      <class name="LoginTests"/>
+      <class name="RegistrationTests"/>
+    </classes>
+  </test>
+  <!-- Checkout tests run parallel with 3 threads -->
+  <test name="CheckoutTests" parallel="methods" thread-count="3">
+    <classes>
+      <class name="CartTests"/>
+      <class name="PaymentTests"/>
+    </classes>
+  </test>
+</suite>
+
+0-2s: [Thread-1] AuthTests (LoginTests)
+      [Thread-2] testAddToCart()
+      [Thread-3] testCreditCard()
+
+2-4s: [Thread-1] AuthTests (RegistrationTests)
+      [Thread-4] testPayPal()
+      [Thread-2] testRemoveFromCart() (if free)
+
+
+Thread-1	AuthTests (all classes/methods)
+            LoginTests.testValidLogin() →
+            testInvalidLogin() →
+            RegistrationTests.testNewUser() →
+            testDuplicateUser()
+Thread-2	CheckoutTests - testAddToCart()	 | Runs immediately and independently
+Thread-3	CheckoutTests - testCreditCard() | Runs immediately and independently
+Thread-4	CheckoutTests - testPayPal()	| Runs when Thread-2/3 becomes free
+
+When to Choose parallel="tests"
+Different Parallel Needs: When some tests need methods and others need classes parallelism
+Resource Allocation: Assign more threads to performance-critical tests
+Configuration Isolation: Different <test> tags can have unique:
+------------------------------------------------------------------------------------------------
+*** Run Methods in Parallel
+
+<suite name="MethodLevelParallelSuite" parallel="methods" thread-count="4">
+  <test name="AllTests">
+    <classes>
+      <class name="com.tests.LoginTests"/>
+      <class name="com.tests.PaymentTests"/>
+    </classes>
+  </test>
+</suite>
+
+With thread-count="4", all 4 methods run simultaneously:
+Thread-1: testValidLogin()
+Thread-2: testInvalidLogin()
+Thread-3: testCreditCard()
+Thread-4: testPayPal()
