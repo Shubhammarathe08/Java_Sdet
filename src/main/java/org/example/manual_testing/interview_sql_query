@@ -5,14 +5,13 @@ DDL DML DQL TCL
  >>>>>>>    max salary
 
 SELECT MAX(salary) AS max_salary FROM employees;
-SELECT salary FROM employees ORDER BY salary DESC LIMIT 1;
+SELECT salary FROM employees ORDER BY salary DESC LIMIT 1; //first max
 
-
-SELECT salary FROM employees ORDER BY salary DESC OFFSET 1 LIMIT 1;
+SELECT salary FROM employees ORDER BY salary DESC OFFSET 1 LIMIT 1; //second max
 SELECT MAX(salary) AS second_max_salary FROM employees
 WHERE salary NOT IN ( SELECT MAX(salary) FROM employees );
 
-SELECT DISTINCT salary FROM employees ORDER BY salary DESC OFFSET N-1 LIMIT 1;
+SELECT DISTINCT(salary) FROM employees ORDER BY salary DESC OFFSET N-1 LIMIT 1; //nth max
 SELECT MIN(salary) AS nth_highest_salary FROM employees WHERE salary
   IN (
        SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT N
@@ -22,3 +21,92 @@ SELECT MIN(salary) AS nth_highest_salary FROM employees WHERE salary
 
  SELECT department_id, MAX(salary) AS max_salary FROM employees
  GROUP BY department_id ORDER BY department_id;
+
+ >>>>>>>>>>>>>> Print alternate rows | odd even
+
+ WITH numbered AS (
+     SELECT *, ROW_NUMBER() OVER (ORDER BY id) AS rn
+     FROM employees
+ )
+ SELECT id, name
+ FROM numbered
+ WHERE rn % 2 = 1;
+// for even - WHERE rn % 2 = 0;
+
+>>>>>>>>>>>>>>>  find hierarchy
+>>>>>>>>>>>>>>> duplicate
+SELECT name, email, department, COUNT(*) AS count
+FROM students
+GROUP BY name, email, department
+HAVING COUNT(*) > 1
+ORDER BY COUNT(*);
+>>>>>>>>>>>>>>> wild card
+
+start
+   SELECT * FROM employees WHERE name LIKE 'Al%';
+end
+   SELECT * FROM employees WHERE name LIKE '%ce';
+contains
+   SELECT * FROM employees WHERE name LIKE '%lic%';
+specific letter | 3rd letter + rest can be abything
+   SELECT * FROM employees WHERE name LIKE '__i%';
+wildcard + length
+  SELECT * FROM employees
+  WHERE name LIKE 'A%e' AND LENGTH(name) >= 5;
+Ignore case senitivity
+  SELECT * FROM employees
+  WHERE name LIKE 'A%e' AND LENGTH(name) >= 5;
+Not Like
+  SELECT * FROM employees
+  WHERE name NOT LIKE 'A%'; // NOT LIKE '%e'
+exact not
+  WHERE column <> 'value'
+  WHERE column NoT IN ( 'value' )
+n letters
+  4 lettrs  //  WHERE name LIKE '____';
+  2nd L 4th L // WHERE name LIKE '_L_M%';
+  exact 2 L // WHERE name LIKE '%LL%';
+  start j end s // WHERE name LIKE 'j%s';
+======================================================================
+| emp\_id | emp\_name | manager\_id |
+| ------- | --------- | ----------- |
+| 1       | Alice     | NULL        |
+| 2       | Bob       | 1           |
+| 3       | Charlie   | 1           |
+| 4       | David     | 2           |
+
+
+SELECT
+    e.emp_name AS employee,
+    m.emp_name AS manager
+FROM
+    employees e
+LEFT JOIN
+    employees m ON e.manager_id = m.emp_id;
+===================================================================
+union vs union all
+employees_2023
+name
+Alice
+Bob
+Charlie
+
+employees_2024
+name
+Bob
+David
+Eve
+
+union - UNION removes duplicates automatically.
+
+  SELECT name FROM employees_2023
+  UNION
+  SELECT name FROM employees_2024;
+
+All rows are returned including duplicates.
+  SELECT name FROM employees_2023
+  UNION ALL
+  SELECT name FROM employees_2024;
+==================================================================
+
+

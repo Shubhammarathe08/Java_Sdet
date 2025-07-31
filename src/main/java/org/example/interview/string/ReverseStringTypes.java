@@ -7,6 +7,16 @@ public class ReverseStringTypes {
     // str =   " test my skill "
     // str =   "   test  my    skill "
 
+    /*
+   static String s1 = "How are you";
+    // result: "you are How";
+	    String[] temp = s1.split(" "); // how, are, you  you"" are"" how // 0 1 2 3
+	    for(int i=temp.length-1; i>=0; i--){
+	        System.out.print(temp[i]);
+	        if(i>0){ System.out.print(" ");}
+	    }
+ */
+
     static String rev_str_with_spaces(String ip){
         String temp = "";
         String[] temp_arr =  ip.trim().split("\\s+");

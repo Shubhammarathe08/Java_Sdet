@@ -203,7 +203,7 @@ Collection (I) Vs Collections (C)
 
 Used for - to represent group of objects and [key:value] pair
 >> keys - Unique | duplicates not allowed
->> values - DDuplicate allowed
+>> values - Duplicate allowed
 
 implementation classes (C)
 HashMap (C)
