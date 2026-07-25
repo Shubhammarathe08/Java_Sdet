@@ -1,25 +1,22 @@
-package org.example.language_fundamentals;
+package org.example.language_fundamentals_01;
 
 public class ExecutionOrder {
 
     // if all things are static >> class, var , block , method
-    /*
+    /*   Top To Bottom
      step 1 - identification of - static members
-            >> static block 1, i2 , m2 ,2 main methods , static block 2 (parent-child >> top-bottom)
+            >> static block 1, [ i2 , m2 ( 2 main methods) ] , static block 2 (parent-child >> top-bottom)
      step 2 - execution of static var + static blocks (parent-child >> top-bottom)
               i2 = 200
-
-     op:- first static block executed
-          second static block executed
-
+           op:- first static block executed
+                second static block executed
      step 3 - execution of main | p s v m(String[] args)
                local_var = true
                op:- first static block executed
-               second static block executed
-               main method executed
+                    second static block executed
+                    main method executed
 
      >>>> Object Creation >>>>
-
      step 4 -  identification of - instance members (parent-child >> top-bottom)
                >> instance block 1 , 3 constructors , i1, m1, instance block 2
      step 5 - execution of instance var + instance blocks (parent >> top-bottom)

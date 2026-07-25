@@ -1,4 +1,4 @@
-package org.example.language_fundamentals;
+package org.example.language_fundamentals_01;
 
 public class Variables {
 
