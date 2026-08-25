@@ -1,5 +1,4 @@
-
-                         Exception
+Exception
 
 >> unwanted un expected event, that disturbs normal execution of normal flow of the program
 >> recommended to handle exception
@@ -27,6 +26,17 @@
 >> if all methods including main terminates , normally, then only its NORMAL termination
 >> most of the time , exceptions are caused by our program
 >> Exceptions are recoverable
+
+*** MISSING >> Helpful NullPointerExceptions (JEP 358, Java 14+, ON by default) - relevant to whole Exception Format section above
+    >> before Java 14, NPE message was just:
+       Exception in thread "main" java.lang.NullPointerException
+    >> Java 14+ gives a PRECISE description of exactly which variable/field/method call was null:
+       Exception in thread "main" java.lang.NullPointerException:
+           Cannot invoke "String.length()" because "s" is null
+             	at org.example.exception_handling.ExceptionVsError.main(ExceptionVsError.java:17)
+    >> huge debugging improvement - pinpoints WHICH reference in a chained call (a.b.c.d()) was null
+    >> enabled by default from Java 15 onwards (JVM flag -XX:+ShowCodeDetailsInExceptionMessages needed pre-15)
+
 ------------------------------------------------------------------------------------------------------------------------
                               Error
 
@@ -52,6 +62,46 @@
       }
     catch(D e2){
       }
+
+*** MISSING >> Multi-catch block (Java 7+, still standard practice in 17) - good practice addition
+    >> if 2 or more exceptions need SAME handling code, combine into one catch using |
+       try{
+           stmt 1
+           stmt 2
+       }
+       catch(E1 | E2 e){       // single catch, handles either E1 or E2 identically
+           // common handling code
+       }
+    >> RULE - E1 and E2 must NOT have parent-child relationship (compile time error if related)
+    >> the exception reference (e) is implicitly final - cannot be reassigned inside catch block
+
+*** MISSING >> try-with-resources (Java 7+, enhanced in Java 9) - good practice for resource-related exceptions
+    Before Java 9:
+       try(FileReader fr = new FileReader("a.txt")){
+           // use fr
+       }
+       // fr auto-closed, AutoCloseable.close() called automatically - no explicit finally needed
+    Java 9+ enhancement:
+       FileReader fr = new FileReader("a.txt");
+       try(fr){                     // can use an already-declared effectively-final variable directly
+           // use fr
+       }
+    >> resource must implement AutoCloseable/Closeable
+    >> multiple resources closed in REVERSE order of declaration
+    >> suppressed exceptions (from close()) attached via getSuppressed() if try block also throws
+
+*** MISSING >> Pattern Matching instanceof (Java 16+, standard in 17) - avoids ClassCastException proactively
+    Before:
+       if(obj instanceof String){
+           String s = (String) obj;   // manual cast - risk of ClassCastException if skipped/misused
+       }
+    Java 17:
+       if(obj instanceof String s){   // safe - no explicit cast, no ClassCastException risk
+           System.out.println(s.length());
+       }
+    >> directly relevant to Common Exceptions #3 (ClassCastException) below - reduces the scenarios
+       where that exception can even occur due to careless manual casting
+
 -------------------------------------------------------------------------------------------------------------------------
                       Common Exceptions
 
@@ -96,3 +146,63 @@
 >> child of Error  | unchecked
 >> auto raised by JVM , raised explicitly either by programmer/api developer for assert statement failed
 
+==========================================================================================================
+
+*** MISSING >>
+11. MatchException (Java 21 preview, NOT in 17 - mentioned for awareness only)
+    >> not applicable to Java 17 - added later with pattern matching for switch, skip for now
+
+*** MISSING >>
+Records + Exceptions (Java 16+, standard in 17) - relevant new exception-raising pattern
+    record Employee(int id, String name){
+        Employee {                              // compact constructor
+            if(id < 0)
+                throw new IllegalArgumentException("id cannot be negative");   // #7 above, raised explicitly
+        }
+    }
+    >> compact constructor is the recommended place to validate record components
+       and throw IllegalArgumentException / NullPointerException(Java 14+ style) proactively,
+       BEFORE fields get assigned
+
+*** MISSING >>
+Sealed Classes + Custom Exception hierarchies (Java 17) - design-level addition
+    sealed class AppException extends Exception permits ValidationException, DbException {}
+    final class ValidationException extends AppException {}
+    final class DbException extends AppException {}
+    >> lets you define a CLOSED set of custom exception types
+    >> useful for catch-block exhaustiveness reasoning - compiler/reviewer knows
+       there are NO other possible subtypes of AppException outside this file/module
+    >> combine with good-practice catch ordering (child >> child >> parent) shown above -
+       now the "child" list is guaranteed complete, nothing can sneak in later unnoticed
+
+=============================================================================================================
+📝 QUICK SUMMARY - WHAT'S NEW / DEPRECATED FOR EXCEPTIONS IN JAVA 17
+
+| Feature                                    | Status                         | Notes                                                      |
+|------------------------------------------ -|------------------------------- |---------------------------------------------------------  -|
+| Helpful NullPointerExceptions              | 🆕 Java 14+ (default Java 15+) | Pinpoints exact null reference in chained calls            |
+| Multi-catch (E1 \| E2)                     | 🆕 Java 7+ (still current)     | Combine unrelated exceptions in one catch block            |
+| try-with-resources                         | 🆕 Java 7+, enhanced Java 9+   | Auto-close AutoCloseable, effectively-final var support    |
+| Pattern Matching instanceof                | 🆕 Java 16+, standard Java 17  | Reduces manual-cast-driven ClassCastException risk         |
+| Records + compact constructor validation   | 🆕 Java 16+, standard Java 17  | Natural place to throw IllegalArgumentException            |
+| Sealed exception hierarchies               | 🆕 Java 17                     | Closed set of custom exception subtypes                    |
+
+*** DEPRECATED >> Related to exception/error handling in Java 17
+
+    1. SecurityManager and related security exceptions - DEPRECATED FOR REMOVAL in Java 17 (JEP 411)
+       >> SecurityManager.checkXXX() methods used to throw SecurityException as part of
+          the old sandboxing model (applets, restricted permissions)
+       >> the ENTIRE SecurityManager mechanism is deprecated for removal - relevant here because
+          SecurityException-based exception handling code tied to SecurityManager is now legacy
+       >> use instead >> OS-level sandboxing, containers, or module system (JPMS) restrictions
+
+    2. Thread.stop(Throwable obj) - DEPRECATED FOR REMOVAL (was already deprecated pre-9, reinforced since)
+       >> used to forcibly throw an arbitrary Throwable in the target thread, causing
+          unpredictable/unsafe termination (ThreadDeath error internally)
+       >> use instead >> cooperative cancellation - a volatile boolean flag or
+          Thread.interrupt() + checking Thread.isInterrupted() inside the run loop
+
+    3. Runtime.runFinalizersOnExit() / System.runFinalizersOnExit() - already removed pre-17, still
+       relevant to mention since it interacted with finalize()-related ExceptionInInitializerError-style
+       issues (#6 above) >> avoid designs depending on finalizers altogether;
+       use try-with-resources / java.lang.ref.Cleaner instead

@@ -13,6 +13,18 @@ public abstract class AbstractClass1 {
            :-  initialization of instance variable, static variable , instance block, static block ( required for child objects )
         >> when all methods are abstract, simply go for Interface not Abstract class
 
+        *** MISSING >> Java 17 - Sealed abstract classes (JEP 409) - NEW way to control who can extend
+            an abstract class, on top of the abstract-class rule that you can't instantiate it directly
+            sealed abstract class AbstractClass1 permits ChildA, ChildB {}
+            >> combines "cant create object directly" (abstract) with "only these classes may extend it" (sealed)
+            >> every permitted subclass must be final / sealed / non-sealed
+            >> without sealed, ANY class could extend AbstractClass1 - sealed restricts the child list explicitly
+
+        *** MISSING >> when to prefer Records instead of Abstract class (Java 16+, standard in 17)
+            >> if the "child" is really just an immutable data holder with no shared behavior/state
+               initialization logic, consider a record instead of extending an abstract class
+            >> records CANNOT extend an abstract class (or any class) - only implement interfaces -
+               so this abstract class + constructor pattern is NOT compatible with records at all
         */
 
     int parent_age = 10;
@@ -49,5 +61,20 @@ public abstract class AbstractClass1 {
     }
     abstract void my_abstract_method();
 
-}
+    /*
+    *** MISSING >> Pattern Matching instanceof (Java 16+, standard in 17) - relevant when
+        working with abstract class references at call sites
+        AbstractClass1 obj = new ChildClass();
+        if(obj instanceof ChildClass c){    // no explicit cast needed
+            c.someChildMethod();
+        }
+        >> useful since you often hold a reference of the abstract type but need child-specific behavior
 
+    *** DEPRECATED >> nothing in abstract class syntax/rules itself is deprecated in Java 17.
+        If this class or its children ever override Object.finalize() for cleanup, note:
+        Object.finalize() - deprecated since Java 9, forRemoval since Java 18
+        >> use try-with-resources / java.lang.ref.Cleaner (Java 9+) instead, if this abstract
+           class manages any closeable resource that needs cleanup logic
+    */
+
+}

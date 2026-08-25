@@ -21,7 +21,7 @@ public class MemberMethodVariable {
     private >> accessible only within the same class | in other class not accessible
     *** private + abstract >> illegal, need to be accessible to child classes to implement the abstract method
 
-                                                           Variables
+                                                           K_Variables
     >> public , protected , private , default , final, static | access modifiers
     ** class public then only method and member is available + accessible
     default >> package level access | accessible within the same package only

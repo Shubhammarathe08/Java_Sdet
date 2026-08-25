@@ -1,103 +1,331 @@
-🌐 What Is Constructor Chaining?
+package org.example.language_fundamentals_01;
 
-- Constructor chaining is when one constructor calls another constructor
- in the same class (this(...)) or the superclass (super(...)).
-- In an inheritance hierarchy, constructor chaining ensures that
- the parent class is initialized before the child.
+public class ConstructorChaining {
 
-🧬 Our Class Setup Overview
-We’ll build three classes:
-- P1: Has three constructors → no-arg, two-arg, and var-arg.
-- C1 extends P1: Calls one of the P1 constructors using super(...).
-- GC1 extends C1: Calls a C1 constructor, continuing the chain.
+    /*
+    🌐 What Is Constructor Chaining?
 
-💡 Code Example: Constructor Chaining with Overloading
-`java
-class P1 {
-    P1() {
-        System.out.println("Parent: no-arg constructor");
+    - Constructor chaining is when one constructor calls another constructor
+      in the same class (this(...)) or the superclass (super(...)).
+    - In an inheritance hierarchy, constructor chaining ensures that
+      the parent class is initialized before the child.
+
+
+    🧬 Our Class Setup Overview
+
+    We will build three classes:
+
+    - P1:
+      Has three constructors:
+      no-arg, two-arg, and var-arg.
+
+    - C1 extends P1:
+      Calls one of the P1 constructors using super(...).
+
+    - GC1 extends C1:
+      Calls a C1 constructor, continuing the chain.
+
+
+    💡 Code Example: Constructor Chaining with Overloading
+
+
+    class P1 {
+
+        P1() {
+            System.out.println("Parent: no-arg constructor");
+        }
+
+        P1(int a, int b) {
+            System.out.println("Parent: 2-arg constructor → "
+                    + a + ", " + b);
+        }
+
+        P1(int... values) {
+            System.out.println("Parent: var-arg constructor → "
+                    + java.util.Arrays.toString(values));
+        }
     }
 
-    P1(int a, int b) {
-        System.out.println("Parent: 2-arg constructor → " + a + ", " + b);
+
+    class C1 extends P1 {
+
+        C1() {
+            // Calls Parent's no-arg constructor
+            super();
+
+            System.out.println("Child: no-arg constructor");
+        }
+
+        C1(int x, int y) {
+            // Calls Parent's 2-arg constructor
+            super(x, y);
+
+            System.out.println("Child: 2-arg constructor → "
+                    + x + ", " + y);
+        }
+
+        C1(int... nums) {
+            // Calls Parent's var-arg constructor
+            super(nums);
+
+            System.out.println("Child: var-arg constructor → "
+                    + java.util.Arrays.toString(nums));
+        }
     }
 
-    P1(int... values) {
-        System.out.println("Parent: var-arg constructor → " + java.util.Arrays.toString(values));
+
+    class GC1 extends C1 {
+
+        GC1() {
+            // Chaining:
+            // Child's no-arg -> Parent's no-arg
+
+            super();
+
+            System.out.println("Grandchild: no-arg constructor");
+        }
+
+        GC1(int a, int b) {
+            // Chaining:
+            // Child's 2-arg -> Parent's 2-arg
+
+            super(a, b);
+
+            System.out.println("Grandchild: 2-arg constructor");
+        }
+
+        GC1(int... values) {
+            // Chaining:
+            // Child's var-arg -> Parent's var-arg
+
+            super(values);
+
+            System.out.println("Grandchild: var-arg constructor");
+        }
     }
+
+
+    🧪 Sample Output (When Instantiating)
+
+
+    new GC1();
+
+    Output:
+
+    Parent: no-arg constructor
+    Child: no-arg constructor
+    Grandchild: no-arg constructor
+
+
+    new GC1(5,10);
+
+    Output:
+
+    Parent: 2-arg constructor → 5, 10
+    Child: 2-arg constructor → 5, 10
+    Grandchild: 2-arg constructor
+
+
+    new GC1(1,2,3);
+
+    Output:
+
+    Parent: var-arg constructor → [1, 2, 3]
+    Child: var-arg constructor → [1, 2, 3]
+    Grandchild: var-arg constructor
+
+
+    🎯 Why This Matters
+
+    - Ensures objects are constructed top-down:
+      superclass → subclass.
+
+    - Helps enforce initialization order.
+
+    - Provides control over which parent constructor
+      is triggered by subclass constructors.
+
+
+    🆕 Java 17 Additions Related to Constructor Chaining
+
+
+    📦 Records (Java 16+, standard in Java 17)
+
+    NEW constructor model with different rules.
+
+
+    Example:
+
+    record Point(int x, int y) {
+
+        // Compact constructor:
+        // Runs BEFORE fields are assigned.
+
+        // NO explicit this(...) or super(...) call allowed here.
+
+        // Implicit super() to Object happens automatically.
+
+        Point {
+
+            if(x < 0 || y < 0)
+                throw new IllegalArgumentException(
+                    "negative coords");
+        }
+
+
+        // Overloaded constructor:
+        // MUST delegate to canonical constructor.
+
+        Point(int x) {
+
+            this(x,x);
+        }
+    }
+
+
+    Record Rules:
+
+    - Records are implicitly final.
+    - Records can extend only Object.
+    - No parent-class constructor chaining possible.
+    - Canonical constructor is auto-generated.
+    - Compact constructor cannot use this(...) or super(...).
+    - Additional constructors must eventually call canonical constructor
+      using this(...).
+
+
+    🔒 Sealed Classes (Java 17)
+
+    Constructor chaining rules remain unchanged,
+    only inheritance hierarchy is restricted.
+
+
+    Example:
+
+
+    sealed class P1 permits C1 {
+
+        P1() {
+            System.out.println("Parent: no-arg constructor");
+        }
+    }
+
+
+    final class C1 extends P1 {
+
+        C1() {
+
+            super();
+
+            System.out.println("Child: no-arg constructor");
+        }
+    }
+
+
+    Rules:
+
+    - Sealed classes restrict which classes can extend a class.
+    - super(...) and this(...) rules remain unchanged.
+    - Every permitted subclass follows normal
+      top-down constructor chaining.
+
+
+    🔡 var with Constructor Calls (Java 10+)
+
+
+    Example:
+
+    var gc1 = new GC1(1,2,3);
+
+
+    - var only provides local variable type inference.
+    - It has zero effect on constructor chaining.
+
+
+    🚫 Deprecated Related To This Topic
+
+
+    Wrapper constructors are deprecated since Java 9.
+
+
+    Avoid:
+
+    Integer i = new Integer(10);
+
+    Boolean b = new Boolean(true);
+
+
+    Use:
+
+    Integer i = Integer.valueOf(10);
+
+    Integer i = 10; // autoboxing
+
+
+    Reason:
+
+    - Wrapper objects are immutable.
+    - Factory methods use caching.
+    - Avoid unnecessary object creation.
+
+
+    Important:
+
+    valueOf(...) is NOT constructor chaining.
+
+    Only constructors participate in:
+
+    this(...)
+    super(...)
+
+
+    📝 Quick Summary
+
+
+    Normal Class (P1/C1/GC1):
+
+    Supports:
+    this()/super()
+
+    Notes:
+    Fully flexible.
+
+
+    Record:
+
+    Supports:
+    Yes, restricted.
+
+    Notes:
+    Overloaded constructor must call canonical constructor.
+
+
+    Sealed Class:
+
+    Supports:
+    Yes.
+
+    Notes:
+    Only inheritance is restricted.
+
+
+    var:
+
+    Supports:
+    N/A
+
+    Notes:
+    Only type inference.
+
+
+    Deprecated Wrapper Constructor:
+
+    Supports:
+    N/A
+
+    Notes:
+    Avoid, use factory methods.
+
+    */
+
 }
-
-class C1 extends P1 {
-    C1() {
-        // Calls Parent's no-arg constructor
-        super();
-        System.out.println("Child: no-arg constructor");
-    }
-
-    C1(int x, int y) {
-        // Calls Parent's 2-arg constructor
-        super(x, y);
-        System.out.println("Child: 2-arg constructor → " + x + ", " + y);
-    }
-
-    C1(int... nums) {
-        // Calls Parent's var-arg constructor
-        super(nums);
-        System.out.println("Child: var-arg constructor → " + java.util.Arrays.toString(nums));
-    }
-}
-
-class GC1 extends C1 {
-    GC1() {
-        // Chaining: calls Child's no-arg → Parent's no-arg
-        super();
-        System.out.println("Grandchild: no-arg constructor");
-    }
-
-    GC1(int a, int b) {
-        // Chaining: calls Child's 2-arg → Parent's 2-arg
-        super(a, b);
-        System.out.println("Grandchild: 2-arg constructor");
-    }
-
-    GC1(int... values) {
-        // Chaining: calls Child's var-arg → Parent's var-arg
-        super(values);
-        System.out.println("Grandchild: var-arg constructor");
-    }
-}
-`
-
----
-
-🧪 Sample Output (when instantiating)
-
-`java
-new GC1();
-// Output:
-// Parent: no-arg constructor
-// Child: no-arg constructor
-// Grandchild: no-arg constructor
-
-new GC1(5, 10);
-// Output:
-// Parent: 2-arg constructor → 5, 10
-// Child: 2-arg constructor → 5, 10
-// Grandchild: 2-arg constructor
-
-new GC1(1, 2, 3);
-// Output:
-// Parent: var-arg constructor → [1, 2, 3]
-// Child: var-arg constructor → [1, 2, 3]
-// Grandchild: var-arg constructor
-`
-
----
-
-🎯 Why This Matters
-
-- It ensures that objects are constructed top-down: superclass → subclass.
-- Helps enforce initialization order.
-- You gain fine control over which parent constructor is triggered by subclass constructors.
-
----

@@ -1,4 +1,3 @@
-
 >> every exception occurs at RunTime ONLY
    No chance of occurring exception at compile time
 
@@ -28,41 +27,175 @@
      at org.example.exception_handling.ExceptionVsError.doStuff(ExceptionVsError.java:25)
      at org.example.exception_handling.ExceptionVsError.main(ExceptionVsError.java:20)
 
+*** MISSING >> Helpful NullPointerExceptions (JEP 358, Java 14+, default ON since Java 15)
+    >> relevant to the "run time exception" example above (NullPointerException)
+    >> pre-14 message: just "java.lang.NullPointerException", no detail
+    >> Java 17 message: pinpoints exactly which variable/field/call chain was null
+       Exception in thread "main" java.lang.NullPointerException:
+           Cannot invoke "String.length()" because "s" is null
+             at org.example.exception_handling.ExceptionVsError.main(ExceptionVsError.java:20)
+    >> huge help debugging chained calls like a.b.c.d() - tells you WHICH link was null
 
-                           Java Exception Hierarchy (Java 17)
+
+*** MISSING >> try-with-resources (Java 7+, enhanced Java 9+) - directly relevant to checked exception example above
+    Before (your example style):
+       PrintWriter pw = new PrintWriter("hello.txt");
+       // must catch/declare FileNotFoundException - no auto close, risk of resource leak
+    Better (Java 7+, still current in 17):
+       try(PrintWriter pw = new PrintWriter("hello.txt")){
+           pw.println("data");
+       }
+       // still must catch/declare FileNotFoundException (checked), BUT pw auto-closed even if exception occurs
+    >> checked-exception requirement doesn't go away - try-with-resources only guarantees
+       the resource (pw) is closed automatically, doesn't remove the compile-time checking rule
+
+
+*** MISSING >> Pattern Matching instanceof (Java 16+, standard in 17) - relevant to unchecked exceptions like ClassCastException
+    Object obj = "hello";
+    if(obj instanceof Integer i){        // safe check, no cast, no ClassCastException risk
+        System.out.println(i);
+    }
+    >> reduces scenarios where careless manual casting causes unchecked ClassCastException at runtime
+
+
+📝 QUICK NOTE - CHECKED vs UNCHECKED, JAVA 17 RELEVANT ADDITIONS
+
+| Type              | Compiler enforced? | Java 17-relevant addition                                   |
+|-------------------|---------------------|----------------------------------------------------------------|
+| Checked exception   | Yes - must catch/declare | try-with-resources still required alongside catch/declare  |
+| Unchecked (Runtime) | No                  | Helpful NPE messages (Java 14+/15 default) give exact cause  |
+| Unchecked (Error)   | No                  | unaffected - still lack-of-resources related, unchanged        |
+
+
+*** DEPRECATED >> related to this topic
+
+    1. new String("Hello") / new Integer(10) style object creation inside try blocks - not formally
+       an exception-handling deprecation, but relevant if these appear in checked/unchecked exception
+       examples: wrapper constructors deprecated since Java 9 (forRemoval later)
+       >> use Integer.valueOf(10) / autoboxing / string literals instead, doesn't change checked/unchecked
+          behavior, just cleaner object creation while demonstrating exception scenarios
+
+    2. Thread.stop(Throwable) - DEPRECATED FOR REMOVAL, relevant if used to forcibly inject a
+       Throwable causing unpredictable unchecked termination
+       >> use cooperative cancellation (volatile flag / Thread.interrupt()) instead
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                       Java Exception Hierarchy (Java 17)
+
 ══════════════════════════════════════════════════════════════════════════════
-       Checked Exceptions (Compile-time)               Unchecked Exceptions (Runtime)
+        Checked Exceptions (Compile-time)          Unchecked Exceptions (Runtime)
 ══════════════════════════════════════════════════════════════════════════════
-                Object                                          Object
-                  │                                               │
-              Throwable                                       Throwable
-                  │                                               │
-              Exception                                        Exception
-                  │                                               └── RuntimeException
-                  ├── IOException                                   ├── NullPointerException
-                  │     ├── FileNotFoundException                   ├── ArrayIndexOutOfBoundsException
-                  │     ├── EOFException                            ├── ArithmeticException
-                  │     └── SocketException                         ├── ClassCastException
-                  ├── SQLException                                 ├── IllegalArgumentException
-                  ├── ParseException                               │     └── NumberFormatException
-                  ├── ClassNotFoundException                       ├── IllegalStateException
-                  ├── InterruptedException                         ├── StringIndexOutOfBoundsException
-                  ├── CloneNotSupportedException                   └── UnsupportedOperationException
-                  ├── InstantiationException
-                  ├── InvocationTargetException
-                  └── ReflectiveOperationException
-                                                                Object
-                                                                  |
-                                                               Throwable
-                                                                  └── Error
-                                                                  ├── StackOverflowError
-                                                                  ├── OutOfMemoryError
-                                                                  ├── VirtualMachineError
-                                                                  │     ├── InternalError
-                                                                  │     └── UnknownError
-                                                                  ├── AssertionError
-                                                                  └── LinkageError
-                                                                       ├── NoClassDefFoundError
-                                                                       ├── ClassFormatError
-                                                                       └── UnsupportedClassVersionError
+
+                              Object
+                                |
+                            Throwable
+                         /          \
+                        /            \
+                 Exception            Error
+                    |                   |
+        -------------------             |
+        |                 |            \_/
+ RuntimeException     Checked
+        |             Exceptions
+        |                 |
+        |                 |
+        |              IOException
+        |                  |
+        |              FileNotFoundException
+        |              EOFException
+        |              SocketException
+        |
+        |              SQLException
+        |              ParseException
+        |              ClassNotFoundException
+        |              InterruptedException
+        |              CloneNotSupportedException
+        |              InstantiationException
+        |              InvocationTargetException
+        |              ReflectiveOperationException
+        |
+        |
+        |-- NullPointerException
+        |
+        |-- ArrayIndexOutOfBoundsException
+        |
+        |-- StringIndexOutOfBoundsException
+        |
+        |-- ArithmeticException
+        |
+        |-- ClassCastException
+        |
+        |-- IllegalArgumentException
+        |       |
+        |       |-- NumberFormatException
+        |
+        |-- IllegalStateException
+        |
+        |-- UnsupportedOperationException
+
+══════════════════════════════════════════════════════════════════════════════
+                              Error Hierarchy
+
+                              Error
+                                |
+        ------------------------------------------------
+        |              |              |               |
+StackOverflowError  OutOfMemoryError  VirtualMachineError  AssertionError
+                                         |
+                              -------------------
+                              |                 |
+                         InternalError     UnknownError
+
+        LinkageError
+              |
+        ------------------------------
+        |             |              |
+NoClassDefFoundError  ClassFormatError  UnsupportedClassVersionError
+
+══════════════════════════════════════════════════════════════════════════════
+
+KEY:
+
+Checked Exceptions:
+
+- Subclasses of Exception excluding RuntimeException and its subclasses.
+- Checked by compiler.
+- Must be handled using try-catch or throws.
+
+Examples:
+
+IOException
+SQLException
+ClassNotFoundException
+InterruptedException
+
+
+------------------------------------------------------------
+Unchecked Exceptions:
+
+RuntimeException + Error are both unchecked,
+but they have different purposes:
+RuntimeException:
+- Programming mistakes.
+Error:
+- JVM/System failures.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+1. RuntimeException and its subclasses
+- Occur due to programming mistakes.
+- Compiler does not force handling.
+
+Examples:
+NullPointerException
+ArithmeticException
+IllegalArgumentException
+ArrayIndexOutOfBoundsException
+
+2. Error and its subclasses
+- JVM/System level problems.
+- Generally not handled by application code.
+
+Examples:
+OutOfMemoryError
+StackOverflowError
+NoClassDefFoundError
+=============================================================================
 

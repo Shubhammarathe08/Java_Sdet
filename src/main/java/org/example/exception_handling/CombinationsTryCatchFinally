@@ -1,4 +1,3 @@
-
 =============================     ORDER is IMP >> Try Catch Finally + block is imp  =====================================
 
                                     legal combo
@@ -8,6 +7,13 @@ try + finally
 try + catch + finally
 
 curly braces mandatory
+
+*** MISSING >> Java 7+ additions to legal combos (still standard practice in Java 17)
+    try + multi-catch (catch(X | Y e))
+    try(resource) + catch
+    try(resource) + finally
+    try(resource) + catch + finally
+    try(resource)                          // valid alone - no catch/finally needed, resource still auto-closes
 
 ==============================   Combo  =================================
 try{
@@ -66,6 +72,25 @@ Compile Time Error :- exception already been caught
          stmt 5;
       }
         stmt 6;
+
+*** MISSING >> case 7a :- single catch with multi-catch pipe (Java 7+, still current Java 17) - VALID, alternative to case 7 style
+    try{
+        stmt 1;
+        stmt 2;
+    }
+    catch(ArithmeticException | NullPointerException e){   // unrelated exceptions, single handler
+        stmt 3;
+    }
+    op:- combines case 5/7 style handling into ONE block when handling logic is IDENTICAL
+
+*** MISSING >> case 7b :- multi-catch with parent-child pair - IN-VALID (Java 7+ rule, still applies in 17)
+    catch(Exception | ArithmeticException e){
+        stmt 4;
+    }
+    Compile Time Error :- Arithmetic Exception is a subclass of Exception - alternatives in a multi-catch
+                          statement cannot be related by subclassing
+    *** e is implicitly final in multi-catch - cannot reassign e inside the block
+
 -----------------------------------    Try Catch Finally   ------------------------------------------
 // case 8  :- try catch finally  - VALID
   try{
@@ -325,4 +350,85 @@ Compiler time error :- finally without try
                System.out.println("bello");
                     }
 
+  --------------------------  try-with-resources Cases (Java 7+, enhanced Java 9+) - MISSING, added for Java 17  -------------------------------
 
+    // case 34   try-with-resources alone, no catch/finally - VALID (unlike plain "try" in case 13)
+        try(FileReader fr = new FileReader("a.txt")){
+            System.out.println("hello");
+        }
+        *** difference from case 13 :- plain try REQUIRES catch or finally, but try-with-resources
+            does NOT - the resource's close() being called automatically satisfies the compiler,
+            though FileNotFoundException from "new FileReader(...)" itself still needs handling/declaring
+
+
+    // case 35   try-with-resources + catch + finally - VALID
+        try(FileReader fr = new FileReader("a.txt")){
+            stmt 1;
+        }
+        catch(IOException e){
+            stmt 2;
+        }
+        finally{
+            stmt 3;
+        }
+        *** order of closing :- fr.close() runs BEFORE catch/finally blocks execute
+            (resource closing happens as part of the try block's own completion)
+
+
+    // case 36   try-with-resources, resource not effectively final - IN-VALID
+        FileReader fr = new FileReader("a.txt");
+        fr = new FileReader("b.txt");     // fr reassigned - no longer effectively final
+        try(fr){
+            stmt 1;
+        }
+        Compile Time Error :- variable fr might not be effectively final (Java 9+ resource-reuse rule)
+
+
+    // case 37   multiple resources in try-with-resources - VALID
+        try(FileReader fr = new FileReader("a.txt");
+            BufferedReader br = new BufferedReader(fr)){
+            stmt 1;
+        }
+        *** closing order :- REVERSE of declaration - br.close() first, then fr.close()
+
+
+    // case 38   resource class not implementing AutoCloseable - IN-VALID
+        class MyResource { void close(){ } }   // does NOT implement AutoCloseable/Closeable
+        try(MyResource m = new MyResource()){
+            stmt 1;
+        }
+        Compile Time Error :- incompatible types - MyResource cannot be converted to AutoCloseable
+
+
+  --------------------------  Pattern Matching instanceof Case (Java 16+, standard in 17) - MISSING  -------------------------------
+
+    // case 39   catch block using pattern matching on getCause() - VALID
+        try{
+            stmt 1;
+        }
+        catch(Exception e){
+            if(e.getCause() instanceof IOException io){    // no explicit cast, "io" auto-bound
+                System.out.println(io.getMessage());
+            }
+        }
+        *** this is unrelated to catch-matching rules above (case 5-7) - pattern matching here is
+            just inspecting the exception's cause chain, not an alternative catch mechanism
+
+
+📝 QUICK SUMMARY - JAVA 17 ADDITIONS TO TRY/CATCH/FINALLY CASE RULES
+
+| New Case                              | Validity  | Key rule                                                |
+|-----------------------------------------|-----------|-------------------------------------------------------------|
+| Multi-catch (X \| Y)                    | VALID     | X and Y must be unrelated (no parent-child)                 |
+| Multi-catch with related types          | IN-VALID  | Compile error - already caught by subclass relation          |
+| try-with-resources alone                | VALID     | No catch/finally required, unlike plain try                  |
+| try-with-resources + non-final resource | IN-VALID  | Resource var must be final/effectively final (Java 9+ rule)  |
+| try-with-resources, non-AutoCloseable   | IN-VALID  | Resource class must implement AutoCloseable/Closeable         |
+| Multiple resources in one try()         | VALID     | Closed in REVERSE order of declaration                        |
+| Pattern matching instanceof in catch    | VALID     | Safe inspection of getCause(), no cast needed                 |
+
+
+*** DEPRECATED >> nothing structurally deprecated within try/catch/finally syntax itself in Java 17.
+    Related deprecated items from earlier notes (Thread.stop(Throwable), Object.finalize(),
+    SecurityManager-based checked exceptions) still apply if they appear INSIDE these blocks,
+    but the try/catch/finally/throw/throws grammar itself is unchanged and fully supported.

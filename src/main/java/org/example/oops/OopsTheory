@@ -1,4 +1,8 @@
+package org.example.language_fundamentals_01;
 
+public class OOPSConcepts {
+
+    /*
 
 ===============================     Data Hiding   ================================
 
@@ -18,6 +22,12 @@ ex. bank ATM gui services | hide internal implementation + highlight set of serv
 security
 maintainability
 easy enhancement >> w/o affecting set of exposed services + we can change internal implementation
+
+*** MISSING >> Java 17 - Sealed Classes give a NEW way to control abstraction
+    sealed interface Shape permits Circle, Square, Triangle {}
+    >> restricts WHICH classes can implement/extend, giving tighter control over abstraction boundary
+    >> earlier (pre-17) any class could implement an interface/extend a class - no way to "seal" the hierarchy
+    >> combined with pattern matching switch (preview in 17, final later) - enables exhaustive abstraction handling
 
 ===============================     Encapsulation   ================================
 
@@ -52,6 +62,14 @@ easy enhancement >> w/o affecting set of exposed services + we can change intern
 
 degraded performance , slows down execution ,due to extra layer of abstraction
 
+*** MISSING >> Java 16/17 - Records give a NEW shortcut for encapsulation (immutable data carriers)
+    record Point(int x, int y) {}
+    >> auto private final fields + auto accessors x()/y() (not getX()/getY()) + constructor + equals/hashCode/toString
+    >> record fields are ALWAYS private final - "tightly encapsulated" by default, no way to make them non-private
+    >> records are implicitly final classes, cannot extend another class (can implement interfaces)
+    >> useful ONLY for simple immutable data holders - not a replacement for full encapsulation with custom mutable behavior
+    >> CAUTION - array-type record components don't get deep equals()/hashCode() automatically (reference comparison only)
+
 ===============================     Is-A relationship / Inheritance   ================================
 Inheritance
            >> mechanism in which child class acquires the properties (fields) Variables + behaviors (methods) of parent class.
@@ -73,13 +91,22 @@ parent ref - only calls parent class var + methods
    hence Object acts as the parent/root class for all classes in Java.
    every class in java is child of Object class directly or indirectly
    ex. Throwable class contains most common methods + variables which are applicable to Exception/Error classes , hence acts as Root class for Exception/Error classes.
-                              Object
 
-String        StringBuffer                            Throwable
-                             Exception                               Error
-                             RuntimeException                      OutOfMemoryError
-                             NUllPointerException
-                             ArithmeticException
+                                    CORRECTED DIAGRAM >> Object as root class
+
+                                    Object
+                                      |
+                    ┌─────────────────┼─────────────────┐
+                 String          StringBuffer         Throwable
+                                                          |
+                                              ┌───────────┴───────────┐
+                                          Exception                 Error
+                                              |                        |
+                                       RuntimeException        OutOfMemoryError
+                                              |
+                                  ┌───────────┴───────────┐
+                          NullPointerException    ArithmeticException
+
 ------------------------------------------------------------------------------------------------------------------------------
                              Single Inheritance
 
@@ -92,18 +119,21 @@ class Child extends Parent {
 
 class A extends Object  | class B extends A  | class C extends B >> multilevel inheritance
 
-A
-  < B
-      < C
-          < D
+                                    CORRECTED DIAGRAM >> Multilevel Inheritance
+
+                                    Object
+                                      |
+                                      A        (class A extends Object — implicit)
+                                      |
+                                      B        (class B extends A)
+                                      |
+                                      C        (class C extends B)
+
 class A >> child of Object | as per - every class child of Object directly or indirectly
 class A >> child of B
 class B extends A,Object  ??? NOT TRUE
-
-Object > B > A
-     B       Object
-
-         A
+>> C is child of B, B is child of A, A is child of Object - each class has exactly ONE direct parent,
+   forming a single vertical chain (NOT "B extends A, Object" - that combination is never true)
 
 >> if a class doesnt extend any other class explicitly, then it extends Object class implicitly.
 BUT if it extends any other class explicitly, then it wont extend Object class implicitly.
@@ -163,13 +193,37 @@ m1(){
 x x x - class A implements B extends C, D
 correct - class A extends B implements C, D
           interface A extends B, C, D
+
+*** MISSING >> Interface Diamond Problem - Java 8+ default methods CAN cause ambiguity
+    interface A { default void m1(){ System.out.println("A"); } }
+    interface B { default void m1(){ System.out.println("B"); } }
+    class C implements A, B {
+        // Compile time error - class C inherits unrelated defaults for m1() from A and B
+        // MUST override m1() explicitly to resolve ambiguity
+        public void m1(){
+            A.super.m1(); // explicitly choose A's version, or B.super.m1()
+        }
+    }
+    >> this is the ONE case where interfaces can create a "diamond-like" ambiguity (default methods, Java 8+)
+    >> resolved by mandatory override in the implementing class, NOT silently picked by JVM
+
+*** MISSING >> Interface enhancements relevant to inheritance discussion (Java 8/9, still valid in 17)
+    >> default methods (Java 8) - interfaces can have method bodies, participate in "inheritance" of behavior
+    >> static methods (Java 8) - NOT inherited by implementing class, called via InterfaceName.method()
+    >> private methods (Java 9) - interfaces can have private helper methods (regular + private static),
+       used internally by default/static methods, NOT accessible to implementing classes
+
 -----------------------------------------------------------------------------------------------------------------------------
                            hierarchical inheritance
 
 Single - Parent  | Multiple - Child
-           A
 
-      B        C
+                                    CORRECTED DIAGRAM >> Hierarchical Inheritance (already correct - confirmed)
+
+                                      A
+                                    /   \
+                                  B       C
+
 class C extends A {
 }
 class B extends A {
@@ -181,19 +235,22 @@ class B extends A {
 >> class A extends A {} // not required/not allowed
 >> class A extends B {} class B extends A{} // not required/not allowed
 compile time error >> cyclic inheritance involving A extends B
+
 --------------------------------------------------------------------------------------------
 
                            hybrid inheritance
 
-           A
+                                    CORRECTED DIAGRAM >> Hybrid Inheritance
 
-           B
-
-          c
-
-    D         E
-
-        f
+                                    A
+                                    |
+                                    B
+                                    |
+                                    C
+                                  /   \
+                                D       E
+                                  \   /
+                                    f      <-- NOT ALLOWED (f would need to extend D AND E - multiple inheritance)
 
 class B extends A {
 }
@@ -206,7 +263,20 @@ class E extends C {
 class f extends D,E {
 } // not supported
 
+>> single chain A -> B -> C (multilevel), then C branches into D and E (hierarchical),
+   then f tries to combine both D and E into one child - this diamond-style merge
+   is the part Java disallows for classes (class f extends D, E -> compile error)
+
 multiple and hybrid inheritance // not supported
+
+*** MISSING >> Java 17 - Sealed Classes CONTROL inheritance hierarchies explicitly
+    sealed class Shape permits Circle, Rectangle, Triangle {}
+    final class Circle extends Shape {}
+    non-sealed class Rectangle extends Shape {}   // opens hierarchy back up for further extension
+    sealed class Triangle extends Shape permits IsoscelesTriangle {}
+    >> every permitted subclass MUST be declared final, sealed, or non-sealed - no silent/uncontrolled extension
+    >> permits clause can be omitted if all subclasses are in the SAME source file (compiler infers them)
+    >> useful for restricting hierarchical/hybrid-style inheritance intentionally, unlike normal open inheritance above
 
 ===============================     Has-A relationship / Composition / Aggregation   ================================
 
@@ -228,6 +298,12 @@ container object - dept / contained object - teacher
 without existing container object , if there is STILL chance of contained object to exist
 container + contained object >> loosely associated | association - aggregation
 >> container object holds reference to contained object
+
+*** MISSING >> Records commonly used for Has-A / composition (Java 16+)
+    record Engine(int horsepower) {}
+    record Car(Engine engine, String model) {}   // Car HAS-A Engine, composition via record
+    >> records are a natural fit for composition since they're immutable data holders with no inheritance
+
 ========================================>>>>>  When to use - IS-A HAs-A  <<<<<======================================================
 
 Is-A ???
@@ -251,6 +327,20 @@ ex. same method names - same argument types but different implementation >> over
     Object >> equals()  | String >> equals () - parent-child relationship | different implementation
           (parent) object - compares address and returns true if both objects are same ( pointing to same memory location )
           (child) String - compares content and returns true if both objects are same ( pointing to same content )
+
+*** MISSING >> Pattern Matching for instanceof (Java 16+, standard in 17) - relevant to overriding equals()
+    Before:
+    public boolean equals(Object obj){
+        if(!(obj instanceof MyClass)) return false;
+        MyClass other = (MyClass) obj;   // explicit cast needed
+        return this.x == other.x;
+    }
+    Java 17:
+    public boolean equals(Object obj){
+        if(!(obj instanceof MyClass other)) return false;
+        return this.x == other.x;        // no explicit cast needed, "other" auto-bound
+    }
+    >> cleaner overriding of equals() - very common interview follow-up question after IS-A/overriding topic
 
  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   Over Loading     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -347,6 +437,12 @@ ex. same method names - same argument types but different implementation >> over
                  we are trying to override in child class box
                  with lesser access modifier
 
+*** DEPRECATED >> Object.finalize() - deprecated since Java 9, marked "forRemoval=true" since Java 18
+    >> the example above uses finalize() - IMPORTANT to know this method itself is deprecated for removal
+    >> reason - finalize() timing is unpredictable, hurts GC performance, can resurrect objects, security risks
+    >> use instead >> java.lang.ref.Cleaner (Java 9+) or try-with-resources / AutoCloseable for cleanup logic
+    >> so beyond the access-modifier override error shown above, overriding finalize() at all is discouraged in Java 17
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 | Property                     | Overloading                                                      | Overriding
@@ -393,12 +489,23 @@ byte > short
  // Invalid: illegal combination of modifiers (static + abstract)
  public static abstract void m(double d); // ❌ Won't compile
 
+*** MISSING >> Records + Overriding (Java 16+, standard in 17)
+    record Point(int x, int y) {
+        // CAN override auto-generated accessor - becomes normal overriding
+        public int x(){ return Math.abs(x); }
+        // CAN override equals()/hashCode()/toString() same as any class
+        // CANNOT override the canonical constructor's signature, but CAN customize via compact constructor
+    }
+    >> records still follow all overriding rules above (return type, access modifier, etc.) for any method you override
 
+*** MISSING >> Sealed classes + Polymorphism (Java 17) - exhaustive handling without a "default" fallback
+    sealed interface Shape permits Circle, Square {}
+    >> compiler KNOWS all possible subtypes at compile time
+    >> enables exhaustive pattern-matching switch expressions later (preview in 17, standardized in later JDKs)
+       without needing a default branch - compiler verifies all cases covered
+    >> pairs naturally with overriding - each permitted subtype overrides shared behavior differently
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|
 
-
-
-
-
-
+    */
+}

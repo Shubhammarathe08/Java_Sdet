@@ -1,6 +1,3 @@
-
-
-
 | **Visibility**                          | **private** | **default** (`<default>`) | **protected**                  | **public** |
 | --------------------------------------- | ----------- | ------------------------- | ------------------------------ | ---------- |
 | Within the same class                   | ✅           | ✅                         | ✅                              | ✅          |
@@ -9,26 +6,62 @@
 | From child class of outside package     | ❌           | ❌                         | ✅ *(use child reference only)* | ✅          |
 | From non-child class of outside package | ❌           | ❌                         | ❌                              | ✅          |
 
+*** MISSING >> sealed / non-sealed - NEW modifiers (Java 17) - don't fit the private/default/protected/public
+    visibility table above, they control INHERITANCE eligibility, not member visibility
+    >> sealed - restricts which classes/interfaces may extend/implement (via permits clause)
+    >> non-sealed - re-opens a sealed hierarchy branch for unrestricted extension
+    >> can combine with existing access modifiers, e.g. public sealed class Shape permits Circle {}
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 class >> top level [ public, default, abstract, final ,strictfp]
          inner nested class [ public, protected, default, private , static , abstract, final, strictfp ]
 
+*** MISSING >> Java 17 - top level class also allows [ sealed, non-sealed ]
+    inner nested class also allows [ sealed, non-sealed ]
+    >> sealed class Shape permits Circle, Square {}
+    >> every permitted subclass must be final / sealed / non-sealed - no silent uncontrolled extension
+
 blocks >> instance/static [  static, synchronized ] | { } , static{ } , synchronized (this) { }
 
 constructor >> [ public, protected, default, private ]
 
+*** MISSING >> Records (Java 16+, standard in 17) - relevant to constructor row
+    >> canonical constructor access modifier CANNOT be more restrictive than the record itself
+       public record Point(int x, int y) { private Point { } } // ❌ compile time error
+    >> compact constructor has no explicit modifier list of its own, inherits record's own modifier
+
 variables >> instance/static [ public, protected, default, private, static , final, transient, volatile ]
 
+*** MISSING >> Record components (Java 16+, standard in 17) - NOT the same as instance variables
+    >> record fields are ALWAYS private final automatically - no modifier choice allowed
+    >> cannot declare a record component as static/transient/volatile directly in header;
+       additional static fields CAN be declared inside the record body separately
+
 methods >> [ public, protected, default, private, static, abstract, final , synchronized, native, strictfp ]
+
+*** MISSING >> interface private methods (Java 9+, still current in 17) - relevant to methods row
+    >> private and private static methods allowed INSIDE interfaces since Java 9
+    >> used only as internal helpers for default/static methods, NOT accessible to implementing classes
+    interface A {
+        private void helper(){ }              // private instance method in interface
+        private static void helperStatic(){ }  // private static method in interface
+    }
 
 interfaces >> top level [ public, default, abstract, strictfp ]
              inner nested interface [ public, protected, default, private , static , abstract, strictfp ]
 
+*** MISSING >> Java 17 - top level interface also allows [ sealed, non-sealed ]
+    inner nested interface also allows [ sealed, non-sealed ]
+    >> sealed interface Vehicle permits Car, Bike {}
+    >> permitted implementing classes must be final / sealed / non-sealed
+
 enums >> top level [ public, default, strictfp ]
          inner nested enum [ public, protected, default, private , static , strictfp ]
+
+*** enums are implicitly final - CANNOT be sealed/non-sealed/extended further, no change here in Java 17
 
 synchronized >> only blocks and methods
 transient and volatile >> only variables
@@ -36,6 +69,8 @@ native >> only methods
 abstract >> class , method , interface
 static >> inner [class,interface,enum] , blocks , variables , methods
 
+*** MISSING >> sealed / non-sealed >> class , interface (Java 17) - only these two, NOT applicable to
+    methods, variables, blocks, constructors, or enums
 
 
 Synchronized >> applicable for methods , blocks
@@ -54,6 +89,12 @@ Synchronized >> applicable for methods , blocks
    example: public native void doSomething(); hashcode() method in Object class is native, JNI (Java Native Interface)
    disadvantage >> it breaks platform independence of Java, as native code is platform dependent
      native + abstract >> illegal combination for methods
+
+*** MISSING >> Foreign Function & Memory API (Java 17, INCUBATOR - JEP 412) - relevant evolution of native/JNI
+    >> Java 17 introduces an early incubating API to call native code and handle native memory
+       WITHOUT writing JNI glue code - long term goal is to reduce reliance on native keyword + JNI
+    >> incubator module: jdk.incubator.foreign - NOT stable yet in 17, API continues evolving in later JDKs
+    >> doesn't replace `native` keyword yet, but worth knowing this direction exists
 ----------------------------------------------------------------------------------------------------------------------------
 transient >> applicable for variables only
 serialization -
@@ -71,6 +112,12 @@ de serialization -
    transient + static >> illegal combination for variables
    transient + final >> illegal combination for variables
    transient + abstract >> illegal combination for variables
+
+*** MISSING >> Records + Serialization (Java 16+, standard in 17) - relevant addition to transient section
+    >> records CAN implement Serializable, but records do NOT support the transient modifier
+       on record components - a record component cannot be marked transient
+    >> if a record implements Serializable, ALL components are serialized - no way to exclude one
+       via transient, since record components aren't regular instance variables
 ----------------------------------------------------------------------------------------------------------------------------
 volatile >> applicable for variables only
 >> if val of var keep on changing by multiple thread , data inconsistency problemmay arise
@@ -88,3 +135,20 @@ volatile >> applicable for variables only
    volatile + final >> illegal combination for variables
    volatile + abstract >> illegal combination for variables
 ----------------------------------------------------------------------------------------------------------------------------
+
+*** DEPRECATED >> related to this modifiers topic in Java 17
+
+    1. strictfp - EFFECTIVELY REDUNDANT since Java 17 (JEP 306: "Restore Always-Strict Floating-Point
+       Semantics") - not formally "deprecated" as a keyword removal, but its PURPOSE is gone
+       >> before Java 17, strictfp forced strict IEEE 754 floating-point behavior (some platforms
+          allowed slightly wider intermediate precision without it)
+       >> Java 17 onwards - ALL floating-point operations are ALWAYS strictfp-like by default,
+          the keyword is now a NO-OP retained purely for source compatibility
+       >> can still be written (public strictfp class X {}) - compiles fine, does literally nothing
+       >> safe to ignore/remove strictfp from new Java 17 code, no behavior change either way
+
+    2. SecurityManager-based permission checks - DEPRECATED FOR REMOVAL (JEP 411, Java 17)
+       >> relevant here because access-modifier enforcement (public/protected/etc.) is a LANGUAGE-level
+          concept, separate from SecurityManager's runtime permission checks - don't confuse the two;
+          SecurityManager is being phased out, but private/protected/public/default rules above are
+          core language features and are NOT affected/deprecated at all
