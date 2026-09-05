@@ -1,8 +1,87 @@
 
-git hub [remote repository - host location]
-git - distributed version control system (vcs)
->> used to track changes in source code during software development
->> It allows multiple developers to work on a project efficiently
+## Git & GitHub
+
+### Git
+**Git is a distributed version control system (VCS)** used to track and manage changes in source code during software development.
+It helps developers:
+* Track code changes
+* Create and manage branches
+* Commit changes
+* Merge code
+* Compare different versions
+* Revert or recover changes
+* Maintain release/version history
+
+**Git is distributed**, which means every developer has a local copy of the repository and its history. Developers can create branches, commit changes, and compare versions locally without depending on a remote server.
+
+### GitHub
+
+**GitHub is a cloud-based platform for hosting Git repositories and enabling collaboration around them.**
+
+It provides additional engineering and collaboration capabilities such as:
+
+* Remote repository hosting
+* Pull requests
+* Code reviews
+* Branch protection rules
+* Issues and project tracking
+* Repository permissions/access control
+* CI/CD through GitHub Actions
+* Release management
+
+### Git vs GitHub
+**Git = Version control technology**
+**GitHub = Platform that hosts Git repositories and provides collaboration/engineering features**
+Git itself does not require GitHub.
+A Git repository can exist entirely on a local machine, and a remote Git repository can also be hosted on platforms such as GitHub, GitLab, Bitbucket, or Azure Repos.
+
+---
+## Git Repository Flo
+```text
+Working Directory
+       ↓
+   git add
+       ↓
+Staging Area
+       ↓
+  git commit
+       ↓
+Local Repository
+       ↓
+  git push
+       ↓
+Remote Repository
+       ↓
+     GitHub
+```
+
+### Snapshot
+A **snapshot** is the recorded state of the repository's tracked files at a particular point in time.
+A Git **commit represents a snapshot** of the project at that point in history.
+For example:
+```text
+Commit A
+   ↓
+Snapshot of project at 10:00 AM
+
+Commit B
+   ↓
+Snapshot after login automation was added
+
+Commit C
+   ↓
+Snapshot after payment automation was added
+```
+
+Snapshots allow us to:
+* Track the evolution of the code
+* Compare different versions
+* Identify when changes were introduced
+* Restore or recreate a previous state of the project
+
+### Strong interview statement
+> **Git provides distributed version control, while GitHub provides remote repository hosting and collaboration capabilities around Git. In an SDET project, Git helps us manage automation framework changes, branches, commits and releases, while GitHub can be used for pull requests, code reviews, access control and CI/CD integration.**
+
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 .git is a hidden folder created when you run | git init / git clone
 
